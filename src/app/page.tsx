@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 
 const entries = [
+  { label: "who am i", href: "/me" },
   { label: "writings", href: "/writings" },
   { label: "gallery", href: "/gallery" },
   { label: "projects", href: "/projects" },
