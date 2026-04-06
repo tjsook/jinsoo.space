@@ -1,9 +1,12 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
+import HomeLink from "./home-link";
+import styles from "./layout.module.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "jinsoo.space",
-  description: "Personal website for Jinsoo.",
+  description: "my place to be tyler",
 };
 
 export default function RootLayout({
@@ -13,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={styles.body}>
+        <HomeLink />
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

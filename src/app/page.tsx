@@ -1,13 +1,24 @@
+import Link from "next/link";
 import styles from "./page.module.css";
+
+const entries = [
+  { label: "who am i", href: "/me" },
+  { label: "writings", href: "/writings" },
+  { label: "gallery", href: "/gallery" },
+  { label: "projects", href: "/projects" },
+  { label: "let's talk", href: "/lets-talk" },
+];
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <div>
-          <p className={styles.screenCenteredText}>welcome to jinsoo`s space :) this site is under construction</p>
-        </div>
-      </main>
-    </div>
+    <main className={styles.page}>
+      <div className={styles.screenCenteredText}>
+        {entries.map((entry) => (
+          <Link key={entry.href} href={entry.href} className={styles.entry}>
+            <p>{entry.label}</p>
+          </Link>
+        ))}
+      </div>
+    </main>
   );
 }
