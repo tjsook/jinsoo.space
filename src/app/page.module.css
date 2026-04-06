@@ -87,11 +87,25 @@
 }
 
 .screenCenteredText {
-  position: fixed;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
-  width: min(100% - 2rem, 65ch);
-  text-align: center;
+  display: grid;
+  place-items: center; /* Centers both horizontally and vertically */
+  height: 40vh;
+  gap: 0.1rem;
+  font-size: 20px;
+}
+
+.entry {
+  display: block;
+}
+
+.entry p {
+  transition: opacity 0.18s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .entry:hover p {
+    opacity: 0.7;
+  }
 }
 
 a.primary {
