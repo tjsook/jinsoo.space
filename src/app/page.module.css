@@ -86,6 +86,14 @@
   font-weight: 500;
 }
 
+.screenCenteredText {
+  position: fixed;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(100% - 2rem, 65ch);
+  text-align: center;
+}
+
 a.primary {
   background: var(--text-primary);
   color: var(--background);
