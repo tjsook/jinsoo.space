@@ -29,6 +29,7 @@
 .link {
   display: inline-block;
   font-size: 1rem;
+  transition: opacity 0.18s ease;
 }
 
 .tightBody {
@@ -37,12 +38,10 @@
 .backLink {
   font-size: 0.95rem;
 }
-.link p {
-  transition: opacity 0.18s ease;
-}
+
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
-    opacity: 0.5;
+    opacity: 0.7;
   }
 }
 
