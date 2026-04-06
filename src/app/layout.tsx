@@ -1,5 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
+import HomeLink from "./home-link";
+import styles from "./layout.module.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +16,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={styles.body}>
+        <HomeLink />
         {children}
         <Analytics />
       </body>

@@ -35,9 +35,6 @@
 .tightBody {
   margin-top: -0.45rem;
 }
-.backLink {
-  font-size: 0.95rem;
-}
 
 @media (hover: hover) and (pointer: fine) {
   .link:hover {

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import styles from "../section.module.css";
 
 export default function LetsTalkPage() {
@@ -29,9 +28,6 @@ export default function LetsTalkPage() {
         >
           carrier pigeon
         </a>
-        <Link href="/" className={styles.backLink} aria-label="Back to home">
-          back
-        </Link>
       </div>
     </main>
   );

@@ -1,0 +1,25 @@
+.body {
+  min-height: 100vh;
+}
+
+.homeLink {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  z-index: 10;
+  transform: translateX(-50%);
+  font-family:
+    "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua",
+    Georgia, serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  opacity: 0.7;
+  transition: opacity 0.18s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .homeLink:hover {
+    opacity: 1;
+  }
+}
