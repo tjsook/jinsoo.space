@@ -8,7 +8,7 @@ export default function MePage() {
         <h1 className={styles.title}>
           <strong>who i am.</strong>
         </h1>
-        <p className={styles.body}>My name is Tyler Kim.</p>
+        <p className={styles.body}>My name is Tyler Jinsoo Kim.</p>
         <p className={styles.body}>
           I&apos;m a freshman studying Computer Science at Cal Poly.
         </p>
