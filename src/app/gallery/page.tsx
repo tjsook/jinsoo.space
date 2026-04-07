@@ -13,7 +13,7 @@ export default async function GalleryPage() {
         <h1 className={styles.title}>gallery</h1>
         {entries.length === 0 ? (
           <p className={styles.body}>
-            Add image folders to <code>public/gallery</code>.
+            woah! where is everything?
           </p>
         ) : (
           entries.map((entry) => (
