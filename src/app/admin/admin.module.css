@@ -1,0 +1,167 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: #fafafa;
+  color: #000;
+  font-family:
+    "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua",
+    Georgia, serif;
+}
+
+.content {
+  display: grid;
+  gap: 1rem;
+  width: min(100%, 32rem);
+  text-align: center;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.body {
+  font-size: 1rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.input,
+.textarea,
+.submitButton {
+  width: 100%;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background: transparent;
+  color: inherit;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 10rem;
+}
+
+.submitButton {
+  cursor: pointer;
+  transition: opacity 0.18s ease;
+}
+
+.actions {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.action {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.actionLink {
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.18s ease;
+}
+
+.postList {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.postRow {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: center;
+}
+
+.postMeta {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.postDetails {
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.postActions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.inlineAction {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.18s ease;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgb(0 0 0 / 0.28);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+.confirmModal {
+  width: min(100%, 14rem);
+}
+
+.confirmForm {
+  display: grid;
+}
+
+.confirmButton {
+  width: 100%;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background: #000;
+  color: #ededed;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.logoutButton {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.18s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .action:hover,
+  .actionLink:hover,
+  .inlineAction:hover,
+  .submitButton:hover,
+  .logoutButton:hover {
+    opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    background: #000;
+    color: #ededed;
+  }
+}

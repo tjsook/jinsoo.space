@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 2rem;
+  padding: 4.5rem 2rem 2rem;
   background: #fafafa;
   color: #000;
   font-family:
@@ -26,6 +26,15 @@
   font-size: 1rem;
 }
 
+.compactBody {
+  max-width: 52rem;
+  line-height: 1.6;
+}
+
+.preserveBreaks {
+  white-space: pre-wrap;
+}
+
 .link {
   display: inline-block;
   font-size: 1rem;
@@ -36,9 +45,116 @@
   margin-top: -0.45rem;
 }
 
+.projectEntry {
+  display: grid;
+  gap: 0.25rem;
+  justify-items: center;
+  max-width: 62rem;
+}
+
+.projectImage {
+  width: min(100%, 42rem);
+  height: auto;
+  display: block;
+}
+
+.projectStack {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  max-width: 42rem;
+}
+
+.galleryEntry {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+}
+
+.galleryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.galleryViewer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.galleryViewportShell {
+  position: relative;
+  width: min(80vw, 38rem);
+}
+
+.galleryViewport {
+  width: 100%;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+
+.galleryViewport::-webkit-scrollbar {
+  display: none;
+}
+
+.galleryTrack {
+  display: flex;
+  gap: 0;
+}
+
+.galleryImageFrame {
+  width: min(80vw, 38rem);
+  flex: 0 0 auto;
+}
+
+.galleryImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.galleryToggle,
+.galleryButton {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.18s ease;
+}
+
+.galleryButton:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
     opacity: 0.7;
+  }
+
+  .galleryToggle:hover,
+  .galleryButton:hover:not(:disabled) {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .galleryViewer {
+    grid-template-columns: auto auto auto;
+    gap: 0.5rem;
+  }
+
+  .galleryImageFrame {
+    width: min(74vw, 28rem);
+  }
+
+  .galleryViewportShell {
+    width: min(74vw, 28rem);
   }
 }
 

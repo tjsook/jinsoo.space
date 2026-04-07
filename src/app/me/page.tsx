@@ -1,13 +1,12 @@
 import Link from "next/link";
 import styles from "../section.module.css";
+import pageStyles from "./me.module.css";
 
 export default function MePage() {
   return (
     <main className={styles.page}>
       <div className={styles.content}>
-        <h1 className={styles.title}>
-          <strong>who i am.</strong>
-        </h1>
+        <h1 className={styles.title}>who i am.</h1>
         <p className={styles.body}>My name is Tyler Jinsoo Kim.</p>
         <p className={styles.body}>
           I&apos;m a freshman studying Computer Science at Cal Poly.
@@ -19,14 +18,31 @@ export default function MePage() {
           I feel so lucky to have such great people in my life.
         </p>
         <p className={styles.body}>
-          I really enjoy expressing myself through many different mediums.
+          I&apos;m currently building GTM pipelines and AI automation systems at{" "}
+          <a
+            href="https://www.hemut.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.link} ${pageStyles.brandWarm}`}
+          >
+            Hemut
+          </a>
+          .
         </p>
         <p className={styles.body}>
-          I am thoroughly blessed for just the ability to clack my fingers on a
-          keyboard,
-          <br /> let alone, being able to share the product of my clacking with
-          others.
-          <br />
+          I&apos;m also developing full-stack solutions for organizations at{" "}
+          <a
+            href="https://calpoly.hack4impact.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.link} ${pageStyles.brandCool}`}
+          >
+            H4I - Cal Poly
+          </a>
+          .
+        </p>
+        <p className={styles.body}>
+          I really enjoy expressing myself through many different mediums.
         </p>
         <p className={styles.body}>
           Honestly, there isn&apos;t much more to be said here.
