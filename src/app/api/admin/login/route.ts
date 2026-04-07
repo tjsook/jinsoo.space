@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
   if (!password || !verifyAdminPassword(password, passwordHash)) {
     return NextResponse.json(
-      { error: "Incorrect password." },
+      { error: "this isn't for you" },
       { status: 401 },
     );
   }

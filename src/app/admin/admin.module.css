@@ -12,7 +12,8 @@
 
 .content {
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
+  width: min(100%, 32rem);
   text-align: center;
 }
 
@@ -23,6 +24,32 @@
 
 .body {
   font-size: 1rem;
+}
+
+.form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.input,
+.textarea,
+.submitButton {
+  width: 100%;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background: transparent;
+  color: inherit;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 10rem;
+}
+
+.submitButton {
+  cursor: pointer;
+  transition: opacity 0.18s ease;
 }
 
 .actions {
@@ -49,6 +76,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .action:hover,
+  .submitButton:hover,
   .logoutButton:hover {
     opacity: 1;
   }

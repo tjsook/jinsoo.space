@@ -103,7 +103,7 @@ export default function HomeLink() {
                 <input
                   id="admin-password"
                   type="password"
-                  placeholder="password"
+                  placeholder="who are you"
                   autoFocus
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
