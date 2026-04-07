@@ -63,6 +63,81 @@
   opacity: 0.7;
 }
 
+.actionLink {
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.18s ease;
+}
+
+.postList {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.postRow {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: center;
+}
+
+.postMeta {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.postDetails {
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.postActions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.inlineAction {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.18s ease;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgb(0 0 0 / 0.28);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+.confirmModal {
+  width: min(100%, 14rem);
+}
+
+.confirmForm {
+  display: grid;
+}
+
+.confirmButton {
+  width: 100%;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background: #000;
+  color: #ededed;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  cursor: pointer;
+}
+
 .logoutButton {
   border: 0;
   background: transparent;
@@ -76,6 +151,8 @@
 
 @media (hover: hover) and (pointer: fine) {
   .action:hover,
+  .actionLink:hover,
+  .inlineAction:hover,
   .submitButton:hover,
   .logoutButton:hover {
     opacity: 1;
