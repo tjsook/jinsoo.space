@@ -1,13 +1,12 @@
 import Link from "next/link";
 import styles from "../section.module.css";
+import pageStyles from "./me.module.css";
 
 export default function MePage() {
   return (
     <main className={styles.page}>
       <div className={styles.content}>
-        <h1 className={styles.title}>
-          <strong>who i am.</strong>
-        </h1>
+        <h1 className={styles.title}>who i am.</h1>
         <p className={styles.body}>My name is Tyler Jinsoo Kim.</p>
         <p className={styles.body}>
           I&apos;m a freshman studying Computer Science at Cal Poly.
@@ -19,18 +18,27 @@ export default function MePage() {
           I feel so lucky to have such great people in my life.
         </p>
         <p className={styles.body}>
-          I&apos;m currrently building GTM pipelines and AI automation systems
-          at{" "}
-          <Link href="https://www.hemut.com/" className={styles.hemutlink}>
+          I&apos;m currently building GTM pipelines and AI automation systems at{" "}
+          <a
+            href="https://www.hemut.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.link} ${pageStyles.brandWarm}`}
+          >
             Hemut
-          </Link>
+          </a>
           .
         </p>
         <p className={styles.body}>
-          I&apos;m also developing full-stack solutions for orginizations at{" "}
-          <Link href="https://www.hemut.com/" className={styles.h4ilink}>
+          I&apos;m also developing full-stack solutions for organizations at{" "}
+          <a
+            href="https://calpoly.hack4impact.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.link} ${pageStyles.brandCool}`}
+          >
             H4I - Cal Poly
-          </Link>
+          </a>
           .
         </p>
         <p className={styles.body}>
