@@ -31,6 +31,18 @@
   font-size: 1rem;
   transition: opacity 0.18s ease;
 }
+.hemutlink {
+  display: inline-block;
+  font-size: 1rem;
+  transition: opacity 0.18s ease;
+  color: rgb(215, 199, 53);
+}
+.h4ilink {
+  display: inline-block;
+  font-size: 1rem;
+  transition: opacity 0.18s ease;
+  color: rgb(53, 123, 215);
+}
 
 .tightBody {
   margin-top: -0.45rem;
@@ -38,6 +50,12 @@
 
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
+    opacity: 0.7;
+  }
+  .hemutlink:hover {
+    opacity: 0.7;
+  }
+  .h4ilink:hover {
     opacity: 0.7;
   }
 }

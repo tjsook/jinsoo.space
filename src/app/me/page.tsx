@@ -19,14 +19,22 @@ export default function MePage() {
           I feel so lucky to have such great people in my life.
         </p>
         <p className={styles.body}>
-          I really enjoy expressing myself through many different mediums.
+          I&apos;m currrently building GTM pipelines and AI automation systems
+          at{" "}
+          <Link href="https://www.hemut.com/" className={styles.hemutlink}>
+            Hemut
+          </Link>
+          .
         </p>
         <p className={styles.body}>
-          I am thoroughly blessed for just the ability to clack my fingers on a
-          keyboard,
-          <br /> let alone, being able to share the product of my clacking with
-          others.
-          <br />
+          I&apos;m also developing full-stack solutions for orginizations at{" "}
+          <Link href="https://www.hemut.com/" className={styles.h4ilink}>
+            H4I - Cal Poly
+          </Link>
+          .
+        </p>
+        <p className={styles.body}>
+          I really enjoy expressing myself through many different mediums.
         </p>
         <p className={styles.body}>
           Honestly, there isn&apos;t much more to be said here.
