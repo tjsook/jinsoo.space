@@ -19,6 +19,9 @@ export default function AdminPage() {
           <Link href="/admin/projects/new" className={styles.actionLink}>
             create project
           </Link>
+          <Link href="/admin/projects" className={styles.actionLink}>
+            view projects
+          </Link>
         </div>
         <LogoutButton />
       </div>

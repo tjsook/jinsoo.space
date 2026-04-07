@@ -26,6 +26,15 @@
   font-size: 1rem;
 }
 
+.compactBody {
+  max-width: 52rem;
+  line-height: 1.6;
+}
+
+.preserveBreaks {
+  white-space: pre-wrap;
+}
+
 .link {
   display: inline-block;
   font-size: 1rem;
@@ -34,6 +43,19 @@
 
 .tightBody {
   margin-top: -0.45rem;
+}
+
+.projectEntry {
+  display: grid;
+  gap: 0.25rem;
+  justify-items: center;
+  max-width: 62rem;
+}
+
+.projectStack {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  max-width: 42rem;
 }
 
 .galleryEntry {

@@ -3,7 +3,13 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createPost, deletePost, updatePost } from "@/lib/posts";
+import {
+  createProject,
+  deleteProject,
+  updateProject,
+} from "@/lib/projects";
 import type { PostStatus } from "@/types/post";
+import type { ProjectStatus } from "@/types/project";
 
 function getString(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -95,4 +101,90 @@ export async function deletePostAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/posts");
   revalidatePath("/writings");
+}
+
+export async function createProjectAction(formData: FormData) {
+  const title = getString(formData, "title");
+  const githubUrl = getString(formData, "github_url");
+  const description = getString(formData, "description");
+  const stackInput = getString(formData, "stack");
+  const rawStatus = getString(formData, "status");
+
+  if (!title || !githubUrl || !description) {
+    throw new Error("Title, GitHub URL, and description are required.");
+  }
+
+  const stack = stackInput
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const status: ProjectStatus =
+    rawStatus === "published" ? "published" : "draft";
+
+  await createProject({
+    title,
+    github_url: githubUrl,
+    description,
+    stack,
+    status,
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
+  revalidatePath("/admin/projects/new");
+  revalidatePath("/projects");
+
+  redirect("/admin");
+}
+
+export async function updateProjectAction(formData: FormData) {
+  const id = getString(formData, "id");
+  const title = getString(formData, "title");
+  const githubUrl = getString(formData, "github_url");
+  const description = getString(formData, "description");
+  const stackInput = getString(formData, "stack");
+  const rawStatus = getString(formData, "status");
+
+  if (!id || !title || !githubUrl || !description) {
+    throw new Error("Title, GitHub URL, and description are required.");
+  }
+
+  const stack = stackInput
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const status: ProjectStatus =
+    rawStatus === "published" ? "published" : "draft";
+
+  await updateProject({
+    id,
+    title,
+    github_url: githubUrl,
+    description,
+    stack,
+    status,
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
+  revalidatePath(`/admin/projects/${id}/edit`);
+  revalidatePath("/projects");
+
+  redirect("/admin/projects");
+}
+
+export async function deleteProjectAction(formData: FormData) {
+  const id = getString(formData, "id");
+
+  if (!id) {
+    throw new Error("Missing project id.");
+  }
+
+  await deleteProject(id);
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/projects");
+  revalidatePath("/projects");
 }

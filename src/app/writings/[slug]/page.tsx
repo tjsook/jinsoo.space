@@ -24,7 +24,9 @@ export default async function WritingDetailPage({
         <p className={styles.body}>
           {post.label} / {formatDisplayDate(post.created_at)}
         </p>
-        <p className={styles.body}>{post.content}</p>
+        <p className={`${styles.body} ${styles.compactBody} ${styles.preserveBreaks}`}>
+          {post.content}
+        </p>
       </div>
     </main>
   );
