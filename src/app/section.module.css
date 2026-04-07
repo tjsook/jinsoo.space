@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 2rem;
+  padding: 4.5rem 2rem 2rem;
   background: #fafafa;
   color: #000;
   font-family:
@@ -42,6 +42,12 @@
   justify-items: center;
 }
 
+.galleryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
 .galleryViewer {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -50,14 +56,47 @@
   justify-content: center;
 }
 
-.galleryViewport {
+.galleryViewportShell {
+  position: relative;
   width: min(80vw, 38rem);
+}
+
+.galleryViewport {
+  width: 100%;
   overflow: hidden;
   scrollbar-width: none;
 }
 
 .galleryViewport::-webkit-scrollbar {
   display: none;
+}
+
+.galleryViewportOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.galleryViewportOverlay::before,
+.galleryViewportOverlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.galleryViewportOverlay::before {
+  left: 0;
+  background: linear-gradient(to right, rgb(0 0 0 / 0.80), transparent);
+}
+
+.galleryViewportOverlay::after {
+  right: 0;
+  background: linear-gradient(to left, rgb(0 0 0 / 0.80), transparent);
 }
 
 .galleryTrack {
@@ -76,6 +115,7 @@
   display: block;
 }
 
+.galleryToggle,
 .galleryButton {
   border: 0;
   background: transparent;
@@ -97,6 +137,7 @@
     opacity: 0.7;
   }
 
+  .galleryToggle:hover,
   .galleryButton:hover:not(:disabled) {
     opacity: 1;
   }
@@ -112,7 +153,7 @@
     width: min(74vw, 28rem);
   }
 
-  .galleryViewport {
+  .galleryViewportShell {
     width: min(74vw, 28rem);
   }
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "../section.module.css";
 
-const HOLD_SCROLL_SPEED = 0.45;
+const HOLD_SCROLL_SPEED = 0.7;
 const INITIAL_SCROLL_STEP = 12;
 
 export default function GalleryCarousel({
@@ -14,6 +14,7 @@ export default function GalleryCarousel({
   folder: string;
   images: string[];
 }) {
+  const [isOpen, setIsOpen] = useState(false);
   const viewportRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
   const holdDirectionRef = useRef<-1 | 1 | 0>(0);
@@ -133,8 +134,23 @@ export default function GalleryCarousel({
 
   return (
     <section className={styles.galleryEntry}>
-      <p className={styles.body}>{folder}</p>
-      <div className={styles.galleryViewer}>
+      <div className={styles.galleryHeader}>
+        <p className={styles.body}>{folder}</p>
+        <button
+          type="button"
+          className={styles.galleryToggle}
+          onClick={() => {
+            stopHold();
+            setIsOpen((current) => !current);
+          }}
+          aria-label={isOpen ? "Hide folder images" : "Show folder images"}
+          aria-expanded={isOpen}
+        >
+          {isOpen ? "-" : "+"}
+        </button>
+      </div>
+      {isOpen ? (
+        <div className={styles.galleryViewer}>
         <button
           type="button"
           className={styles.galleryButton}
@@ -152,21 +168,24 @@ export default function GalleryCarousel({
         >
           {"<"}
         </button>
-        <div ref={viewportRef} className={styles.galleryViewport}>
-          <div className={styles.galleryTrack}>
-            {images.map((image, index) => (
-              <div key={image} className={styles.galleryImageFrame}>
-                <Image
-                  src={image}
-                  alt={`${folder} image ${index + 1}`}
-                  width={1200}
-                  height={1200}
-                  className={styles.galleryImage}
-                  unoptimized
-                />
-              </div>
-            ))}
+        <div className={styles.galleryViewportShell}>
+          <div ref={viewportRef} className={styles.galleryViewport}>
+            <div className={styles.galleryTrack}>
+              {images.map((image, index) => (
+                <div key={image} className={styles.galleryImageFrame}>
+                  <Image
+                    src={image}
+                    alt={`${folder} image ${index + 1}`}
+                    width={1200}
+                    height={1200}
+                    className={styles.galleryImage}
+                    unoptimized
+                  />
+                </div>
+              ))}
+            </div>
           </div>
+          <div className={styles.galleryViewportOverlay} aria-hidden="true" />
         </div>
         <button
           type="button"
@@ -185,7 +204,8 @@ export default function GalleryCarousel({
         >
           {">"}
         </button>
-      </div>
+        </div>
+      ) : null}
     </section>
   );
 }
