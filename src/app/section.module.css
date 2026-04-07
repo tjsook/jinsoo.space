@@ -84,19 +84,19 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 14%;
+  width: 25%;
   pointer-events: none;
   z-index: 2;
 }
 
 .galleryViewportOverlay::before {
   left: 0;
-  background: linear-gradient(to right, rgb(0 0 0 / 0.80), transparent);
+  background: linear-gradient(to right, rgb(0 0 0 / 0.9), transparent);
 }
 
 .galleryViewportOverlay::after {
   right: 0;
-  background: linear-gradient(to left, rgb(0 0 0 / 0.80), transparent);
+  background: linear-gradient(to left, rgb(0 0 0 / 0.9), transparent);
 }
 
 .galleryTrack {
