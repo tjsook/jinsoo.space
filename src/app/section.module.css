@@ -71,34 +71,6 @@
   display: none;
 }
 
-.galleryViewportOverlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.galleryViewportOverlay::before,
-.galleryViewportOverlay::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 25%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.galleryViewportOverlay::before {
-  left: 0;
-  background: linear-gradient(to right, rgb(0 0 0 / 0.9), transparent);
-}
-
-.galleryViewportOverlay::after {
-  right: 0;
-  background: linear-gradient(to left, rgb(0 0 0 / 0.9), transparent);
-}
-
 .galleryTrack {
   display: flex;
   gap: 0;

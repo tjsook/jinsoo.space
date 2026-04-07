@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import styles from "../section.module.css";
 
-const HOLD_SCROLL_SPEED = 0.7;
-const INITIAL_SCROLL_STEP = 12;
+const HOLD_SCROLL_SPEED = 1;
+const INITIAL_SCROLL_STEP = 5;
 
 export default function GalleryCarousel({
   folder,
@@ -94,10 +94,7 @@ export default function GalleryCarousel({
 
     const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
 
-    if (
-      viewport.scrollLeft <= 0 ||
-      viewport.scrollLeft >= maxScrollLeft
-    ) {
+    if (viewport.scrollLeft <= 0 || viewport.scrollLeft >= maxScrollLeft) {
       stopHold();
       return;
     }
@@ -151,59 +148,58 @@ export default function GalleryCarousel({
       </div>
       {isOpen ? (
         <div className={styles.galleryViewer}>
-        <button
-          type="button"
-          className={styles.galleryButton}
-          onMouseDown={(event) => {
-            event.preventDefault();
-            startHold(-1);
-          }}
-          onMouseUp={stopHold}
-          onMouseLeave={stopHold}
-          onTouchStart={() => startHold(-1)}
-          onTouchEnd={stopHold}
-          onTouchCancel={stopHold}
-          disabled={!canScrollLeft}
-          aria-label="Previous image"
-        >
-          {"<"}
-        </button>
-        <div className={styles.galleryViewportShell}>
-          <div ref={viewportRef} className={styles.galleryViewport}>
-            <div className={styles.galleryTrack}>
-              {images.map((image, index) => (
-                <div key={image} className={styles.galleryImageFrame}>
-                  <Image
-                    src={image}
-                    alt={`${folder} image ${index + 1}`}
-                    width={1200}
-                    height={1200}
-                    className={styles.galleryImage}
-                    unoptimized
-                  />
-                </div>
-              ))}
+          <button
+            type="button"
+            className={styles.galleryButton}
+            onMouseDown={(event) => {
+              event.preventDefault();
+              startHold(-1);
+            }}
+            onMouseUp={stopHold}
+            onMouseLeave={stopHold}
+            onTouchStart={() => startHold(-1)}
+            onTouchEnd={stopHold}
+            onTouchCancel={stopHold}
+            disabled={!canScrollLeft}
+            aria-label="Previous image"
+          >
+            {"<"}
+          </button>
+          <div className={styles.galleryViewportShell}>
+            <div ref={viewportRef} className={styles.galleryViewport}>
+              <div className={styles.galleryTrack}>
+                {images.map((image, index) => (
+                  <div key={image} className={styles.galleryImageFrame}>
+                    <Image
+                      src={image}
+                      alt={`${folder} image ${index + 1}`}
+                      width={1200}
+                      height={1200}
+                      className={styles.galleryImage}
+                      unoptimized
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <div className={styles.galleryViewportOverlay} aria-hidden="true" />
-        </div>
-        <button
-          type="button"
-          className={styles.galleryButton}
-          onMouseDown={(event) => {
-            event.preventDefault();
-            startHold(1);
-          }}
-          onMouseUp={stopHold}
-          onMouseLeave={stopHold}
-          onTouchStart={() => startHold(1)}
-          onTouchEnd={stopHold}
-          onTouchCancel={stopHold}
-          disabled={!canScrollRight}
-          aria-label="Next image"
-        >
-          {">"}
-        </button>
+          <button
+            type="button"
+            className={styles.galleryButton}
+            onMouseDown={(event) => {
+              event.preventDefault();
+              startHold(1);
+            }}
+            onMouseUp={stopHold}
+            onMouseLeave={stopHold}
+            onTouchStart={() => startHold(1)}
+            onTouchEnd={stopHold}
+            onTouchCancel={stopHold}
+            disabled={!canScrollRight}
+            aria-label="Next image"
+          >
+            {">"}
+          </button>
         </div>
       ) : null}
     </section>
