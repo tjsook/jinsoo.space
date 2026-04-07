@@ -120,8 +120,13 @@ export default function HomeLink() {
     );
   }
 
+  const isAdminRoute = pathname.startsWith("/admin");
+  const homeHref = isAdminRoute && pathname !== "/admin" ? "/admin" : "/";
+  const homeLabel =
+    isAdminRoute && pathname !== "/admin" ? "Admin console" : "Home";
+
   return (
-    <Link href="/" className={styles.homeLink} aria-label="Home">
+    <Link href={homeHref} className={styles.homeLink} aria-label={homeLabel}>
       <Image src="/favicon.ico" alt="" width={22} height={22} priority />
     </Link>
   );

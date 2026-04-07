@@ -26,13 +26,6 @@ export default async function EditPostPage({
             className={styles.input}
           />
           <input
-            name="slug"
-            type="text"
-            placeholder="slug"
-            defaultValue={post.slug}
-            className={styles.input}
-          />
-          <input
             name="label"
             type="text"
             placeholder="label"

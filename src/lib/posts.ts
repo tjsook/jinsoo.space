@@ -57,6 +57,26 @@ export async function getPostById(id: string) {
   return data as PostRecord;
 }
 
+export async function getPublishedPostBySlug(slug: string) {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("posts")
+    .select("id, slug, name, content, label, status, created_at, updated_at")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") {
+      return null;
+    }
+
+    throw new Error(error.message);
+  }
+
+  return data as PostRecord;
+}
+
 export async function createPost(input: CreatePostInput) {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase

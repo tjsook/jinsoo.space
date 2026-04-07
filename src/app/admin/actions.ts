@@ -11,12 +11,23 @@ function getString(formData: FormData, key: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 export async function createPostAction(formData: FormData) {
-  const slug = getString(formData, "slug");
   const name = getString(formData, "name");
   const label = getString(formData, "label");
   const content = getString(formData, "content");
   const rawStatus = getString(formData, "status");
+  const slug = slugify(name);
 
   if (!slug || !name || !label || !content) {
     throw new Error("All fields are required.");
@@ -42,11 +53,11 @@ export async function createPostAction(formData: FormData) {
 
 export async function updatePostAction(formData: FormData) {
   const id = getString(formData, "id");
-  const slug = getString(formData, "slug");
   const name = getString(formData, "name");
   const label = getString(formData, "label");
   const content = getString(formData, "content");
   const rawStatus = getString(formData, "status");
+  const slug = slugify(name);
 
   if (!id || !slug || !name || !label || !content) {
     throw new Error("All fields are required.");

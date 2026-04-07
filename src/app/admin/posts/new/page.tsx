@@ -16,12 +16,6 @@ export default function NewPostPage() {
             className={styles.input}
           />
           <input
-            name="slug"
-            type="text"
-            placeholder="slug"
-            className={styles.input}
-          />
-          <input
             name="label"
             type="text"
             placeholder="label"
