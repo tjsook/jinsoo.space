@@ -52,6 +52,12 @@
   max-width: 62rem;
 }
 
+.projectImage {
+  width: min(100%, 42rem);
+  height: auto;
+  display: block;
+}
+
 .projectStack {
   font-size: 0.9rem;
   opacity: 0.7;

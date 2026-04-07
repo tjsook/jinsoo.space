@@ -21,6 +21,12 @@ export default function NewProjectPage() {
             placeholder="github link"
             className={styles.input}
           />
+          <input
+            name="image_url"
+            type="url"
+            placeholder="image link"
+            className={styles.input}
+          />
           <textarea
             name="description"
             placeholder="description"

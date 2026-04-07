@@ -4,6 +4,7 @@ import type { ProjectRecord, ProjectStatus } from "@/types/project";
 type CreateProjectInput = {
   title: string;
   github_url: string;
+  image_url: string | null;
   description: string;
   stack: string[];
   status: ProjectStatus;
@@ -19,7 +20,7 @@ export async function createProject(input: CreateProjectInput) {
     .from("projects")
     .insert(input)
     .select(
-      "id, title, github_url, description, stack, status, created_at, updated_at",
+      "id, title, github_url, image_url, description, stack, status, created_at, updated_at",
     )
     .single();
 
@@ -35,7 +36,7 @@ export async function getPublishedProjects() {
   const { data, error } = await supabase
     .from("projects")
     .select(
-      "id, title, github_url, description, stack, status, created_at, updated_at",
+      "id, title, github_url, image_url, description, stack, status, created_at, updated_at",
     )
     .eq("status", "published")
     .order("created_at", { ascending: false });
@@ -52,7 +53,7 @@ export async function getAllProjects() {
   const { data, error } = await supabase
     .from("projects")
     .select(
-      "id, title, github_url, description, stack, status, created_at, updated_at",
+      "id, title, github_url, image_url, description, stack, status, created_at, updated_at",
     )
     .order("created_at", { ascending: false });
 
@@ -68,7 +69,7 @@ export async function getProjectById(id: string) {
   const { data, error } = await supabase
     .from("projects")
     .select(
-      "id, title, github_url, description, stack, status, created_at, updated_at",
+      "id, title, github_url, image_url, description, stack, status, created_at, updated_at",
     )
     .eq("id", id)
     .single();
@@ -87,13 +88,14 @@ export async function updateProject(input: UpdateProjectInput) {
     .update({
       title: input.title,
       github_url: input.github_url,
+      image_url: input.image_url,
       description: input.description,
       stack: input.stack,
       status: input.status,
     })
     .eq("id", input.id)
     .select(
-      "id, title, github_url, description, stack, status, created_at, updated_at",
+      "id, title, github_url, image_url, description, stack, status, created_at, updated_at",
     )
     .single();
 

@@ -1,3 +1,4 @@
+import { normalizePublicImageUrl } from "@/lib/image-url";
 import { getPublishedProjects } from "@/lib/projects";
 import styles from "../section.module.css";
 
@@ -23,6 +24,15 @@ export default async function ProjectsPage() {
               >
                 {project.title}
               </a>
+              {project.image_url ? (
+                <img
+                  src={normalizePublicImageUrl(project.image_url)}
+                  alt={project.title}
+                  className={styles.projectImage}
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+              ) : null}
               <p className={`${styles.body} ${styles.compactBody} ${styles.preserveBreaks}`}>
                 {project.description}
               </p>

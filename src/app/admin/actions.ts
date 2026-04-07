@@ -106,6 +106,7 @@ export async function deletePostAction(formData: FormData) {
 export async function createProjectAction(formData: FormData) {
   const title = getString(formData, "title");
   const githubUrl = getString(formData, "github_url");
+  const imageUrl = getString(formData, "image_url");
   const description = getString(formData, "description");
   const stackInput = getString(formData, "stack");
   const rawStatus = getString(formData, "status");
@@ -125,6 +126,7 @@ export async function createProjectAction(formData: FormData) {
   await createProject({
     title,
     github_url: githubUrl,
+    image_url: imageUrl || null,
     description,
     stack,
     status,
@@ -142,6 +144,7 @@ export async function updateProjectAction(formData: FormData) {
   const id = getString(formData, "id");
   const title = getString(formData, "title");
   const githubUrl = getString(formData, "github_url");
+  const imageUrl = getString(formData, "image_url");
   const description = getString(formData, "description");
   const stackInput = getString(formData, "stack");
   const rawStatus = getString(formData, "status");
@@ -162,6 +165,7 @@ export async function updateProjectAction(formData: FormData) {
     id,
     title,
     github_url: githubUrl,
+    image_url: imageUrl || null,
     description,
     stack,
     status,

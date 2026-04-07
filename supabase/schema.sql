@@ -39,6 +39,7 @@ create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   github_url text not null,
+  image_url text,
   description text not null,
   stack text[] not null default '{}',
   status text not null default 'draft',

@@ -32,6 +32,13 @@ export default async function EditProjectPage({
             defaultValue={project.github_url}
             className={styles.input}
           />
+          <input
+            name="image_url"
+            type="url"
+            placeholder="image link"
+            defaultValue={project.image_url ?? ""}
+            className={styles.input}
+          />
           <textarea
             name="description"
             placeholder="description"
