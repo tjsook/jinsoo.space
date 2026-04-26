@@ -1,6 +1,6 @@
-import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import HomeLink from "./home-link";
+import VercelAnalytics from "./vercel-analytics";
 import styles from "./layout.module.css";
 import "./globals.css";
 
@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className={styles.body}>
         <HomeLink />
         {children}
-        <Analytics />
+        <VercelAnalytics />
       </body>
     </html>
   );
