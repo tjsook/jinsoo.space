@@ -7,16 +7,13 @@ export default function MePage() {
     <main className={styles.page}>
       <div className={styles.content}>
         <h1 className={styles.title}>who i am.</h1>
-        <p className={styles.body}>My name is Tyler Jinsoo Kim.</p>
+        <p className={styles.body}>
+          My name is Tyler Jinsoo &quot;진수&quot; Kim.
+        </p>
         <p className={styles.body}>
           I&apos;m a freshman studying Computer Science at Cal Poly.
         </p>
-        <p className={styles.body}>
-          I&apos;m from Southern California, the SFV.
-        </p>
-        <p className={styles.body}>
-          I feel so lucky to have such great people in my life.
-        </p>
+        <p className={styles.body}>I&apos;m from Southern California.</p>
         <p className={styles.body}>
           I&apos;m currently building GTM pipelines and AI automation systems at{" "}
           <a
@@ -43,9 +40,6 @@ export default function MePage() {
         </p>
         <p className={styles.body}>
           I really enjoy expressing myself through many different mediums.
-        </p>
-        <p className={styles.body}>
-          Honestly, there isn&apos;t much more to be said here.
         </p>
         <div className={styles.body}>
           <strong>Want to connect and tell me about yourself?</strong> <br />
