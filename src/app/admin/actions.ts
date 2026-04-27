@@ -35,8 +35,20 @@ export async function createPostAction(formData: FormData) {
   const rawStatus = getString(formData, "status");
   const slug = slugify(name);
 
-  if (!slug || !name || !label || !content) {
-    throw new Error("All fields are required.");
+  if (!name) {
+    throw new Error("Title is required.");
+  }
+
+  if (!slug) {
+    throw new Error("Title needs at least one letter or number.");
+  }
+
+  if (!label) {
+    throw new Error("Label is required.");
+  }
+
+  if (!content) {
+    throw new Error("Content is required.");
   }
 
   const status: PostStatus =
@@ -65,8 +77,24 @@ export async function updatePostAction(formData: FormData) {
   const rawStatus = getString(formData, "status");
   const slug = slugify(name);
 
-  if (!id || !slug || !name || !label || !content) {
-    throw new Error("All fields are required.");
+  if (!id) {
+    throw new Error("Missing post id.");
+  }
+
+  if (!name) {
+    throw new Error("Title is required.");
+  }
+
+  if (!slug) {
+    throw new Error("Title needs at least one letter or number.");
+  }
+
+  if (!label) {
+    throw new Error("Label is required.");
+  }
+
+  if (!content) {
+    throw new Error("Content is required.");
   }
 
   const status: PostStatus =

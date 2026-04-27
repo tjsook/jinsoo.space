@@ -132,6 +132,13 @@
   cursor: default;
 }
 
+@media (prefers-color-scheme: dark) {
+  .page {
+    background: #000;
+    color: #ededed;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
     opacity: 0.7;
@@ -155,12 +162,5 @@
 
   .galleryViewportShell {
     width: min(74vw, 28rem);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .page {
-    background: #000;
-    color: #ededed;
   }
 }

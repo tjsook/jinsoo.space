@@ -92,10 +92,12 @@
   height: 40vh;
   gap: 0.1rem;
   font-size: 20px;
+  color: var(--text-primary);
 }
 
 .entry {
   display: block;
+  color: var(--text-primary);
 }
 
 .entry p {
@@ -146,7 +148,6 @@ a.secondary {
     letter-spacing: -1.92px;
   }
 }
-
 @media (prefers-color-scheme: dark) {
   .logo {
     filter: invert();
