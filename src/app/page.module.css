@@ -1,167 +1,193 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
+  --blue-mid: #4d7cff;
+  --blue-light: #9cbcff;
+  --blue-bright: #eaf2ff;
+  min-height: 100vh;
   display: flex;
   flex: 1;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 4.5rem 1.25rem 1.25rem;
+  background: #000;
+  color: var(--blue-bright);
   font-family:
-    "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua",
-    Georgia, serif;
-  background-color: var(--background);
+    "SFMono-Regular", "Menlo", "Monaco", "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", monospace;
 }
 
-.main {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+.terminalShell {
+  width: min(100%, 58rem);
+  border: 1px solid rgb(77 124 255 / 0.5);
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgb(77 124 255 / 0.14),
+    0 24px 80px rgb(0 0 0 / 0.55);
 }
 
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
-}
-
-.screenCenteredText {
+.terminalHeader {
   display: grid;
-  place-items: center; /* Centers both horizontally and vertically */
-  height: 40vh;
-  gap: 0.1rem;
-  font-size: 20px;
-  color: var(--text-primary);
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgb(77 124 255 / 0.38);
+  background: #000;
+  color: var(--blue-bright);
+  font-size: 0.88rem;
 }
 
-.entry {
-  display: block;
-  color: var(--text-primary);
+.terminalStarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--blue-mid);
 }
 
-.entry p {
-  transition: opacity 0.18s ease;
+.terminalTitle {
+  white-space: nowrap;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .entry:hover p {
-    opacity: 0.7;
-  }
+.terminalBody {
+  display: grid;
+  gap: 1.2rem;
+  padding: 1.5rem 1.25rem 1.75rem;
+  color: var(--blue-light);
+  line-height: 1.6;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.menuBlock,
+.outputBlock {
+  display: grid;
+  gap: 0.2rem;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.15rem;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+.menuButton {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  padding: 0.1rem 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
+.cursorActive {
+  color: var(--blue-bright);
 }
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
 
+.cursorIdle {
+  color: transparent;
+}
+
+.menuLabel {
+  transition:
+    color 0.14s ease,
+    text-shadow 0.14s ease;
+}
+
+.menuButton:hover .menuLabel,
+.menuButton:focus-visible .menuLabel {
+  color: var(--blue-bright);
+}
+
+.menuButton:focus-visible {
+  outline: none;
+}
+
+.menuButton:hover .cursorIdle,
+.menuButton:focus-visible .cursorIdle {
+  color: rgb(77 124 255 / 0.68);
+}
+
+.outputLine {
+  color: var(--blue-light);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgb(8 18 36 / 0.72);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+.modal {
+  width: min(100%, 18rem);
+}
+
+.modalForm {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.passwordInput {
+  width: 100%;
+  border: 1px solid rgb(77 124 255 / 0.52);
+  background: #000;
+  color: var(--blue-bright);
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  text-align: center;
+  outline: none;
+}
+
+.passwordInput::placeholder {
+  color: rgb(156 188 255 / 0.58);
+}
+
+.passwordInput:focus {
+  border-color: var(--blue-mid);
+}
+
+.errorMessage {
+  color: var(--blue-bright);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
   .page {
-    --background: #000;
-    --foreground: #000;
+    padding: 4rem 0.8rem 0.8rem;
+  }
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+  .terminalHeader {
+    grid-template-columns: auto 1fr;
+  }
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  .terminalBody {
+    padding: 1.1rem 0.95rem 1.25rem;
+    font-size: 0.95rem;
   }
 }

@@ -1,24 +1,17 @@
-import Link from "next/link";
+import TerminalHome from "./terminal-home";
 import styles from "./page.module.css";
 
 const entries = [
-  { label: "who i am", href: "/me" },
-  { label: "writings", href: "/writings" },
-  { label: "gallery", href: "/gallery" },
-  { label: "projects", href: "/projects" },
-  { label: "let's talk", href: "/lets-talk" },
+  { label: "who i am", href: "/me", detail: "notes on background and intent" },
+  { label: "writings", href: "/writings", detail: "essays, fragments, drafts" },
+  { label: "projects", href: "/projects", detail: "shipped work and experiments" },
+  { label: "let's talk", href: "/lets-talk", detail: "contact and outbound links" },
 ];
 
 export default function Home() {
   return (
     <main className={styles.page}>
-      <div className={styles.screenCenteredText}>
-        {entries.map((entry) => (
-          <Link key={entry.href} href={entry.href} className={styles.entry}>
-            <p>{entry.label}</p>
-          </Link>
-        ))}
-      </div>
+      <TerminalHome entries={entries} />
     </main>
   );
 }
