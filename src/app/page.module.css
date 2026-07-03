@@ -1,14 +1,15 @@
 .page {
+  --blue-mid: #4d7cff;
+  --blue-light: #9cbcff;
+  --blue-bright: #eaf2ff;
   min-height: 100vh;
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
   padding: 4.5rem 1.25rem 1.25rem;
-  background:
-    radial-gradient(circle at top, rgb(24 24 24 / 0.55), transparent 32%),
-    #020202;
-  color: #d7d7d7;
+  background: #000;
+  color: var(--blue-bright);
   font-family:
     "SFMono-Regular", "Menlo", "Monaco", "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", monospace;
@@ -16,65 +17,58 @@
 
 .terminalShell {
   width: min(100%, 58rem);
-  border: 1px solid rgb(144 255 187 / 0.22);
-  background: rgb(4 8 4 / 0.96);
+  border: 1px solid rgb(77 124 255 / 0.5);
+  background: #000;
   box-shadow:
-    0 0 0 1px rgb(144 255 187 / 0.04),
+    0 0 0 1px rgb(77 124 255 / 0.14),
     0 24px 80px rgb(0 0 0 / 0.55);
 }
 
 .terminalHeader {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.9rem;
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid rgb(144 255 187 / 0.18);
-  background: rgb(8 16 8 / 0.92);
-  color: rgb(170 255 201 / 0.92);
-  font-size: 0.84rem;
+  border-bottom: 1px solid rgb(77 124 255 / 0.38);
+  background: #000;
+  color: var(--blue-bright);
+  font-size: 0.88rem;
 }
 
-.terminalDot {
-  width: 0.7rem;
-  height: 0.7rem;
-  border-radius: 999px;
-  background: #7cf7a3;
-  box-shadow: 0 0 14px rgb(124 247 163 / 0.45);
+.terminalStarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--blue-mid);
 }
 
-.terminalTitle,
-.terminalMeta {
+.terminalTitle {
   white-space: nowrap;
-}
-
-.terminalMeta {
-  color: rgb(170 255 201 / 0.58);
 }
 
 .terminalBody {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.2rem;
   padding: 1.5rem 1.25rem 1.75rem;
-  color: #baf5ca;
+  color: var(--blue-light);
   line-height: 1.6;
 }
 
-.bootBlock,
 .menuBlock,
 .outputBlock {
   display: grid;
   gap: 0.2rem;
 }
 
-.promptLine {
-  color: rgb(170 255 201 / 0.82);
-}
-
 .menuList {
   list-style: none;
   padding: 0;
-  margin: 0.35rem 0 0;
+  margin: 0;
   display: grid;
   gap: 0.15rem;
 }
@@ -94,7 +88,7 @@
 }
 
 .cursorActive {
-  color: #f4fff7;
+  color: var(--blue-bright);
 }
 
 .cursorIdle {
@@ -109,7 +103,7 @@
 
 .menuButton:hover .menuLabel,
 .menuButton:focus-visible .menuLabel {
-  color: #f4fff7;
+  color: var(--blue-bright);
 }
 
 .menuButton:focus-visible {
@@ -118,11 +112,69 @@
 
 .menuButton:hover .cursorIdle,
 .menuButton:focus-visible .cursorIdle {
-  color: rgb(170 255 201 / 0.36);
+  color: rgb(77 124 255 / 0.68);
 }
 
 .outputLine {
-  color: rgb(170 255 201 / 0.66);
+  color: var(--blue-light);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgb(8 18 36 / 0.72);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+.modal {
+  width: min(100%, 18rem);
+}
+
+.modalForm {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.passwordInput {
+  width: 100%;
+  border: 1px solid rgb(77 124 255 / 0.52);
+  background: #000;
+  color: var(--blue-bright);
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  text-align: center;
+  outline: none;
+}
+
+.passwordInput::placeholder {
+  color: rgb(156 188 255 / 0.58);
+}
+
+.passwordInput:focus {
+  border-color: var(--blue-mid);
+}
+
+.errorMessage {
+  color: var(--blue-bright);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (max-width: 640px) {
@@ -132,10 +184,6 @@
 
   .terminalHeader {
     grid-template-columns: auto 1fr;
-  }
-
-  .terminalMeta {
-    grid-column: 1 / -1;
   }
 
   .terminalBody {
