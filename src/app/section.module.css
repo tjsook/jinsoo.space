@@ -1,14 +1,14 @@
 .page {
   --blue-mid: #4d7cff;
-  --blue-light: #9cbcff;
-  --blue-bright: #eaf2ff;
+  --blue-light: #87abff;
+  --white-soft: #eaf2ff;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4.5rem 1.25rem 1.25rem;
   background: #000;
-  color: var(--blue-bright);
+  color: var(--white-soft);
   font-family:
     "SFMono-Regular", "Menlo", "Monaco", "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", monospace;
@@ -38,7 +38,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  color: var(--blue-bright);
+  color: var(--blue-mid);
   font-size: 0.9rem;
   line-height: 1;
 }
@@ -50,14 +50,14 @@
 }
 
 .title {
-  color: var(--blue-bright);
+  color: var(--white-soft);
   font-size: 1rem;
   font-weight: 500;
 }
 
 .body {
   font-size: 1rem;
-  color: var(--blue-light);
+  color: var(--white-soft);
 }
 
 .compactBody {
@@ -72,7 +72,7 @@
 .link {
   display: inline-block;
   width: fit-content;
-  color: var(--blue-bright);
+  color: var(--blue-mid);
   font-size: 1rem;
   transition: opacity 0.18s ease;
 }
@@ -83,15 +83,40 @@
 
 .projectEntry {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.95rem;
   justify-items: start;
   max-width: 54rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgb(77 124 255 / 0.24);
+}
+
+.projectEntry:first-of-type {
+  padding-top: 0.15rem;
+  border-top: 0;
+}
+
+.projectTitle {
+  color: var(--blue-mid);
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.projectDescription {
+  display: grid;
+  gap: 1rem;
+  max-width: 54rem;
+}
+
+.projectParagraph {
+  color: var(--white-soft);
+  line-height: 1.8;
 }
 
 .projectStack {
   font-size: 0.9rem;
-  color: var(--blue-light);
+  color: var(--white-soft);
   max-width: 54rem;
+  line-height: 1.7;
 }
 
 @media (hover: hover) and (pointer: fine) {
