@@ -1,5 +1,6 @@
 import { getPublishedProjects } from "@/lib/projects";
 import PublicTerminalHeader from "../public-terminal-header";
+import ProjectStackTree from "./project-stack-tree";
 import styles from "../section.module.css";
 
 export const dynamic = "force-dynamic";
@@ -45,9 +46,7 @@ export default async function ProjectsPage() {
                     )}
                   </div>
                   {project.stack.length > 0 ? (
-                    <p className={styles.projectStack}>
-                      {project.stack.join(" • ")}
-                    </p>
+                    <ProjectStackTree items={project.stack} />
                   ) : null}
                 </div>
               );

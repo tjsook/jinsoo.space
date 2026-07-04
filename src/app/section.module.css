@@ -119,8 +119,67 @@
   line-height: 1.7;
 }
 
+.projectStackTree {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 54rem;
+  font-size: 0.92rem;
+}
+
+.projectStackToggle {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--blue-mid);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.projectStackToggleIcon {
+  width: 0.8rem;
+  display: inline-flex;
+  justify-content: center;
+  color: var(--blue-mid);
+}
+
+.projectStackRoot {
+  color: var(--blue-mid);
+  line-height: 1.6;
+}
+
+.projectStackList {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.projectStackItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: start;
+}
+
+.projectStackBranch,
+.projectStackLabel {
+  color: var(--white-soft);
+  line-height: 1.6;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
+    opacity: 0.72;
+  }
+
+  .projectStackToggle:hover {
     opacity: 0.72;
   }
 }
