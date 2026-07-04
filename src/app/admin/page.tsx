@@ -10,6 +10,9 @@ export default function AdminPage() {
       <div className={styles.content}>
         <h1 className={styles.title}>my console</h1>
         <div className={styles.actions}>
+          <Link href="/admin/about" className={styles.actionLink}>
+            edit about
+          </Link>
           <Link href="/admin/posts/new" className={styles.actionLink}>
             create post
           </Link>

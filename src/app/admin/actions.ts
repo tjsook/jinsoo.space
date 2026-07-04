@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { upsertAboutContent } from "@/lib/about-content";
 import { createPost, deletePost, updatePost } from "@/lib/posts";
 import {
   createProject,
@@ -219,4 +220,24 @@ export async function deleteProjectAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath("/projects");
+}
+
+export async function updateAboutContentAction(formData: FormData) {
+  const title = getString(formData, "title");
+  const content = getString(formData, "content");
+
+  if (!title || !content) {
+    throw new Error("Title and content are required.");
+  }
+
+  await upsertAboutContent({
+    title,
+    content,
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/about");
+  revalidatePath("/me");
+
+  redirect("/admin");
 }
