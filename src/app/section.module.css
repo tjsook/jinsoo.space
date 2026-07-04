@@ -77,6 +77,19 @@
   transition: opacity 0.18s ease;
 }
 
+.linkButton {
+  display: inline-block;
+  width: fit-content;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--blue-mid);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.18s ease;
+}
+
 .tightBody {
   margin-top: -0.4rem;
 }
@@ -176,6 +189,10 @@
 
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
+    opacity: 0.72;
+  }
+
+  .linkButton:hover {
     opacity: 0.72;
   }
 

@@ -1,3 +1,4 @@
+import CopyEmailLink from "./copy-email-link";
 import PublicTerminalHeader from "../public-terminal-header";
 import styles from "../section.module.css";
 
@@ -20,9 +21,7 @@ export default function LetsTalkPage() {
           >
             linkedin
           </a>
-          <a href="mailto:tylerjsook@gmail.com" className={styles.link}>
-            email me
-          </a>
+          <CopyEmailLink />
           <a
             href="https://www.strombergschickens.com/live-birds-eggs/pigeons-doves/?srsltid=AfmBOop4oGklVR03yiiU3ARWs7iPkNznOm1RyuUgKM0zLO9APm7w71MR"
             target="_blank"
