@@ -1,7 +1,7 @@
 .page {
   --blue-mid: #4d7cff;
-  --blue-light: #9cbcff;
-  --blue-bright: #eaf2ff;
+  --blue-light: #87abff;
+  --white-soft: #eaf2ff;
   min-height: 100vh;
   display: flex;
   flex: 1;
@@ -9,7 +9,7 @@
   justify-content: center;
   padding: 4.5rem 1.25rem 1.25rem;
   background: #000;
-  color: var(--blue-bright);
+  color: var(--white-soft);
   font-family:
     "SFMono-Regular", "Menlo", "Monaco", "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", monospace;
@@ -32,7 +32,7 @@
   padding: 0.85rem 1rem;
   border-bottom: 1px solid rgb(77 124 255 / 0.38);
   background: #000;
-  color: var(--blue-bright);
+  color: var(--white-soft);
   font-size: 0.88rem;
 }
 
@@ -55,7 +55,7 @@
   display: grid;
   gap: 1.2rem;
   padding: 1.5rem 1.25rem 1.75rem;
-  color: var(--blue-light);
+  color: var(--white-soft);
   line-height: 1.6;
 }
 
@@ -81,14 +81,14 @@
   border: 0;
   padding: 0.1rem 0;
   background: transparent;
-  color: inherit;
+  color: var(--blue-mid);
   font: inherit;
   text-align: left;
   cursor: pointer;
 }
 
 .cursorActive {
-  color: var(--blue-bright);
+  color: var(--white-soft);
 }
 
 .cursorIdle {
@@ -103,7 +103,7 @@
 
 .menuButton:hover .menuLabel,
 .menuButton:focus-visible .menuLabel {
-  color: var(--blue-bright);
+  color: var(--blue-light);
 }
 
 .menuButton:focus-visible {
@@ -116,7 +116,7 @@
 }
 
 .outputLine {
-  color: var(--blue-light);
+  color: var(--white-soft);
 }
 
 .modalOverlay {
@@ -144,7 +144,7 @@
   width: 100%;
   border: 1px solid rgb(77 124 255 / 0.52);
   background: #000;
-  color: var(--blue-bright);
+  color: var(--white-soft);
   padding: 0.75rem 0.9rem;
   font: inherit;
   text-align: center;
@@ -160,7 +160,7 @@
 }
 
 .errorMessage {
-  color: var(--blue-bright);
+  color: var(--white-soft);
   font-size: 0.95rem;
   text-align: center;
 }
