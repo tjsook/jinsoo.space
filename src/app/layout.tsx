@@ -4,7 +4,10 @@ import VercelAnalytics from "./vercel-analytics";
 import styles from "./layout.module.css";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jinsoo.space";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "jinsoo.space",
   description: "my place to be tyler",
 };
