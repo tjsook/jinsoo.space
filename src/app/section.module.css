@@ -114,6 +114,37 @@
   line-height: 1.2;
 }
 
+.projectHeader {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+
+.projectToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--blue-mid);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.projectToggleIcon {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 0.14s ease;
+}
+
+.projectToggleIconOpen {
+  transform: rotate(90deg);
+}
+
 .projectDescription {
   display: grid;
   gap: 1rem;
@@ -197,6 +228,10 @@
   }
 
   .projectStackToggle:hover {
+    opacity: 0.72;
+  }
+
+  .projectToggle:hover {
     opacity: 0.72;
   }
 }
