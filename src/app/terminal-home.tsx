@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,9 +14,10 @@ type TerminalEntry = {
 
 type TerminalHomeProps = {
   entries: TerminalEntry[];
+  children?: ReactNode;
 };
 
-export default function TerminalHome({ entries }: TerminalHomeProps) {
+export default function TerminalHome({ entries, children }: TerminalHomeProps) {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -147,6 +149,8 @@ export default function TerminalHome({ entries }: TerminalHomeProps) {
           <div className={styles.outputBlock}>
             <p className={styles.outputLine}>{entries[activeIndex].detail}</p>
           </div>
+
+          {children}
         </div>
       </section>
 
