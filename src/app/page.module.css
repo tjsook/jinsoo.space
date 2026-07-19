@@ -146,7 +146,13 @@
 
 .activityScroller {
   overflow-x: auto;
-  padding-bottom: 2rem;
+  padding-bottom: 0.8rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.activityScroller::-webkit-scrollbar {
+  display: none;
 }
 
 .activityMonths {
@@ -225,6 +231,24 @@
 
 .activityDay:hover::after {
   opacity: 1;
+}
+
+.activityLegend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.28rem;
+  margin-top: 0.65rem;
+  color: var(--white-soft);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.activityLegendCube {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1px solid rgb(77 124 255 / 0.18);
 }
 
 .activityLevel0 {

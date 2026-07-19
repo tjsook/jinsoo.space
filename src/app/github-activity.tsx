@@ -127,6 +127,15 @@ function ContributionGrid({ weeks }: { weeks: GitHubContributionWeek[] }) {
           )}
         </div>
       </div>
+
+      <div className={styles.activityLegend} aria-label="Contribution intensity">
+        <span aria-hidden="true">-</span>
+        <span className={`${styles.activityLegendCube} ${styles.activityLevel0}`} />
+        <span className={`${styles.activityLegendCube} ${styles.activityLevel1}`} />
+        <span className={`${styles.activityLegendCube} ${styles.activityLevel2}`} />
+        <span className={`${styles.activityLegendCube} ${styles.activityLevel3}`} />
+        <span aria-hidden="true">+</span>
+      </div>
     </div>
   );
 }
