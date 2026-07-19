@@ -1,5 +1,8 @@
+import GitHubActivity from "./github-activity";
 import TerminalHome from "./terminal-home";
 import styles from "./page.module.css";
+
+export const dynamic = "force-dynamic";
 
 const entries = [
   { label: "who i am", href: "/me", detail: "notes on background and intent" },
@@ -11,7 +14,9 @@ const entries = [
 export default function Home() {
   return (
     <main className={styles.page}>
-      <TerminalHome entries={entries} />
+      <TerminalHome entries={entries}>
+        <GitHubActivity />
+      </TerminalHome>
     </main>
   );
 }
