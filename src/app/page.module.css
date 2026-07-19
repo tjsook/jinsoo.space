@@ -131,17 +131,12 @@
   flex-wrap: wrap;
   gap: 0.4rem 1rem;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
-.activityTitle,
 .activityCount,
 .activityError {
   color: var(--white-soft);
-}
-
-.activityTitle {
-  font-size: 1rem;
 }
 
 .activityCount,
@@ -151,7 +146,7 @@
 
 .activityScroller {
   overflow-x: auto;
-  padding-bottom: 0.2rem;
+  padding-bottom: 2rem;
 }
 
 .activityMonths {
@@ -199,11 +194,37 @@
   width: max-content;
 }
 
-.activityGrid span {
+.activityDay {
+  position: relative;
   display: block;
   width: 0.75rem;
   height: 0.75rem;
   border: 1px solid rgb(77 124 255 / 0.18);
+}
+
+.activityDay::after {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 50%;
+  z-index: 2;
+  width: max-content;
+  max-width: 15rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid rgb(77 124 255 / 0.5);
+  background: #000;
+  color: var(--white-soft);
+  content: attr(data-tooltip);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 0.12s ease;
+  white-space: nowrap;
+}
+
+.activityDay:hover::after {
+  opacity: 1;
 }
 
 .activityLevel0 {

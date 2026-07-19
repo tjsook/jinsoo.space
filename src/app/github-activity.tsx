@@ -38,6 +38,12 @@ function getContributionLevel(count: number) {
   return 3;
 }
 
+function getContributionText(count: number, date: string) {
+  const noun = count === 1 ? "contribution" : "contributions";
+
+  return `${count} ${noun} on ${date}`;
+}
+
 function getMonthMarkers(weeks: GitHubContributionWeek[]) {
   const markers: { label: string; column: number }[] = [];
   let lastMonth = -1;
@@ -105,9 +111,12 @@ function ContributionGrid({ weeks }: { weeks: GitHubContributionWeek[] }) {
               return (
                 <span
                   key={day.date}
-                  className={styles[`activityLevel${level}`]}
-                  title={`${day.contributionCount} contributions on ${day.date}`}
-                  aria-label={`${day.contributionCount} contributions on ${day.date}`}
+                  className={`${styles.activityDay} ${styles[`activityLevel${level}`]}`}
+                  data-tooltip={getContributionText(
+                    day.contributionCount,
+                    day.date,
+                  )}
+                  aria-label={getContributionText(day.contributionCount, day.date)}
                   style={{
                     gridColumn: weekIndex + 1,
                     gridRow: day.weekday + 1,
@@ -129,7 +138,6 @@ export default async function GitHubActivity() {
   if (!hasGitHubActivityConfig()) {
     return (
       <section className={styles.activityBlock} aria-label="github activity">
-        <p className={styles.activityTitle}>github activity</p>
         <p className={styles.activityError}>
           GITHUB_TOKEN is not set. Add it in Vercel to render the contribution
           calendar for @{username}.
@@ -151,7 +159,6 @@ export default async function GitHubActivity() {
   if (!calendar) {
     return (
       <section className={styles.activityBlock} aria-label="github activity">
-        <p className={styles.activityTitle}>github activity</p>
         <p className={styles.activityError}>{errorMessage}</p>
       </section>
     );
@@ -160,7 +167,6 @@ export default async function GitHubActivity() {
   return (
     <section className={styles.activityBlock} aria-label="github activity">
       <div className={styles.activityHeader}>
-        <p className={styles.activityTitle}>github activity</p>
         <p className={styles.activityCount}>
           {calendar.totalContributions.toLocaleString()} contributions in {year}
         </p>
