@@ -101,6 +101,7 @@
   z-index: 1;
   padding: 56px 64px 64px;
   max-width: 900px;
+  background: #0a0a0c;
 }
 
 /* Typography */
@@ -167,8 +168,10 @@
 /* Writing list */
 .writingEntry {
   display: block;
-  padding: 16px 0;
+  padding: 16px 16px;
+  margin: 0 -16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  background: #0a0a0c;
   transition: border-color 0.2s;
 }
 
@@ -202,8 +205,10 @@
   display: grid;
   gap: 12px;
   justify-items: start;
-  padding: 20px 0;
+  padding: 20px 16px;
+  margin: 0 -16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  background: #0a0a0c;
 }
 
 .projectEntry:first-of-type {
@@ -214,14 +219,36 @@
   font-family: var(--font-space-grotesk), sans-serif;
   font-size: 17px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.projectTitle:hover {
+  color: #6488ff;
 }
 
 .projectHeader {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
   align-items: baseline;
   gap: 10px;
+}
+
+.projectGitLink {
+  display: inline-flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.25);
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.projectGitLink:hover {
+  color: #6488ff;
+}
+
+.projectGitLink svg {
+  width: 15px;
+  height: 15px;
 }
 
 .projectToggle {
@@ -269,7 +296,7 @@
 .projectParagraph {
   font-family: var(--font-jetbrains), monospace;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.45);
   line-height: 1.8;
 }
 
@@ -280,7 +307,7 @@
   padding: 16px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.015);
+  background: #0e0e10;
 }
 
 .projectStackLabel {
@@ -316,7 +343,7 @@
 .projectStackName {
   font-family: var(--font-jetbrains), monospace;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.4);
   line-height: 1.6;
 }
 
