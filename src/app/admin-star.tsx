@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
@@ -65,7 +66,7 @@ export default function AdminStar() {
           setIsOpen(true);
         }}
       >
-        ★
+        <Image src="/favicon.ico" alt="" width={18} height={18} priority />
       </button>
 
       {isOpen ? (

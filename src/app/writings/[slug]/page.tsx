@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { formatDisplayDate } from "@/lib/format-date";
 import { getPublishedPostBySlug } from "@/lib/posts";
-import PublicTerminalHeader from "../../public-terminal-header";
+import PageShell from "../../page-shell";
 import styles from "../../section.module.css";
 
 export const dynamic = "force-dynamic";
@@ -84,19 +84,16 @@ export default async function WritingDetailPage({
   }
 
   return (
-    <main className={styles.page}>
-      <div className={styles.content}>
-        <PublicTerminalHeader />
-        <div className={styles.frameBody}>
-          <h1 className={styles.title}>{post.name}</h1>
-          <p className={styles.body}>
-            {post.label} / {formatDisplayDate(post.created_at)}
-          </p>
-          <p className={`${styles.body} ${styles.compactBody} ${styles.preserveBreaks}`}>
-            {post.content}
-          </p>
-        </div>
-      </div>
-    </main>
+    <PageShell>
+      <h1 className={styles.title}>{post.name}</h1>
+      <p className={styles.body}>
+        {post.label} / {formatDisplayDate(post.created_at)}
+      </p>
+      <p
+        className={`${styles.body} ${styles.compactBody} ${styles.preserveBreaks}`}
+      >
+        {post.content}
+      </p>
+    </PageShell>
   );
 }

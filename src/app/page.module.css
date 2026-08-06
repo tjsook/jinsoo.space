@@ -73,6 +73,14 @@
   color: #6488ff;
 }
 
+.socialButton {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
 /* Navigation */
 .navRow {
   position: relative;
@@ -189,50 +197,50 @@
 }
 
 .experienceCard {
-  width: 260px;
+  width: 320px;
   flex: none;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   transition: border-color 0.2s;
-  background: #0a0a0c;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .experienceCard:hover {
-  border-color: rgba(100, 136, 255, 0.15);
+  border-color: rgba(100, 136, 255, 0.2);
 }
 
 .experienceCardTop {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .experienceCompany {
   font-family: var(--font-space-grotesk), sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .experienceDate {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
 }
 
 .experienceRole {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.25);
-  margin-bottom: 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 6px;
 }
 
 .experienceDescription {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
   line-height: 1.6;
 }
 
@@ -401,13 +409,13 @@
 .modalOverlay {
   position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 100;
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: rgb(8 18 36 / 0.72);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  background: rgba(5, 5, 8, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .modal {
@@ -526,7 +534,7 @@
   }
 
   .experienceCard {
-    width: 220px;
+    width: 260px;
   }
 
   .activitySection {
