@@ -99,6 +99,21 @@ export async function updateExperience(input: UpdateExperienceInput) {
   return data as ExperienceRecord;
 }
 
+export async function bulkUpdateDisplayOrder(
+  ordering: { id: string; display_order: number }[],
+) {
+  const supabase = createSupabaseServerClient();
+  for (const { id, display_order } of ordering) {
+    const { error } = await supabase
+      .from("experiences")
+      .update({ display_order })
+      .eq("id", id);
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+}
+
 export async function deleteExperience(id: string) {
   const supabase = createSupabaseServerClient();
   const { error } = await supabase.from("experiences").delete().eq("id", id);

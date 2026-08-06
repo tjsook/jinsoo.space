@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getAllExperiences } from "@/lib/experiences";
-import DeleteExperienceButton from "./delete-experience-button";
+import ExperienceList from "./experience-list";
 import styles from "../admin.module.css";
 
 export const dynamic = "force-dynamic";
@@ -11,34 +11,11 @@ export default async function ViewExperiencesPage() {
   return (
     <main className={styles.page}>
       <div className={styles.content}>
-        <h1 className={styles.title}>view experiences</h1>
-        <div className={styles.postList}>
-          {experiences.length === 0 ? (
-            <p className={styles.body}>no experiences yet</p>
-          ) : (
-            experiences.map((exp) => (
-              <div key={exp.id} className={styles.postRow}>
-                <div className={styles.postMeta}>
-                  <p className={styles.body}>
-                    {exp.company} — {exp.role}
-                  </p>
-                  <p className={styles.postDetails}>
-                    {exp.date_range} · order {exp.display_order} · {exp.status}
-                  </p>
-                </div>
-                <div className={styles.postActions}>
-                  <Link
-                    href={`/admin/experiences/${exp.id}/edit`}
-                    className={styles.inlineAction}
-                  >
-                    edit
-                  </Link>
-                  <DeleteExperienceButton id={exp.id} />
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+        <h1 className={styles.title}>experiences</h1>
+        <Link href="/admin/experiences/new" className={styles.actionLink}>
+          + add new
+        </Link>
+        <ExperienceList experiences={experiences} />
       </div>
     </main>
   );

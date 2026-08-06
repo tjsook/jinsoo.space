@@ -7,6 +7,7 @@ import {
   createExperience,
   deleteExperience,
   updateExperience,
+  bulkUpdateDisplayOrder,
 } from "@/lib/experiences";
 import { createPost, deletePost, updatePost } from "@/lib/posts";
 import {
@@ -303,6 +304,19 @@ export async function deleteExperienceAction(formData: FormData) {
   await deleteExperience(id);
 
   revalidatePath("/admin");
+  revalidatePath("/admin/experiences");
+  revalidatePath("/");
+}
+
+export async function reorderExperiencesAction(formData: FormData) {
+  const raw = getString(formData, "ordering");
+  if (!raw) {
+    throw new Error("Missing ordering data.");
+  }
+
+  const ordering = JSON.parse(raw) as { id: string; display_order: number }[];
+  await bulkUpdateDisplayOrder(ordering);
+
   revalidatePath("/admin/experiences");
   revalidatePath("/");
 }
