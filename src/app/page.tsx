@@ -97,13 +97,11 @@ export default async function Home() {
             <div className={styles.experienceCards}>
               {experiences.map((exp) => (
                 <div key={exp.id} className={styles.experienceCard}>
-                  <div className={styles.experienceCardTop}>
-                    <span className={styles.experienceCompany}>
-                      {exp.company}
-                    </span>
-                    <span className={styles.experienceDate}>
-                      {exp.date_range}
-                    </span>
+                  <div className={styles.experienceCompany}>
+                    {exp.company}
+                  </div>
+                  <div className={styles.experienceDate}>
+                    {exp.date_range}
                   </div>
                   <div className={styles.experienceRole}>{exp.role}</div>
                   <div className={styles.experienceDescription}>
