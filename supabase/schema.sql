@@ -60,3 +60,29 @@ for each row
 execute function public.set_updated_at();
 
 alter table public.projects enable row level security;
+
+create table if not exists public.experiences (
+  id uuid primary key default gen_random_uuid(),
+  company text not null,
+  role text not null,
+  date_range text not null,
+  description text not null default '',
+  display_order int not null default 0,
+  status text not null default 'draft',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint experiences_status_check check (status in ('draft', 'published'))
+);
+
+create index if not exists experiences_status_idx on public.experiences (status);
+create index if not exists experiences_display_order_idx
+on public.experiences (display_order asc);
+
+drop trigger if exists experiences_set_updated_at on public.experiences;
+
+create trigger experiences_set_updated_at
+before update on public.experiences
+for each row
+execute function public.set_updated_at();
+
+alter table public.experiences enable row level security;

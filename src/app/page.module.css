@@ -128,8 +128,8 @@
 
 .navLink {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.55);
   transition: color 0.2s;
 }
 
@@ -234,24 +234,19 @@
   border-color: rgba(100, 136, 255, 0.2);
 }
 
-.experienceCardTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 8px;
-}
-
 .experienceCompany {
   font-family: var(--font-space-grotesk), sans-serif;
   font-size: 17px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
 }
 
 .experienceDate {
   font-family: var(--font-jetbrains), monospace;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.25);
+  margin-bottom: 4px;
 }
 
 .experienceRole {

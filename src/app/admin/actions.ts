@@ -3,12 +3,19 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { upsertAboutContent } from "@/lib/about-content";
+import {
+  createExperience,
+  deleteExperience,
+  updateExperience,
+  bulkUpdateDisplayOrder,
+} from "@/lib/experiences";
 import { createPost, deletePost, updatePost } from "@/lib/posts";
 import {
   createProject,
   deleteProject,
   updateProject,
 } from "@/lib/projects";
+import type { ExperienceStatus } from "@/types/experience";
 import type { PostStatus } from "@/types/post";
 import type { ProjectStatus } from "@/types/project";
 
@@ -220,6 +227,98 @@ export async function deleteProjectAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath("/projects");
+}
+
+export async function createExperienceAction(formData: FormData) {
+  const company = getString(formData, "company");
+  const role = getString(formData, "role");
+  const dateRange = getString(formData, "date_range");
+  const description = getString(formData, "description");
+  const displayOrder = parseInt(getString(formData, "display_order") || "0", 10);
+  const rawStatus = getString(formData, "status");
+
+  if (!company || !role || !dateRange) {
+    throw new Error("Company, role, and date range are required.");
+  }
+
+  const status: ExperienceStatus =
+    rawStatus === "published" ? "published" : "draft";
+
+  await createExperience({
+    company,
+    role,
+    date_range: dateRange,
+    description,
+    display_order: isNaN(displayOrder) ? 0 : displayOrder,
+    status,
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/experiences");
+  revalidatePath("/");
+
+  redirect("/admin/experiences");
+}
+
+export async function updateExperienceAction(formData: FormData) {
+  const id = getString(formData, "id");
+  const company = getString(formData, "company");
+  const role = getString(formData, "role");
+  const dateRange = getString(formData, "date_range");
+  const description = getString(formData, "description");
+  const displayOrder = parseInt(getString(formData, "display_order") || "0", 10);
+  const rawStatus = getString(formData, "status");
+
+  if (!id || !company || !role || !dateRange) {
+    throw new Error("Company, role, and date range are required.");
+  }
+
+  const status: ExperienceStatus =
+    rawStatus === "published" ? "published" : "draft";
+
+  await updateExperience({
+    id,
+    company,
+    role,
+    date_range: dateRange,
+    description,
+    display_order: isNaN(displayOrder) ? 0 : displayOrder,
+    status,
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/experiences");
+  revalidatePath(`/admin/experiences/${id}/edit`);
+  revalidatePath("/");
+
+  redirect("/admin/experiences");
+}
+
+export async function deleteExperienceAction(formData: FormData) {
+  const id = getString(formData, "id");
+
+  if (!id) {
+    throw new Error("Missing experience id.");
+  }
+
+  await deleteExperience(id);
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/experiences");
+  revalidatePath("/");
+}
+
+export async function reorderExperiencesAction(formData: FormData) {
+  const raw = getString(formData, "ordering");
+  if (!raw) {
+    throw new Error("Missing ordering data.");
+  }
+
+  const ordering = JSON.parse(raw) as { id: string; display_order: number }[];
+  await bulkUpdateDisplayOrder(ordering);
+
+  revalidatePath("/admin/experiences");
+  revalidatePath("/");
 }
 
 export async function updateAboutContentAction(formData: FormData) {

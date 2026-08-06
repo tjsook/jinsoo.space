@@ -89,7 +89,7 @@ export default function AdminStar() {
               <input
                 id="admin-password"
                 type="password"
-                placeholder="who are you"
+                placeholder="admin password"
                 autoFocus
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
