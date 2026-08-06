@@ -3,7 +3,6 @@
 import { useState } from "react";
 import type { ProjectRecord } from "@/types/project";
 import styles from "../section.module.css";
-import ProjectStackTree from "./project-stack-tree";
 
 type ProjectEntryProps = {
   project: ProjectRecord;
@@ -46,7 +45,7 @@ export default function ProjectEntry({ project }: ProjectEntryProps) {
       </div>
 
       {isOpen ? (
-        <>
+        <div className={styles.projectBody}>
           <div className={styles.projectDescription}>
             {(paragraphs.length > 0 ? paragraphs : [project.description]).map(
               (paragraph, index) => (
@@ -60,9 +59,28 @@ export default function ProjectEntry({ project }: ProjectEntryProps) {
             )}
           </div>
           {project.stack.length > 0 ? (
-            <ProjectStackTree items={project.stack} />
+            <div className={styles.projectStackSide}>
+              <span className={styles.projectStackLabel}>stack</span>
+              <ul className={styles.projectStackList}>
+                {project.stack.map((item, index) => {
+                  const branch =
+                    index === project.stack.length - 1 ? "└──" : "├──";
+                  return (
+                    <li key={item} className={styles.projectStackItem}>
+                      <span
+                        className={styles.projectStackBranch}
+                        aria-hidden="true"
+                      >
+                        {branch}
+                      </span>
+                      <span className={styles.projectStackName}>{item}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           ) : null}
-        </>
+        </div>
       ) : null}
     </div>
   );

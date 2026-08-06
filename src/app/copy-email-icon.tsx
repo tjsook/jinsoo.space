@@ -19,26 +19,28 @@ export default function CopyEmailIcon() {
   }
 
   return (
-    <button
-      type="button"
-      className={`${styles.socialLink} ${styles.socialButton}`}
-      aria-label={copied ? "Email copied" : "Copy email"}
-      title={copied ? "Copied!" : "Copy email"}
-      onClick={handleClick}
-    >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+    <span className={styles.emailWrapper}>
+      <button
+        type="button"
+        className={`${styles.socialLink} ${styles.socialButton}`}
+        aria-label={copied ? "Email copied" : "Copy email"}
+        onClick={handleClick}
       >
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-        <path d="M22 4L12 13 2 4" />
-      </svg>
-    </button>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="M22 4L12 13 2 4" />
+        </svg>
+      </button>
+      {copied ? <span className={styles.copiedBadge}>copied!</span> : null}
+    </span>
   );
 }

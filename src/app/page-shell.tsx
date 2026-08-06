@@ -66,9 +66,6 @@ export default function PageShell({ children }: PageShellProps) {
         <Link href="/projects" className={styles.navLink}>
           projects
         </Link>
-        <Link href="/lets-talk" className={styles.navLinkTalk}>
-          &gt; let&apos;s talk
-        </Link>
       </nav>
 
       <div className={styles.content}>{children}</div>
