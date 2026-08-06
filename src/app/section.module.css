@@ -9,9 +9,7 @@
   padding: 4.5rem 1.25rem 1.25rem;
   background: #000;
   color: var(--white-soft);
-  font-family:
-    "SFMono-Regular", "Menlo", "Monaco", "Cascadia Mono", "Segoe UI Mono",
-    "Roboto Mono", monospace;
+  font-family: var(--font-jetbrains), monospace;
 }
 
 .content {
