@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getPublishedExperiences } from "@/lib/experiences";
 import AdminStar from "./admin-star";
 import CopyEmailIcon from "./copy-email-icon";
 import GitHubActivity from "./github-activity";
@@ -6,30 +7,8 @@ import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-const experiences = [
-  {
-    company: "Hemut",
-    date: "2025 —",
-    role: "Software Engineer",
-    description:
-      "YC-backed AI trucking logistics. Pipelines, workflows, agentic AI.",
-  },
-  {
-    company: "Cal Poly",
-    date: "2024 —",
-    role: "CS Student",
-    description: "Rising sophomore studying computer science.",
-  },
-  {
-    company: "Personal Projects",
-    date: "ongoing",
-    role: "Builder",
-    description:
-      "Enrichment pipelines, lead gen tools, whatever sounds fun.",
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const experiences = await getPublishedExperiences();
   return (
     <main className={styles.page}>
       <div className={styles.gridOverlay} aria-hidden="true" />
@@ -108,28 +87,34 @@ export default function Home() {
       </section>
 
       {/* Experience */}
-      <section className={styles.experienceSection}>
-        <div className={styles.experienceHeader}>
-          <span className={styles.sectionTitle}>experience</span>
-          <span className={styles.scrollHint}>scroll →</span>
-        </div>
-        <div className={styles.experienceScroller}>
-          <div className={styles.experienceCards}>
-            {experiences.map((exp) => (
-              <div key={exp.company} className={styles.experienceCard}>
-                <div className={styles.experienceCardTop}>
-                  <span className={styles.experienceCompany}>{exp.company}</span>
-                  <span className={styles.experienceDate}>{exp.date}</span>
-                </div>
-                <div className={styles.experienceRole}>{exp.role}</div>
-                <div className={styles.experienceDescription}>
-                  {exp.description}
-                </div>
-              </div>
-            ))}
+      {experiences.length > 0 ? (
+        <section className={styles.experienceSection}>
+          <div className={styles.experienceHeader}>
+            <span className={styles.sectionTitle}>experience</span>
+            <span className={styles.scrollHint}>scroll →</span>
           </div>
-        </div>
-      </section>
+          <div className={styles.experienceScroller}>
+            <div className={styles.experienceCards}>
+              {experiences.map((exp) => (
+                <div key={exp.id} className={styles.experienceCard}>
+                  <div className={styles.experienceCardTop}>
+                    <span className={styles.experienceCompany}>
+                      {exp.company}
+                    </span>
+                    <span className={styles.experienceDate}>
+                      {exp.date_range}
+                    </span>
+                  </div>
+                  <div className={styles.experienceRole}>{exp.role}</div>
+                  <div className={styles.experienceDescription}>
+                    {exp.description}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* Activity */}
       <section className={styles.activitySection}>
