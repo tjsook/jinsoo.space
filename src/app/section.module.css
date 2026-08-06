@@ -99,6 +99,8 @@
 .content {
   position: relative;
   z-index: 1;
+  display: grid;
+  gap: 16px;
   padding: 56px 64px 64px;
   max-width: 900px;
   background: #0a0a0c;
@@ -111,7 +113,7 @@
   font-weight: 600;
   color: #fff;
   letter-spacing: -0.5px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .body {
