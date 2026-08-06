@@ -1,45 +1,23 @@
+import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import AdminStar from "./admin-star";
 import CopyEmailIcon from "./copy-email-icon";
-import GitHubActivity from "./github-activity";
-import styles from "./page.module.css";
+import styles from "./section.module.css";
 
-export const dynamic = "force-dynamic";
+type PageShellProps = {
+  children: ReactNode;
+};
 
-const experiences = [
-  {
-    company: "Hemut",
-    date: "2025 —",
-    role: "Software Engineer",
-    description:
-      "YC-backed AI trucking logistics. Pipelines, workflows, agentic AI.",
-  },
-  {
-    company: "Cal Poly",
-    date: "2024 —",
-    role: "CS Student",
-    description: "Rising sophomore studying computer science.",
-  },
-  {
-    company: "Personal Projects",
-    date: "ongoing",
-    role: "Builder",
-    description:
-      "Enrichment pipelines, lead gen tools, whatever sounds fun.",
-  },
-];
-
-export default function Home() {
+export default function PageShell({ children }: PageShellProps) {
   return (
     <main className={styles.page}>
       <div className={styles.gridOverlay} aria-hidden="true" />
 
-      {/* Top bar */}
       <header className={styles.topBar}>
-        <div className={styles.topBarLeft}>
-          <AdminStar />
+        <Link href="/" className={styles.topBarLeft}>
+          <Image src="/favicon.ico" alt="" width={18} height={18} priority />
           <span className={styles.siteName}>jinsoo.space</span>
-        </div>
+        </Link>
         <div className={styles.socialIcons}>
           <a
             href="https://github.com/tjsook"
@@ -78,7 +56,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Navigation */}
       <nav className={styles.navRow}>
         <Link href="/me" className={styles.navLink}>
           who i am
@@ -91,50 +68,7 @@ export default function Home() {
         </Link>
       </nav>
 
-      {/* Hero */}
-      <section className={styles.hero}>
-        <h1 className={styles.heroName}>
-          tyler <span className={styles.heroAccent}>jinsoo</span> kim
-        </h1>
-        <p className={styles.heroBio}>
-          rising sophomore · CS @ Cal Poly
-          <br />
-          engineer @ Hemut (YC-backed)
-          <br />
-          <span className={styles.heroBioAccent}>
-            building things that serve purpose
-          </span>
-        </p>
-      </section>
-
-      {/* Experience */}
-      <section className={styles.experienceSection}>
-        <div className={styles.experienceHeader}>
-          <span className={styles.sectionTitle}>experience</span>
-          <span className={styles.scrollHint}>scroll →</span>
-        </div>
-        <div className={styles.experienceScroller}>
-          <div className={styles.experienceCards}>
-            {experiences.map((exp) => (
-              <div key={exp.company} className={styles.experienceCard}>
-                <div className={styles.experienceCardTop}>
-                  <span className={styles.experienceCompany}>{exp.company}</span>
-                  <span className={styles.experienceDate}>{exp.date}</span>
-                </div>
-                <div className={styles.experienceRole}>{exp.role}</div>
-                <div className={styles.experienceDescription}>
-                  {exp.description}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Activity */}
-      <section className={styles.activitySection}>
-        <GitHubActivity />
-      </section>
+      <div className={styles.content}>{children}</div>
     </main>
   );
 }

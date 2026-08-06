@@ -23,24 +23,15 @@ const MONTH_LABELS = [
 ];
 
 function getContributionLevel(count: number) {
-  if (count === 0) {
-    return 0;
-  }
-
-  if (count < 3) {
-    return 1;
-  }
-
-  if (count < 7) {
-    return 2;
-  }
-
-  return 3;
+  if (count === 0) return 0;
+  if (count < 3) return 1;
+  if (count < 7) return 2;
+  if (count < 12) return 3;
+  return 4;
 }
 
 function getContributionText(count: number, date: string) {
   const noun = count === 1 ? "contribution" : "contributions";
-
   return `${count} ${noun} on ${date}`;
 }
 
@@ -51,21 +42,15 @@ function getMonthMarkers(weeks: GitHubContributionWeek[]) {
   weeks.forEach((week, weekIndex) => {
     const firstDay = week.contributionDays.find((day) => {
       const date = new Date(`${day.date}T00:00:00Z`);
-
       return date.getUTCDate() <= 7;
     });
 
-    if (!firstDay) {
-      return;
-    }
+    if (!firstDay) return;
 
     const month = new Date(`${firstDay.date}T00:00:00Z`).getUTCMonth();
 
     if (month !== lastMonth) {
-      markers.push({
-        label: MONTH_LABELS[month],
-        column: weekIndex + 1,
-      });
+      markers.push({ label: MONTH_LABELS[month], column: weekIndex + 1 });
       lastMonth = month;
     }
   });
@@ -80,7 +65,7 @@ function ContributionGrid({ weeks }: { weeks: GitHubContributionWeek[] }) {
     <div className={styles.activityScroller}>
       <div
         className={styles.activityMonths}
-        style={{ gridTemplateColumns: `repeat(${weeks.length}, 0.75rem)` }}
+        style={{ gridTemplateColumns: `repeat(${weeks.length}, 11px)` }}
         aria-hidden="true"
       >
         {monthMarkers.map((marker) => (
@@ -102,7 +87,7 @@ function ContributionGrid({ weeks }: { weeks: GitHubContributionWeek[] }) {
 
         <div
           className={styles.activityGrid}
-          style={{ gridTemplateColumns: `repeat(${weeks.length}, 0.75rem)` }}
+          style={{ gridTemplateColumns: `repeat(${weeks.length}, 11px)` }}
         >
           {weeks.map((week, weekIndex) =>
             week.contributionDays.map((day) => {
@@ -116,7 +101,10 @@ function ContributionGrid({ weeks }: { weeks: GitHubContributionWeek[] }) {
                     day.contributionCount,
                     day.date,
                   )}
-                  aria-label={getContributionText(day.contributionCount, day.date)}
+                  aria-label={getContributionText(
+                    day.contributionCount,
+                    day.date,
+                  )}
                   style={{
                     gridColumn: weekIndex + 1,
                     gridRow: day.weekday + 1,
@@ -129,11 +117,22 @@ function ContributionGrid({ weeks }: { weeks: GitHubContributionWeek[] }) {
       </div>
 
       <div className={styles.activityLegend} aria-label="Contribution intensity">
-        <span aria-hidden="true">-</span>
-        <span className={`${styles.activityLegendCube} ${styles.activityLevel0}`} />
-        <span className={`${styles.activityLegendCube} ${styles.activityLevel1}`} />
-        <span className={`${styles.activityLegendCube} ${styles.activityLevel2}`} />
-        <span className={`${styles.activityLegendCube} ${styles.activityLevel3}`} />
+        <span aria-hidden="true">−</span>
+        <span
+          className={`${styles.activityLegendCube} ${styles.activityLevel0}`}
+        />
+        <span
+          className={`${styles.activityLegendCube} ${styles.activityLevel1}`}
+        />
+        <span
+          className={`${styles.activityLegendCube} ${styles.activityLevel2}`}
+        />
+        <span
+          className={`${styles.activityLegendCube} ${styles.activityLevel3}`}
+        />
+        <span
+          className={`${styles.activityLegendCube} ${styles.activityLevel4}`}
+        />
         <span aria-hidden="true">+</span>
       </div>
     </div>
@@ -146,12 +145,12 @@ export default async function GitHubActivity() {
 
   if (!hasGitHubActivityConfig()) {
     return (
-      <section className={styles.activityBlock} aria-label="github activity">
+      <div aria-label="github activity">
         <p className={styles.activityError}>
           GITHUB_TOKEN is not set. Add it in Vercel to render the contribution
           calendar for @{username}.
         </p>
-      </section>
+      </div>
     );
   }
 
@@ -162,25 +161,28 @@ export default async function GitHubActivity() {
     calendar = await getGitHubContributionCalendar(year);
   } catch (error) {
     errorMessage =
-      error instanceof Error ? error.message : "GitHub activity failed to load.";
+      error instanceof Error
+        ? error.message
+        : "GitHub activity failed to load.";
   }
 
   if (!calendar) {
     return (
-      <section className={styles.activityBlock} aria-label="github activity">
+      <div aria-label="github activity">
         <p className={styles.activityError}>{errorMessage}</p>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section className={styles.activityBlock} aria-label="github activity">
+    <div aria-label="github activity">
       <div className={styles.activityHeader}>
-        <p className={styles.activityCount}>
+        <span className={styles.sectionTitle}>activity</span>
+        <span className={styles.activityCount}>
           {calendar.totalContributions.toLocaleString()} contributions in {year}
-        </p>
+        </span>
       </div>
       <ContributionGrid weeks={calendar.weeks} />
-    </section>
+    </div>
   );
 }
