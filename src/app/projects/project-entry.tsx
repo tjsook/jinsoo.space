@@ -78,25 +78,13 @@ export default function ProjectEntry({ project }: ProjectEntryProps) {
             )}
           </div>
           {project.stack.length > 0 ? (
-            <div className={styles.projectStackSide}>
+            <div className={styles.projectStackRow}>
               <span className={styles.projectStackLabel}>stack</span>
-              <ul className={styles.projectStackList}>
-                {project.stack.map((item, index) => {
-                  const branch =
-                    index === project.stack.length - 1 ? "└──" : "├──";
-                  return (
-                    <li key={item} className={styles.projectStackItem}>
-                      <span
-                        className={styles.projectStackBranch}
-                        aria-hidden="true"
-                      >
-                        {branch}
-                      </span>
-                      <span className={styles.projectStackName}>{item}</span>
-                    </li>
-                  );
-                })}
-              </ul>
+              {project.stack.map((item) => (
+                <span key={item} className={styles.projectStackTag}>
+                  {item}
+                </span>
+              ))}
             </div>
           ) : null}
         </div>

@@ -230,14 +230,15 @@
 
 .projectHeader {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }
 
 .projectGitLink {
   display: inline-flex;
   align-items: center;
-  color: rgba(255, 255, 255, 0.25);
+  align-self: center;
+  color: rgba(255, 255, 255, 0.2);
   transition: color 0.2s;
   flex-shrink: 0;
 }
@@ -247,8 +248,8 @@
 }
 
 .projectGitLink svg {
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
 }
 
 .projectToggle {
@@ -282,9 +283,7 @@
 
 .projectBody {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 40px;
-  align-items: start;
+  gap: 20px;
   width: 100%;
 }
 
@@ -300,51 +299,33 @@
   line-height: 1.8;
 }
 
-.projectStackSide {
-  display: grid;
+.projectStackRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
-  min-width: 160px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 4px;
-  background: #0e0e10;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .projectStackLabel {
   font-family: var(--font-jetbrains), monospace;
   font-size: 10px;
-  color: rgba(100, 136, 255, 0.5);
+  color: rgba(100, 136, 255, 0.4);
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  margin-right: 4px;
 }
 
-.projectStackList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 2px;
-}
-
-.projectStackItem {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 6px;
-  align-items: start;
-}
-
-.projectStackBranch {
+.projectStackTag {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.12);
-  line-height: 1.6;
-}
-
-.projectStackName {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1.6;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  background: #0e0e10;
+  white-space: nowrap;
 }
 
 /* Contact */
@@ -371,7 +352,6 @@
   }
 
   .projectBody {
-    grid-template-columns: 1fr;
     gap: 16px;
   }
 }
