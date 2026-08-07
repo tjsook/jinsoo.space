@@ -328,6 +328,17 @@
   white-space: nowrap;
 }
 
+/* Geometric art */
+.geometricArt {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* Contact */
 .contactLinks {
   display: flex;
@@ -336,6 +347,12 @@
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .geometricArt {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .topBar {
     padding: 24px 24px 0;
