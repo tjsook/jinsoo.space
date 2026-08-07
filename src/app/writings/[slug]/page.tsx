@@ -85,8 +85,7 @@ export default async function WritingDetailPage({
   }
 
   return (
-    <PageShell>
-      <GeometricArt seed={slug} />
+    <PageShell aside={<GeometricArt seed={slug} />}>
       <h1 className={styles.title}>{post.name}</h1>
       <p className={styles.body}>
         {post.label} / {formatDisplayDate(post.created_at)}

@@ -1,14 +1,16 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import styles from "./section.module.css";
 
-type Shape = {
-  type: "square" | "triangle";
-  x: number;
-  y: number;
-  size: number;
-  rotation: number;
+const CELL = 48;
+const COLS = 8;
+
+type CellData = {
+  row: number;
+  col: number;
   opacity: number;
+  strokeWidth: number;
 };
 
 function seededRandom(seed: number) {
@@ -28,60 +30,55 @@ function hashString(str: string): number {
   return Math.abs(hash);
 }
 
-function generateShapes(seed: string): Shape[] {
+function generateShape(seed: string, rows: number): CellData[] {
   const rand = seededRandom(hashString(seed));
-  const shapes: Shape[] = [];
-  const count = 12 + Math.floor(rand() * 8);
+  const grid: boolean[][] = [];
 
-  for (let i = 0; i < count; i++) {
-    const isTriangle = rand() > 0.45;
-    shapes.push({
-      type: isTriangle ? "triangle" : "square",
-      x: rand() * 200,
-      y: 40 + rand() * 700,
-      size: 16 + rand() * 32,
-      rotation: Math.floor(rand() * 4) * 45,
-      opacity: 0.025 + rand() * 0.035,
-    });
+  let center = 3 + rand() * (COLS - 6);
+  let halfWidth = 2 + rand() * 2;
+
+  for (let r = 0; r < rows; r++) {
+    grid[r] = new Array(COLS).fill(false);
+
+    center += (rand() - 0.5) * 1.2;
+    center = Math.max(2, Math.min(COLS - 3, center));
+
+    halfWidth += (rand() - 0.5) * 0.8;
+    halfWidth = Math.max(1.5, Math.min(5, halfWidth));
+
+    const left = Math.max(0, Math.floor(center - halfWidth));
+    const right = Math.min(COLS - 1, Math.ceil(center + halfWidth));
+
+    for (let c = left; c <= right; c++) {
+      grid[r][c] = true;
+    }
   }
 
-  return shapes;
-}
+  const cells: CellData[] = [];
 
-function renderShape(shape: Shape, index: number) {
-  const { type, x, y, size, rotation, opacity } = shape;
-  const transform = `translate(${x}, ${y}) rotate(${rotation}, ${size / 2}, ${size / 2})`;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (!grid[r][c]) continue;
 
-  if (type === "square") {
-    return (
-      <rect
-        key={index}
-        x={0}
-        y={0}
-        width={size}
-        height={size}
-        transform={transform}
-        fill="none"
-        stroke="rgba(100, 136, 255, 1)"
-        strokeWidth={0.5}
-        opacity={opacity}
-      />
-    );
+      const above = r > 0 && grid[r - 1]?.[c];
+      const below = r < rows - 1 && grid[r + 1]?.[c];
+      const left = c > 0 && grid[r][c - 1];
+      const right = c < COLS - 1 && grid[r][c + 1];
+      const isEdge = !above || !below || !left || !right;
+
+      if (isEdge && rand() < 0.3) continue;
+
+      const thick = rand() < 0.15;
+      cells.push({
+        row: r,
+        col: c,
+        opacity: 0.15 + rand() * 0.2,
+        strokeWidth: thick ? 1.5 + rand() * 1.5 : 0.5,
+      });
+    }
   }
 
-  const half = size / 2;
-  const points = `${half},0 ${size},${size} 0,${size}`;
-  return (
-    <polygon
-      key={index}
-      points={points}
-      transform={transform}
-      fill="none"
-      stroke="rgba(100, 136, 255, 1)"
-      strokeWidth={0.5}
-      opacity={opacity}
-    />
-  );
+  return cells;
 }
 
 type GeometricArtProps = {
@@ -89,19 +86,49 @@ type GeometricArtProps = {
 };
 
 export default function GeometricArt({ seed }: GeometricArtProps) {
-  const shapes = generateShapes(seed);
+  const ref = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const page = ref.current.closest("main");
+    if (page) setHeight(page.scrollHeight);
+  }, []);
+
+  const extraRows = 3;
+  const rows = Math.max(1, Math.floor(height / CELL)) + extraRows * 2;
+  const cells = height > 0 ? generateShape(seed, rows) : [];
+  const svgWidth = COLS * CELL;
+  const svgHeight = rows * CELL;
+  const offsetY = -extraRows * CELL;
 
   return (
-    <div className={styles.geometricArt} aria-hidden="true">
-      <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 200 800"
-        preserveAspectRatio="xMidYMid slice"
-        style={{ overflow: "visible" }}
-      >
-        {shapes.map((shape, i) => renderShape(shape, i))}
-      </svg>
+    <div ref={ref} className={styles.geometricArt} aria-hidden="true">
+      {height > 0 && (
+        <svg
+          width={svgWidth}
+          height={svgHeight}
+          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+          style={{ marginTop: offsetY }}
+        >
+          {cells.map((cell) => {
+            const x = cell.col * CELL;
+            const y = cell.row * CELL;
+            return (
+              <rect
+                key={`${cell.row}-${cell.col}`}
+                x={x}
+                y={y}
+                width={CELL}
+                height={CELL}
+                fill="none"
+                stroke={`rgba(100, 136, 255, ${cell.opacity})`}
+                strokeWidth={cell.strokeWidth}
+              />
+            );
+          })}
+        </svg>
+      )}
     </div>
   );
 }
