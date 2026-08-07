@@ -6,12 +6,14 @@ import styles from "./section.module.css";
 
 type PageShellProps = {
   children: ReactNode;
+  aside?: ReactNode;
 };
 
-export default function PageShell({ children }: PageShellProps) {
+export default function PageShell({ children, aside }: PageShellProps) {
   return (
     <main className={styles.page}>
       <div className={styles.gridOverlay} aria-hidden="true" />
+      {aside}
 
       <header className={styles.topBar}>
         <Link href="/" className={styles.topBarLeft}>
