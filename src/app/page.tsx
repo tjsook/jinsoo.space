@@ -76,9 +76,9 @@ export default async function Home() {
           tyler <span className={styles.heroAccent}>jinsoo</span> kim
         </h1>
         <p className={styles.heroBio}>
-          rising sophomore · CS @ Cal Poly
+          sophomore (junior standing) · CS @ Cal Poly
           <br />
-          engineer @ Hemut (YC-backed)
+          SWE Intern @ Hemut
           <br />
           <span className={styles.heroBioAccent}>
             building things that serve purpose
@@ -97,12 +97,8 @@ export default async function Home() {
             <div className={styles.experienceCards}>
               {experiences.map((exp) => (
                 <div key={exp.id} className={styles.experienceCard}>
-                  <div className={styles.experienceCompany}>
-                    {exp.company}
-                  </div>
-                  <div className={styles.experienceDate}>
-                    {exp.date_range}
-                  </div>
+                  <div className={styles.experienceCompany}>{exp.company}</div>
+                  <div className={styles.experienceDate}>{exp.date_range}</div>
                   <div className={styles.experienceRole}>{exp.role}</div>
                   <div className={styles.experienceDescription}>
                     {exp.description}
