@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
@@ -11,6 +12,12 @@ export default function AdminStar() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // The overlay mounts on document.body, so it is never positioned against the
+  // page container or clipped by it. The portal waits for the client, because
+  // document does not exist while the server renders.
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => setIsMounted(true), []);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -69,39 +76,42 @@ export default function AdminStar() {
         <Image src="/favicon.ico" alt="" width={18} height={18} priority />
       </button>
 
-      {isOpen ? (
-        <div
-          className={styles.modalOverlay}
-          onClick={() => setIsOpen(false)}
-          aria-hidden="true"
-        >
-          <div
-            className={styles.modal}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Admin login"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <form className={styles.modalForm} onSubmit={handleSubmit}>
-              <label htmlFor="admin-password" className={styles.srOnly}>
-                Password
-              </label>
-              <input
-                id="admin-password"
-                type="password"
-                placeholder="admin password"
-                autoFocus
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                className={styles.passwordInput}
-              />
-              {errorMessage ? (
-                <p className={styles.errorMessage}>{errorMessage}</p>
-              ) : null}
-            </form>
-          </div>
-        </div>
-      ) : null}
+      {isOpen && isMounted
+        ? createPortal(
+            <div
+              className={styles.modalOverlay}
+              onClick={() => setIsOpen(false)}
+              aria-hidden="true"
+            >
+              <div
+                className={styles.modal}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Admin login"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <form className={styles.modalForm} onSubmit={handleSubmit}>
+                  <label htmlFor="admin-password" className={styles.srOnly}>
+                    Password
+                  </label>
+                  <input
+                    id="admin-password"
+                    type="password"
+                    placeholder="admin password"
+                    autoFocus
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    className={styles.passwordInput}
+                  />
+                  {errorMessage ? (
+                    <p className={styles.errorMessage}>{errorMessage}</p>
+                  ) : null}
+                </form>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
