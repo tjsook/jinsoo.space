@@ -2,13 +2,14 @@ import { createSupabaseServerClient } from "@/lib/supabase-server";
 import type { ExperienceRecord, ExperienceStatus } from "@/types/experience";
 
 const COLUMNS =
-  "id, company, role, date_range, description, display_order, status, created_at, updated_at";
+  "id, company, role, date_range, description, link, display_order, status, created_at, updated_at";
 
 type CreateExperienceInput = {
   company: string;
   role: string;
   date_range: string;
   description: string;
+  link: string | null;
   display_order: number;
   status: ExperienceStatus;
 };
@@ -85,6 +86,7 @@ export async function updateExperience(input: UpdateExperienceInput) {
       role: input.role,
       date_range: input.date_range,
       description: input.description,
+      link: input.link,
       display_order: input.display_order,
       status: input.status,
     })

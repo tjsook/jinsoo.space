@@ -66,6 +66,32 @@ function groupExperiencesByCompany(
   return groups;
 }
 
+function SingleExperienceCard({ exp }: { exp: ExperienceRecord }) {
+  const body = (
+    <>
+      <div className={styles.experienceCompany}>{exp.company}</div>
+      <div className={styles.experienceDate}>{exp.date_range}</div>
+      <div className={styles.experienceRole}>{exp.role}</div>
+      <div className={styles.experienceDescription}>{exp.description}</div>
+    </>
+  );
+
+  if (!exp.link) {
+    return <div className={styles.experienceCard}>{body}</div>;
+  }
+
+  return (
+    <a
+      href={exp.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${styles.experienceCard} ${styles.experienceCardLinked}`}
+    >
+      {body}
+    </a>
+  );
+}
+
 export default async function Home() {
   const experiences = await getPublishedExperiences();
   const experienceGroups = groupExperiencesByCompany(experiences);
@@ -136,9 +162,9 @@ export default async function Home() {
           tyler <span className={styles.heroAccent}>jinsoo</span> kim
         </h1>
         <p className={styles.heroBio}>
-          sophomore (junior standing) · CS @ Cal Poly
+          sophomore (junior standing) · CS @ Cal Poly SLO
           <br />
-          SDE @ H4I , prev. SWE Intern @ Hemut
+          building Hangars, prev. SWE Intern @ Hemut, TL @ H4I
           <br />
           <span className={styles.heroBioAccent}>
             building things that serve purpose
@@ -157,20 +183,10 @@ export default async function Home() {
             <div className={styles.experienceCards}>
               {experienceGroups.map((group) =>
                 group.items.length === 1 ? (
-                  <div key={group.items[0].id} className={styles.experienceCard}>
-                    <div className={styles.experienceCompany}>
-                      {group.items[0].company}
-                    </div>
-                    <div className={styles.experienceDate}>
-                      {group.items[0].date_range}
-                    </div>
-                    <div className={styles.experienceRole}>
-                      {group.items[0].role}
-                    </div>
-                    <div className={styles.experienceDescription}>
-                      {group.items[0].description}
-                    </div>
-                  </div>
+                  <SingleExperienceCard
+                    key={group.items[0].id}
+                    exp={group.items[0]}
+                  />
                 ) : (
                   <ExperienceStack key={group.company} items={group.items} />
                 ),

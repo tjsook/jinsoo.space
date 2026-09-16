@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   background: #0a0a0c;
-  overflow: hidden;
+  overflow: clip;
 }
 
 /* Grid overlay */
@@ -21,14 +21,18 @@
   z-index: 0;
 }
 
-/* Top bar */
+/* Top bar. Sticky so the admin star stays reachable at any scroll position. */
 .topBar {
-  position: relative;
-  z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px 64px 0;
+  padding: 28px 64px 20px;
+  background: rgba(10, 10, 12, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .topBarLeft {
@@ -164,7 +168,9 @@
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.9;
   margin-top: 32px;
-  max-width: 420px;
+  /* Wide enough to hold the longest bio line unbroken; narrow screens still
+     wrap it. */
+  max-width: 560px;
 }
 
 .heroBioAccent {
@@ -232,6 +238,18 @@
 
 .experienceCard:hover {
   border-color: rgba(100, 136, 255, 0.2);
+}
+
+/* A card that carries an admin-set link is an anchor, not a div. */
+.experienceCardLinked {
+  display: block;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.experienceCardLinked:hover {
+  border-color: rgba(100, 136, 255, 0.35);
 }
 
 .experienceCompany {
@@ -315,6 +333,11 @@
   cursor: default;
 }
 
+/* Only the card on top opens a link; the tabs below just deal to the top. */
+.experienceStackCardLinked:hover {
+  border-color: rgba(100, 136, 255, 0.35);
+}
+
 .experienceStackCardTab {
   cursor: pointer;
   background: #0a0a0c;
@@ -327,6 +350,16 @@
 .experienceStackFace {
   padding: 24px;
   transition: opacity 0.26s ease;
+}
+
+/* Fills the card so the padding and the empty space below the text open the
+   link too, not just the text itself. */
+.experienceStackFaceLink {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
 }
 
 .experienceStackTabFace {
@@ -542,8 +575,11 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: grid;
-  place-items: center;
+  display: flex;
+  /* Centred by the modal's own auto margins, not by place-items: on a short
+     window the box keeps its padding and the overlay scrolls to it instead of
+     pushing it past the edge. */
+  overflow-y: auto;
   padding: 1.5rem;
   background: rgba(5, 5, 8, 0.85);
   backdrop-filter: blur(12px);
@@ -552,6 +588,7 @@
 
 .modal {
   width: min(100%, 18rem);
+  margin: auto;
 }
 
 .modalForm {
@@ -604,7 +641,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .topBar {
-    padding: 24px 24px 0;
+    padding: 20px 24px 16px;
   }
 
   .navRow {
@@ -643,7 +680,7 @@
 
 @media (max-width: 480px) {
   .topBar {
-    padding: 20px 16px 0;
+    padding: 16px 16px 14px;
   }
 
   .navRow {

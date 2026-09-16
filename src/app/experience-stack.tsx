@@ -97,9 +97,12 @@ export default function ExperienceStack({
   }, []);
 
   function handleContainerClick(event: ReactMouseEvent<HTMLDivElement>) {
-    const cardEl = (event.target as HTMLElement).closest<HTMLElement>(
-      "[data-exp-id]",
-    );
+    const target = event.target as HTMLElement;
+    // The front card's face is a link. Let the browser open it instead of
+    // reshuffling the stack under the click.
+    if (target.closest("a")) return;
+
+    const cardEl = target.closest<HTMLElement>("[data-exp-id]");
     if (!cardEl) return;
     const id = cardEl.dataset.expId;
     if (!id) return;
@@ -148,6 +151,8 @@ export default function ExperienceStack({
         if (!isFront && slotHeight === null) return null;
 
         const isDealt = deal?.id === exp.id;
+        // Only the card on top opens its link; a tab click just deals it up.
+        const isLinked = isFront && Boolean(exp.link);
         const isPullingOut = isDealt && deal.phase === "out";
         // The card being covered holds its place until the dealt card is on top
         // of it, then slips underneath into the tab slot.
@@ -193,6 +198,7 @@ export default function ExperienceStack({
               isFront
                 ? styles.experienceStackCardFront
                 : styles.experienceStackCardTab,
+              isLinked ? styles.experienceStackCardLinked : "",
               slotHeight === null ? "" : styles.experienceStackCardReady,
               isDealt ? styles.experienceStackCardLifted : "",
             ]
@@ -200,17 +206,37 @@ export default function ExperienceStack({
               .join(" ")}
             style={style}
           >
-            <div
-              className={styles.experienceStackFace}
-              aria-hidden={!isFront}
-              style={{
-                opacity: isFront ? 1 : 0,
-                pointerEvents: isFront ? "auto" : "none",
-                transitionDelay: `${coveredDelay}ms`,
-              }}
-            >
-              <CardFace exp={exp} />
-            </div>
+            {/* The element type stays the same whether or not the card is on
+                top, so a deal never remounts the face and drops its fade. */}
+            {exp.link ? (
+              <a
+                href={exp.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={isFront ? undefined : -1}
+                aria-hidden={!isFront}
+                className={`${styles.experienceStackFace} ${styles.experienceStackFaceLink}`}
+                style={{
+                  opacity: isFront ? 1 : 0,
+                  pointerEvents: isFront ? "auto" : "none",
+                  transitionDelay: `${coveredDelay}ms`,
+                }}
+              >
+                <CardFace exp={exp} />
+              </a>
+            ) : (
+              <div
+                className={styles.experienceStackFace}
+                aria-hidden={!isFront}
+                style={{
+                  opacity: isFront ? 1 : 0,
+                  pointerEvents: isFront ? "auto" : "none",
+                  transitionDelay: `${coveredDelay}ms`,
+                }}
+              >
+                <CardFace exp={exp} />
+              </div>
+            )}
             <div
               className={styles.experienceStackTabFace}
               aria-hidden={isFront}
