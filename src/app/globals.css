@@ -1,6 +1,26 @@
 :root {
   --background: #0a0a0c;
   --foreground: #ffffff;
+
+  /* Surfaces and ink: the same palette the site has always used, named. */
+  --surface: #0f0f11;
+  --accent: #6488ff;
+  --accent-soft: rgba(100, 136, 255, 0.6);
+  --ink-strong: rgba(255, 255, 255, 0.86);
+  --ink: rgba(255, 255, 255, 0.55);
+  --ink-mid: rgba(255, 255, 255, 0.4);
+  --ink-dim: rgba(255, 255, 255, 0.3);
+  --ink-faint: rgba(255, 255, 255, 0.18);
+  --hairline: rgba(255, 255, 255, 0.06);
+
+  /* One gutter for every page, tracking the window instead of breakpoints. */
+  --gutter: clamp(16px, 4.4vw, 64px);
+
+  /* Display scale. Everything oversized on the site comes from here. */
+  --step-hero: clamp(52px, 13vw, 176px);
+  --step-display: clamp(38px, 8.4vw, 124px);
+  --step-company: clamp(26px, 4vw, 52px);
+  --step-why: clamp(30px, 6vw, 88px);
 }
 
 html {
