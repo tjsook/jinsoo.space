@@ -162,7 +162,7 @@ export default async function Home() {
           tyler <span className={styles.heroAccent}>jinsoo</span> kim
         </h1>
         <p className={styles.heroBio}>
-          sophomore (junior standing) · CS @ Cal Poly
+          sophomore (junior standing) · CS @ Cal Poly SLO
           <br />
           building Hangars, prev. SWE Intern @ Hemut, TL @ H4I
           <br />
