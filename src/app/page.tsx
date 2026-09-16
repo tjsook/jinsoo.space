@@ -1,14 +1,74 @@
 import Link from "next/link";
 import { getPublishedExperiences } from "@/lib/experiences";
+import type { ExperienceRecord } from "@/types/experience";
 import AdminStar from "./admin-star";
 import CopyEmailIcon from "./copy-email-icon";
+import ExperienceStack from "./experience-stack";
 import GitHubActivity from "./github-activity";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
+const MONTHS = [
+  "jan",
+  "feb",
+  "mar",
+  "apr",
+  "may",
+  "jun",
+  "jul",
+  "aug",
+  "sep",
+  "oct",
+  "nov",
+  "dec",
+];
+
+function parseStartMonth(dateRange: string): number {
+  const first = dateRange.split(/[–—-]/)[0]?.trim().toLowerCase() ?? "";
+  const match = first.match(/([a-z]{3,})\s+(\d{4})/);
+  if (!match) return 0;
+  const monthIndex = MONTHS.findIndex((month) => match[1].startsWith(month));
+  const year = parseInt(match[2], 10);
+  return year * 12 + Math.max(monthIndex, 0);
+}
+
+type ExperienceGroup = {
+  company: string;
+  displayOrder: number;
+  items: ExperienceRecord[];
+};
+
+function groupExperiencesByCompany(
+  experiences: ExperienceRecord[],
+): ExperienceGroup[] {
+  const groups: ExperienceGroup[] = [];
+  const byCompany = new Map<string, ExperienceGroup>();
+
+  for (const exp of experiences) {
+    let group = byCompany.get(exp.company);
+    if (!group) {
+      group = { company: exp.company, displayOrder: exp.display_order, items: [] };
+      byCompany.set(exp.company, group);
+      groups.push(group);
+    }
+    group.items.push(exp);
+  }
+
+  for (const group of groups) {
+    group.items.sort(
+      (a, b) => parseStartMonth(b.date_range) - parseStartMonth(a.date_range),
+    );
+  }
+
+  groups.sort((a, b) => a.displayOrder - b.displayOrder);
+
+  return groups;
+}
+
 export default async function Home() {
   const experiences = await getPublishedExperiences();
+  const experienceGroups = groupExperiencesByCompany(experiences);
   return (
     <main className={styles.page}>
       <div className={styles.gridOverlay} aria-hidden="true" />
@@ -95,16 +155,26 @@ export default async function Home() {
           </div>
           <div className={styles.experienceScroller}>
             <div className={styles.experienceCards}>
-              {experiences.map((exp) => (
-                <div key={exp.id} className={styles.experienceCard}>
-                  <div className={styles.experienceCompany}>{exp.company}</div>
-                  <div className={styles.experienceDate}>{exp.date_range}</div>
-                  <div className={styles.experienceRole}>{exp.role}</div>
-                  <div className={styles.experienceDescription}>
-                    {exp.description}
+              {experienceGroups.map((group) =>
+                group.items.length === 1 ? (
+                  <div key={group.items[0].id} className={styles.experienceCard}>
+                    <div className={styles.experienceCompany}>
+                      {group.items[0].company}
+                    </div>
+                    <div className={styles.experienceDate}>
+                      {group.items[0].date_range}
+                    </div>
+                    <div className={styles.experienceRole}>
+                      {group.items[0].role}
+                    </div>
+                    <div className={styles.experienceDescription}>
+                      {group.items[0].description}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ) : (
+                  <ExperienceStack key={group.company} items={group.items} />
+                ),
+              )}
             </div>
           </div>
         </section>
