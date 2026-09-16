@@ -234,6 +234,18 @@
   border-color: rgba(100, 136, 255, 0.2);
 }
 
+/* A card that carries an admin-set link is an anchor, not a div. */
+.experienceCardLinked {
+  display: block;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.experienceCardLinked:hover {
+  border-color: rgba(100, 136, 255, 0.35);
+}
+
 .experienceCompany {
   font-family: var(--font-space-grotesk), sans-serif;
   font-size: 17px;
@@ -315,6 +327,11 @@
   cursor: default;
 }
 
+/* Only the card on top opens a link; the tabs below just deal to the top. */
+.experienceStackCardLinked:hover {
+  border-color: rgba(100, 136, 255, 0.35);
+}
+
 .experienceStackCardTab {
   cursor: pointer;
   background: #0a0a0c;
@@ -327,6 +344,16 @@
 .experienceStackFace {
   padding: 24px;
   transition: opacity 0.26s ease;
+}
+
+/* Fills the card so the padding and the empty space below the text open the
+   link too, not just the text itself. */
+.experienceStackFaceLink {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
 }
 
 .experienceStackTabFace {
