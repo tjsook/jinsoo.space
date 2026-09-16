@@ -177,10 +177,15 @@ export default async function GitHubActivity() {
   return (
     <div aria-label="github activity">
       <div className={styles.activityHeader}>
-        <span className={styles.sectionTitle}>activity</span>
-        <span className={styles.activityCount}>
-          {calendar.totalContributions.toLocaleString()} contributions in {year}
-        </span>
+        <span className={styles.label}>(03) activity</span>
+        <div className={styles.activityTotal}>
+          <span className={styles.activityNumber}>
+            {calendar.totalContributions.toLocaleString()}
+          </span>
+          <span className={styles.activityUnit}>
+            contributions in {year} · @{username}
+          </span>
+        </div>
       </div>
       <ContributionGrid weeks={calendar.weeks} />
     </div>
