@@ -67,12 +67,15 @@ create table if not exists public.experiences (
   role text not null,
   date_range text not null,
   description text not null default '',
+  link text,
   display_order int not null default 0,
   status text not null default 'draft',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint experiences_status_check check (status in ('draft', 'published'))
 );
+
+alter table public.experiences add column if not exists link text;
 
 create index if not exists experiences_status_idx on public.experiences (status);
 create index if not exists experiences_display_order_idx

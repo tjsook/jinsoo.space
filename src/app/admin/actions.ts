@@ -25,6 +25,16 @@ function getString(formData: FormData, key: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+// A bare "acme.com" typed into the admin panel must not render as a relative
+// link, so anything without a scheme gets https://.
+function normalizeLink(value: string) {
+  if (!value) return null;
+  if (/^https?:\/\//i.test(value)) return value;
+  if (/^(mailto:|tel:|\/)/i.test(value)) return value;
+
+  return `https://${value}`;
+}
+
 function slugify(value: string) {
   return value
     .toLowerCase()
@@ -234,6 +244,7 @@ export async function createExperienceAction(formData: FormData) {
   const role = getString(formData, "role");
   const dateRange = getString(formData, "date_range");
   const description = getString(formData, "description");
+  const link = normalizeLink(getString(formData, "link"));
   const displayOrder = parseInt(getString(formData, "display_order") || "0", 10);
   const rawStatus = getString(formData, "status");
 
@@ -249,6 +260,7 @@ export async function createExperienceAction(formData: FormData) {
     role,
     date_range: dateRange,
     description,
+    link,
     display_order: isNaN(displayOrder) ? 0 : displayOrder,
     status,
   });
@@ -266,6 +278,7 @@ export async function updateExperienceAction(formData: FormData) {
   const role = getString(formData, "role");
   const dateRange = getString(formData, "date_range");
   const description = getString(formData, "description");
+  const link = normalizeLink(getString(formData, "link"));
   const displayOrder = parseInt(getString(formData, "display_order") || "0", 10);
   const rawStatus = getString(formData, "status");
 
@@ -282,6 +295,7 @@ export async function updateExperienceAction(formData: FormData) {
     role,
     date_range: dateRange,
     description,
+    link,
     display_order: isNaN(displayOrder) ? 0 : displayOrder,
     status,
   });

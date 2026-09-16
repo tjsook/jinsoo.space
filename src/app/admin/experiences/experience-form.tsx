@@ -53,6 +53,7 @@ type ExperienceFormProps = {
     role?: string;
     date_range?: string;
     description?: string;
+    link?: string | null;
     display_order?: number;
     status?: string;
   };
@@ -183,6 +184,13 @@ export default function ExperienceForm({
         rows={3}
         defaultValue={defaultValues.description}
         className={styles.textarea}
+      />
+      <input
+        name="link"
+        type="text"
+        placeholder="link (optional) — opens when the card is clicked"
+        defaultValue={defaultValues.link ?? ""}
+        className={styles.input}
       />
       <select
         name="status"

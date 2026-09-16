@@ -6,6 +6,7 @@ export type ExperienceRecord = {
   role: string;
   date_range: string;
   description: string;
+  link: string | null;
   display_order: number;
   status: ExperienceStatus;
   created_at: string;
