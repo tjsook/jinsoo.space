@@ -12,8 +12,7 @@ export default async function MePage() {
     .filter(Boolean);
 
   return (
-    <PageShell>
-      <h1 className={styles.title}>{about.title}</h1>
+    <PageShell title={about.title} eyebrow="(01) who i am">
       {(paragraphs.length > 0 ? paragraphs : [about.content]).map(
         (paragraph, index) => (
           <p

@@ -3,8 +3,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #0a0a0c;
-  overflow: hidden;
+  background: var(--background);
+  overflow: clip;
 }
 
 .gridOverlay {
@@ -20,79 +20,30 @@
   z-index: 0;
 }
 
-/* Top bar */
-.topBar {
+/* Page head: the oversized title that opens every inner page. */
+.pageHead {
   position: relative;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 64px 0;
+  display: grid;
+  gap: clamp(12px, 2vh, 24px);
+  padding: clamp(56px, 12vh, 132px) var(--gutter) clamp(28px, 5vh, 56px);
 }
 
-.topBarLeft {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: opacity 0.2s;
-}
-
-.topBarLeft:hover {
-  opacity: 0.7;
-}
-
-.siteName {
+.eyebrow {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.5px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
 }
 
-.socialIcons {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
-
-.socialLink {
-  display: flex;
-  color: rgba(255, 255, 255, 0.25);
-  transition: color 0.2s;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
-}
-
-.socialLink svg {
-  width: 20px;
-  height: 20px;
-}
-
-.socialLink:hover {
-  color: #6488ff;
-}
-
-/* Navigation */
-.navRow {
-  position: relative;
-  z-index: 1;
-  padding: 32px 64px 0;
-  display: flex;
-  gap: 32px;
-  white-space: nowrap;
-}
-
-.navLink {
+.pageTitle {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.55);
-  transition: color 0.2s;
-}
-
-.navLink:hover {
-  color: #6488ff;
+  font-size: var(--step-display);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  color: #fff;
 }
 
 /* Content area */
@@ -100,20 +51,20 @@
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 16px;
-  padding: 56px 64px 64px;
-  max-width: 900px;
-  background: #0a0a0c;
+  gap: 18px;
+  padding: 0 var(--gutter) clamp(56px, 12vh, 130px);
+  max-width: 940px;
 }
 
 /* Typography */
+/* Kept for pages that still set their own inline heading. */
 .title {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 28px;
+  font-size: clamp(22px, 2.6vw, 30px);
   font-weight: 600;
   color: #fff;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
 }
 
 .body {
@@ -356,40 +307,14 @@
 }
 
 @media (max-width: 768px) {
-  .topBar {
-    padding: 24px 24px 0;
-  }
-
-  .navRow {
-    padding: 24px 24px 0;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .content {
-    padding: 40px 24px 48px;
-  }
-
   .projectBody {
     gap: 16px;
   }
 }
 
-@media (max-width: 480px) {
-  .topBar {
-    padding: 20px 16px 0;
-  }
-
-  .navRow {
-    padding: 20px 16px 0;
-    gap: 16px;
-  }
-
+@media (min-width: 1181px) {
+  .pageHead,
   .content {
-    padding: 32px 16px 40px;
-  }
-
-  .title {
-    font-size: 22px;
+    padding-left: calc(var(--gutter) + 56px);
   }
 }

@@ -4,8 +4,7 @@ import styles from "../section.module.css";
 
 export default function LetsTalkPage() {
   return (
-    <PageShell>
-      <h1 className={styles.title}>let&apos;s talk</h1>
+    <PageShell title="let's talk" eyebrow="(01) contact">
       <p className={`${styles.body} ${styles.tightBody}`}>
         <em>#anticontactform</em>
       </p>

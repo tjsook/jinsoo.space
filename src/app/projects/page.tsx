@@ -9,8 +9,7 @@ export default async function ProjectsPage() {
   const projects = await getPublishedProjects();
 
   return (
-    <PageShell>
-      <h1 className={styles.title}>projects</h1>
+    <PageShell title="projects" eyebrow="(01) projects">
       {projects.length === 0 ? (
         <p className={styles.body}>coming... soon?</p>
       ) : (
