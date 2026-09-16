@@ -164,7 +164,7 @@ export default async function Home() {
         <p className={styles.heroBio}>
           sophomore (junior standing) · CS @ Cal Poly
           <br />
-          SDE @ H4I , prev. SWE Intern @ Hemut
+          building Hangars, prev. SWE Intern @ Hemut, TL @ H4I
           <br />
           <span className={styles.heroBioAccent}>
             building things that serve purpose
