@@ -12,6 +12,8 @@ type PageShellProps = {
   back?: { href: string; label: string };
   /** Long titles, like a writing's, set a step down from a page name. */
   compactTitle?: boolean;
+  /** Wider measure, for a body laid out in columns rather than read straight. */
+  wide?: boolean;
   children: ReactNode;
   aside?: ReactNode;
 };
@@ -21,6 +23,7 @@ export default function PageShell({
   eyebrow,
   back,
   compactTitle = false,
+  wide = false,
   children,
   aside,
 }: PageShellProps) {
@@ -55,7 +58,13 @@ export default function PageShell({
         </header>
       ) : null}
 
-      <div className={styles.content}>{children}</div>
+      <div
+        className={[styles.content, wide ? styles.contentWide : ""]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {children}
+      </div>
     </main>
   );
 }

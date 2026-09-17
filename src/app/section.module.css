@@ -80,6 +80,10 @@
   max-width: 940px;
 }
 
+.contentWide {
+  max-width: 1320px;
+}
+
 /* Typography */
 /* Kept for pages that still set their own inline heading. */
 .title {
@@ -252,7 +256,9 @@
 
 .projectBody {
   display: grid;
-  gap: clamp(20px, 3vh, 32px);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
 }
 
 .projectDescription {
@@ -272,8 +278,8 @@
 .projectStack {
   display: grid;
   gap: 10px;
-  padding-top: clamp(12px, 2vh, 20px);
-  border-top: 1px solid var(--hairline);
+  padding-left: clamp(18px, 2.4vw, 34px);
+  border-left: 1px solid var(--hairline);
 }
 
 .projectStackLabel {
@@ -297,7 +303,6 @@
   font-size: 12px;
   line-height: 2;
   color: var(--ink);
-  max-width: 78ch;
 }
 
 .projectStackItem {
@@ -333,9 +338,18 @@
   }
 }
 
-@media (max-width: 768px) {
+/* Narrow windows put the stack back under the write-up. */
+@media (max-width: 860px) {
   .projectBody {
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .projectStack {
+    padding-left: 0;
+    padding-top: 16px;
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
   }
 }
 

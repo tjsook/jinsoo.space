@@ -11,6 +11,7 @@ export default async function ProjectsPage() {
 
   return (
     <PageShell
+      wide
       title="projects"
       eyebrow={
         projects.length > 0
