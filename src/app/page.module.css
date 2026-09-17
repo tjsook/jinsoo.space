@@ -426,7 +426,7 @@
   z-index: 1;
   border-top: 1px solid var(--hairline);
   padding: clamp(64px, 12vh, 150px) var(--gutter);
-  scroll-margin-top: 72px;
+  scroll-margin-top: 0;
 }
 
 .sectionHead {
@@ -606,7 +606,7 @@
   z-index: 1;
   border-top: 1px solid var(--hairline);
   padding: clamp(72px, 16vh, 180px) var(--gutter);
-  scroll-margin-top: 72px;
+  scroll-margin-top: 0;
 }
 
 .whoGrid {
