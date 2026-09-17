@@ -4,15 +4,14 @@ import styles from "../section.module.css";
 
 type ProjectEntryProps = {
   project: ProjectRecord;
-  index: number;
 };
 
 /**
- * One project, read as a spec sheet: number and title, the write-up, then the
- * stack as a dense line of parts. Nothing folds away — every field the admin
- * panel holds is on the page.
+ * One project, read as a spec sheet: title, the write-up, then the stack as a
+ * dense line of parts. Nothing folds away — every field the admin panel holds
+ * is on the page.
  */
-export default function ProjectEntry({ project, index }: ProjectEntryProps) {
+export default function ProjectEntry({ project }: ProjectEntryProps) {
   const paragraphs = project.description
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
@@ -21,7 +20,6 @@ export default function ProjectEntry({ project, index }: ProjectEntryProps) {
   return (
     <article className={styles.project}>
       <div className={styles.projectHead}>
-        <span className={styles.projectIndex}>{index + 1}</span>
         <h2 className={styles.projectTitle}>{project.title}</h2>
         {project.github_url ? (
           <a

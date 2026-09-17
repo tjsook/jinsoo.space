@@ -23,8 +23,8 @@ export default async function ProjectsPage() {
         <p className={styles.body}>coming... soon?</p>
       ) : (
         <div className={styles.projectList}>
-          {projects.map((project, index) => (
-            <ProjectEntry key={project.id} project={project} index={index} />
+          {projects.map((project) => (
+            <ProjectEntry key={project.id} project={project} />
           ))}
         </div>
       )}
