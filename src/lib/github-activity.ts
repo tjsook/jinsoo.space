@@ -82,7 +82,7 @@ export async function getGitHubContributionCalendar(
       },
     }),
     next: {
-      revalidate: 21600,
+      revalidate: 3600,
     },
   });
 
@@ -241,14 +241,21 @@ export function summarizeContributions(
     if (day.contributionCount > 0) activeDays += 1;
   }
 
+  // "Today" is a UTC date, so for a US evening it is already tomorrow, and
+  // the cached calendar can lag a few hours behind. Neither of the two
+  // newest days breaks a streak until a later day has contributions.
+  const yesterdayKey = new Date(today.getTime() - 86400000)
+    .toISOString()
+    .slice(0, 10);
   let currentStreak = 0;
   for (let index = days.length - 1; index >= 0; index -= 1) {
     if (days[index].contributionCount > 0) {
       currentStreak += 1;
       continue;
     }
-    // A day that is still in progress does not break the streak.
-    if (days[index].date === todayKey) continue;
+    const inProgress =
+      days[index].date === todayKey || days[index].date === yesterdayKey;
+    if (currentStreak === 0 && inProgress) continue;
     break;
   }
 

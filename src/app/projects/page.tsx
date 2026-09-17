@@ -7,18 +7,9 @@ export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
   const projects = await getPublishedProjects();
-  const toolCount = new Set(projects.flatMap((project) => project.stack)).size;
 
   return (
-    <PageShell
-      wide
-      title="projects"
-      eyebrow={
-        projects.length > 0
-          ? `${projects.length} builds · ${toolCount} tools`
-          : undefined
-      }
-    >
+    <PageShell wide title="projects">
       {projects.length === 0 ? (
         <p className={styles.body}>coming... soon?</p>
       ) : (

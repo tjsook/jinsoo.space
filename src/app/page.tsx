@@ -181,7 +181,6 @@ export default async function Home() {
 
   return (
     <main className={styles.page}>
-      <div className={styles.gridOverlay} aria-hidden="true" />
       <ScrollRail />
       <SiteHeader />
 
