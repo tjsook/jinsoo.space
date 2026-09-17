@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import SiteFooter from "./site-footer";
 import SiteHeader from "./site-header";
 import styles from "./section.module.css";
 
@@ -33,8 +32,6 @@ export default function PageShell({
       ) : null}
 
       <div className={styles.content}>{children}</div>
-
-      <SiteFooter index="02" />
     </main>
   );
 }

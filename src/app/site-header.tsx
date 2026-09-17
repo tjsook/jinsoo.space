@@ -7,7 +7,7 @@ import AdminStar from "./admin-star";
 import styles from "./page.module.css";
 
 const NAV_LINKS = [
-  { href: "/me", label: "who i am" },
+  { href: "/#who", label: "who i am" },
   { href: "/writings", label: "writings" },
   { href: "/projects", label: "projects" },
 ];
@@ -43,7 +43,10 @@ export default function SiteHeader() {
             href={link.href}
             className={[
               styles.navLink,
-              pathname.startsWith(link.href) ? styles.navLinkActive : "",
+              link.href.startsWith("/#") === false &&
+              pathname.startsWith(link.href)
+                ? styles.navLinkActive
+                : "",
             ]
               .filter(Boolean)
               .join(" ")}

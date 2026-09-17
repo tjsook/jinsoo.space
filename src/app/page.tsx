@@ -1,10 +1,11 @@
+import { getAboutContent } from "@/lib/about-content";
 import { getPublishedExperiences } from "@/lib/experiences";
 import type { ExperienceRecord } from "@/types/experience";
 import GitHubActivity from "./github-activity";
 import Reveal from "./reveal";
 import ScrollRail from "./scroll-rail";
-import SiteFooter, { SocialRow } from "./site-footer";
 import SiteHeader from "./site-header";
+import SocialRow from "./social-row";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -119,9 +120,7 @@ function ExperienceRow({
   const body = (
     <>
       <div className={styles.expMeta}>
-        <span className={styles.expIndex}>
-          {String(index + 1).padStart(2, "0")}
-        </span>
+        <span className={styles.expIndex}>{index + 1}</span>
         <span className={styles.expSpan}>{companySpan(group.items)}</span>
       </div>
 
@@ -169,9 +168,16 @@ function ExperienceRow({
 }
 
 export default async function Home() {
-  const experiences = await getPublishedExperiences();
+  const [experiences, about] = await Promise.all([
+    getPublishedExperiences(),
+    getAboutContent(),
+  ]);
   const experienceGroups = groupExperiencesByCompany(experiences);
   const years = coveredYears(experiences);
+  const aboutParagraphs = about.content
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
 
   return (
     <main className={styles.page}>
@@ -215,7 +221,7 @@ export default async function Home() {
         <section id="experience" className={styles.section}>
           <Reveal>
             <div className={styles.sectionHead}>
-              <span className={styles.label}>(01) experience</span>
+              <span className={styles.label}>(1) experience</span>
               <h2 className={styles.sectionTitleBig}>
                 where
                 <br />
@@ -233,17 +239,26 @@ export default async function Home() {
         </section>
       ) : null}
 
-      {/* Why */}
-      <section id="why" className={styles.why}>
+      {/* Who i am */}
+      <section id="who" className={styles.who}>
         <Reveal>
-          <span className={styles.label}>(02) why</span>
-          <p className={styles.whyStatement}>
-            building things
-            <br />
-            that serve
-            <br />
-            purpose.
-          </p>
+          <span className={styles.label}>(2) who i am</span>
+          <div className={styles.whoGrid}>
+            <div className={styles.whoBio}>
+              {aboutParagraphs.map((paragraph, index) => (
+                <p key={`about-${index}`} className={styles.whoParagraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <p className={styles.statement}>
+              building things
+              <br />
+              that serve
+              <br />
+              purpose.
+            </p>
+          </div>
         </Reveal>
       </section>
 
@@ -254,7 +269,6 @@ export default async function Home() {
         </Reveal>
       </section>
 
-      <SiteFooter />
     </main>
   );
 }

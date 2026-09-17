@@ -10,7 +10,7 @@ export default async function WritingsPage() {
   const posts = await getPublishedPosts();
 
   return (
-    <PageShell title="writings" eyebrow="(01) writings">
+    <PageShell title="writings">
       {posts.length === 0 ? (
         <p className={styles.body}>the brain is empty for now</p>
       ) : (

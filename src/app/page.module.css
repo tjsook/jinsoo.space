@@ -537,30 +537,53 @@
   }
 }
 
-/* -------------------------------------------------------------------- why */
+/* ---------------------------------------------------------------- who i am */
 
-.why {
+.who {
   position: relative;
   z-index: 1;
-  display: flex;
-  justify-content: flex-end;
   border-top: 1px solid var(--hairline);
-  padding: clamp(90px, 20vh, 220px) var(--gutter);
+  padding: clamp(72px, 16vh, 180px) var(--gutter);
   scroll-margin-top: 72px;
 }
 
-.why > * {
-  width: min(100%, 760px);
+.whoGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(32px, 6vw, 88px);
+  align-items: start;
+  margin-top: clamp(24px, 5vh, 56px);
 }
 
-.whyStatement {
-  margin-top: clamp(20px, 4vh, 44px);
+.whoBio {
+  display: grid;
+  gap: 18px;
+  max-width: 58ch;
+}
+
+.whoParagraph {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.85;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
+/* The line the whole site is built around. */
+.statement {
   font-family: var(--font-jetbrains), monospace;
   font-size: var(--step-why);
   font-weight: 500;
   line-height: 1.04;
   letter-spacing: -0.04em;
   color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .whoGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
 }
 
 /* --------------------------------------------------------------- activity */
@@ -730,72 +753,6 @@
 
 .activityLevel4 {
   background: rgba(120, 160, 255, 0.85);
-}
-
-/* ---------------------------------------------------------------- contact */
-
-.contact {
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid var(--hairline);
-  padding: clamp(72px, 14vh, 170px) var(--gutter) 0;
-  scroll-margin-top: 72px;
-}
-
-.contactLine {
-  display: inline-block;
-  margin-top: clamp(18px, 3.5vh, 40px);
-  font-family: var(--font-jetbrains), monospace;
-  font-size: var(--step-display);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-  color: #fff;
-  transition: color 0.3s ease;
-}
-
-.contactLine:hover {
-  color: var(--accent);
-}
-
-.contactArrow {
-  display: inline-block;
-  font-size: 0.34em;
-  vertical-align: super;
-  margin-left: 0.12em;
-  color: var(--accent);
-  transition: transform 0.3s ease;
-}
-
-.contactLine:hover .contactArrow {
-  transform: translate(4px, -4px);
-}
-
-.contactNote {
-  margin-top: clamp(18px, 3vh, 32px);
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 12px;
-  color: var(--ink-faint);
-  letter-spacing: 0.04em;
-}
-
-.contactLinks {
-  margin-top: clamp(28px, 5vh, 56px);
-}
-
-.footMeta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 12px 24px;
-  margin-top: clamp(64px, 12vh, 150px);
-  padding: 22px 0;
-  border-top: 1px solid var(--hairline);
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
 }
 
 /* ------------------------------------------------------------ admin modal */
@@ -1124,9 +1081,6 @@
     padding-bottom: 0;
   }
 
-  .why {
-    justify-content: flex-start;
-  }
 }
 
 /* Where the rail exists, the content moves out of its lane instead of
@@ -1134,8 +1088,7 @@
 @media (min-width: 1181px) {
   .hero,
   .section,
-  .why,
-  .contact {
+  .who {
     padding-left: calc(var(--gutter) + 56px);
   }
 }

@@ -5,9 +5,8 @@ import styles from "./page.module.css";
 
 const SECTIONS = [
   { id: "experience", label: "experience" },
-  { id: "why", label: "why" },
+  { id: "who", label: "who i am" },
   { id: "activity", label: "activity" },
-  { id: "contact", label: "contact" },
 ];
 
 /**
@@ -89,9 +88,7 @@ export default function ScrollRail() {
               .filter(Boolean)
               .join(" ")}
           >
-            <span className={styles.railIndex}>
-              {String(index + 1).padStart(2, "0")}
-            </span>
+            <span className={styles.railIndex}>{index + 1}</span>
             <span className={styles.railLabel}>{section.label}</span>
           </a>
         ))}
