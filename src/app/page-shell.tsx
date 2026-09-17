@@ -29,7 +29,6 @@ export default function PageShell({
 }: PageShellProps) {
   return (
     <main className={styles.page}>
-      <div className={styles.gridOverlay} aria-hidden="true" />
       {aside}
 
       <SiteHeader />
