@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import SiteHeader from "./site-header";
 import styles from "./section.module.css";
 
@@ -7,6 +8,10 @@ type PageShellProps = {
   title?: string;
   /** Small monospace tag above the title. */
   eyebrow?: string;
+  /** Way back to the list a page came from. */
+  back?: { href: string; label: string };
+  /** Long titles, like a writing's, set a step down from a page name. */
+  compactTitle?: boolean;
   children: ReactNode;
   aside?: ReactNode;
 };
@@ -14,6 +19,8 @@ type PageShellProps = {
 export default function PageShell({
   title,
   eyebrow,
+  back,
+  compactTitle = false,
   children,
   aside,
 }: PageShellProps) {
@@ -26,8 +33,25 @@ export default function PageShell({
 
       {title ? (
         <header className={styles.pageHead}>
+          {back ? (
+            <Link href={back.href} className={styles.backLink}>
+              <span className={styles.backArrow} aria-hidden="true">
+                ←
+              </span>
+              {back.label}
+            </Link>
+          ) : null}
           {eyebrow ? <span className={styles.eyebrow}>{eyebrow}</span> : null}
-          <h1 className={styles.pageTitle}>{title}</h1>
+          <h1
+            className={[
+              styles.pageTitle,
+              compactTitle ? styles.pageTitleCompact : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            {title}
+          </h1>
         </header>
       ) : null}
 

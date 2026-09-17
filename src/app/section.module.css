@@ -29,6 +29,29 @@
   padding: clamp(56px, 12vh, 132px) var(--gutter) clamp(28px, 5vh, 56px);
 }
 
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  color: var(--ink-dim);
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: var(--accent);
+}
+
+.backArrow {
+  transition: transform 0.2s ease;
+}
+
+.backLink:hover .backArrow {
+  transform: translateX(-3px);
+}
+
 .eyebrow {
   font-family: var(--font-jetbrains), monospace;
   font-size: 10px;
@@ -40,6 +63,7 @@
 .pageTitle {
   font-family: var(--font-jetbrains), monospace;
   font-size: var(--step-display);
+  text-wrap: balance;
   font-weight: 700;
   line-height: 0.88;
   letter-spacing: -0.05em;
@@ -65,6 +89,12 @@
   color: #fff;
   letter-spacing: -0.02em;
   margin-bottom: 8px;
+}
+
+.pageTitleCompact {
+  font-size: clamp(26px, 4.4vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
 }
 
 .body {
@@ -153,132 +183,129 @@
   color: rgba(255, 255, 255, 0.2);
 }
 
-/* Projects */
-.projectEntry {
+/* Projects: a spec sheet per build, nothing folded away. */
+.projectList {
   display: grid;
-  gap: 12px;
-  justify-items: start;
-  padding: 20px 16px;
-  margin: 0 -16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  background: #0a0a0c;
+  min-width: 0;
+  border-top: 1px solid var(--hairline);
 }
 
-.projectEntry:first-of-type {
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+.project {
+  display: grid;
+  gap: clamp(20px, 3vh, 34px);
+  padding: clamp(32px, 5vh, 56px) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.projectHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+}
+
+.projectIndex {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(13px, 1.3vw, 17px);
+  color: var(--accent-soft);
+  letter-spacing: 0.04em;
 }
 
 .projectTitle {
+  flex: 1 1 auto;
   font-family: var(--font-space-grotesk), sans-serif;
-  font-size: 17px;
+  font-size: clamp(24px, 3.6vw, 44px);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  cursor: pointer;
-  transition: color 0.2s;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--ink-strong);
+  text-wrap: balance;
 }
 
-.projectTitle:hover {
-  color: #6488ff;
-}
-
-.projectHeader {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.projectGitLink {
+.projectSource {
   display: inline-flex;
-  align-items: center;
-  align-self: center;
-  color: rgba(255, 255, 255, 0.2);
-  transition: color 0.2s;
-  flex-shrink: 0;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  color: var(--ink-dim);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.projectGitLink:hover {
-  color: #6488ff;
+.projectSource:hover {
+  color: var(--accent);
+  border-bottom-color: rgba(100, 136, 255, 0.4);
 }
 
-.projectGitLink svg {
-  width: 14px;
-  height: 14px;
+.projectSourceArrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
 }
 
-.projectToggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1rem;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: rgba(100, 136, 255, 0.5);
-  cursor: pointer;
-  font: inherit;
-  line-height: 1;
-  transition: color 0.2s;
-}
-
-.projectToggle:hover {
-  color: #6488ff;
-}
-
-.projectToggleIcon {
-  display: inline-block;
-  transform-origin: center;
-  transition: transform 0.14s ease;
-}
-
-.projectToggleIconOpen {
-  transform: rotate(90deg);
+.projectSource:hover .projectSourceArrow {
+  transform: translate(2px, -2px);
 }
 
 .projectBody {
   display: grid;
-  gap: 20px;
-  width: 100%;
+  gap: clamp(20px, 3vh, 32px);
 }
 
 .projectDescription {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .projectParagraph {
   font-family: var(--font-jetbrains), monospace;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
-  line-height: 1.8;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  max-width: 68ch;
 }
 
-.projectStackRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  padding-top: 4px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+/* The stack reads as one dense line of parts, not a field of chips. */
+.projectStack {
+  display: grid;
+  gap: 10px;
+  padding-top: clamp(12px, 2vh, 20px);
+  border-top: 1px solid var(--hairline);
 }
 
 .projectStackLabel {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
   font-family: var(--font-jetbrains), monospace;
   font-size: 10px;
-  color: rgba(100, 136, 255, 0.4);
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-right: 4px;
+  color: var(--ink-faint);
 }
 
-.projectStackTag {
+.projectStackCount {
+  letter-spacing: 0;
+  color: var(--accent-soft);
+}
+
+.projectStackList {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
-  padding: 3px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 3px;
-  background: #0e0e10;
+  font-size: 12px;
+  line-height: 2;
+  color: var(--ink);
+  max-width: 78ch;
+}
+
+.projectStackItem {
   white-space: nowrap;
+}
+
+.projectStackDot {
+  color: var(--accent-soft);
 }
 
 /* Geometric art */
@@ -312,9 +339,3 @@
   }
 }
 
-@media (min-width: 1181px) {
-  .pageHead,
-  .content {
-    padding-left: calc(var(--gutter) + 56px);
-  }
-}
