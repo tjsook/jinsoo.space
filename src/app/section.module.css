@@ -3,8 +3,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #0a0a0c;
-  overflow: hidden;
+  background: var(--background);
+  overflow: clip;
 }
 
 .gridOverlay {
@@ -20,79 +20,54 @@
   z-index: 0;
 }
 
-/* Top bar */
-.topBar {
+/* Page head: the oversized title that opens every inner page. */
+.pageHead {
   position: relative;
   z-index: 1;
-  display: flex;
+  display: grid;
+  gap: clamp(12px, 2vh, 24px);
+  padding: clamp(56px, 12vh, 132px) var(--gutter) clamp(28px, 5vh, 56px);
+}
+
+.backLink {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 40px 64px 0;
-}
-
-.topBarLeft {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: opacity 0.2s;
-}
-
-.topBarLeft:hover {
-  opacity: 0.7;
-}
-
-.siteName {
+  gap: 8px;
+  width: fit-content;
   font-family: var(--font-jetbrains), monospace;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.5px;
+  font-size: 12px;
+  color: var(--ink-dim);
+  transition: color 0.2s ease;
 }
 
-.socialIcons {
-  display: flex;
-  gap: 24px;
-  align-items: center;
+.backLink:hover {
+  color: var(--accent);
 }
 
-.socialLink {
-  display: flex;
-  color: rgba(255, 255, 255, 0.25);
-  transition: color 0.2s;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
+.backArrow {
+  transition: transform 0.2s ease;
 }
 
-.socialLink svg {
-  width: 20px;
-  height: 20px;
+.backLink:hover .backArrow {
+  transform: translateX(-3px);
 }
 
-.socialLink:hover {
-  color: #6488ff;
-}
-
-/* Navigation */
-.navRow {
-  position: relative;
-  z-index: 1;
-  padding: 32px 64px 0;
-  display: flex;
-  gap: 32px;
-  white-space: nowrap;
-}
-
-.navLink {
+.eyebrow {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.55);
-  transition: color 0.2s;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
 }
 
-.navLink:hover {
-  color: #6488ff;
+.pageTitle {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: var(--step-display);
+  text-wrap: balance;
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  color: #fff;
 }
 
 /* Content area */
@@ -100,20 +75,30 @@
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 16px;
-  padding: 56px 64px 64px;
-  max-width: 900px;
-  background: #0a0a0c;
+  gap: 18px;
+  padding: 0 var(--gutter) clamp(56px, 12vh, 130px);
+  max-width: 940px;
+}
+
+.contentWide {
+  max-width: 1320px;
 }
 
 /* Typography */
+/* Kept for pages that still set their own inline heading. */
 .title {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 28px;
+  font-size: clamp(22px, 2.6vw, 30px);
   font-weight: 600;
   color: #fff;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.pageTitleCompact {
+  font-size: clamp(26px, 4.4vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
 }
 
 .body {
@@ -202,132 +187,123 @@
   color: rgba(255, 255, 255, 0.2);
 }
 
-/* Projects */
-.projectEntry {
+/* Projects: a spec sheet per build, nothing folded away. */
+.projectList {
   display: grid;
-  gap: 12px;
-  justify-items: start;
-  padding: 20px 16px;
-  margin: 0 -16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  background: #0a0a0c;
+  min-width: 0;
+  border-top: 1px solid var(--hairline);
 }
 
-.projectEntry:first-of-type {
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+.project {
+  display: grid;
+  gap: clamp(20px, 3vh, 34px);
+  padding: clamp(32px, 5vh, 56px) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.projectHead {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px 18px;
 }
 
 .projectTitle {
+  flex: 1 1 auto;
   font-family: var(--font-space-grotesk), sans-serif;
-  font-size: 17px;
+  font-size: clamp(24px, 3.6vw, 44px);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  cursor: pointer;
-  transition: color 0.2s;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--ink-strong);
+  text-wrap: balance;
 }
 
-.projectTitle:hover {
-  color: #6488ff;
-}
-
-.projectHeader {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.projectGitLink {
+.projectSource {
   display: inline-flex;
-  align-items: center;
-  align-self: center;
-  color: rgba(255, 255, 255, 0.2);
-  transition: color 0.2s;
-  flex-shrink: 0;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  color: var(--ink-dim);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.projectGitLink:hover {
-  color: #6488ff;
+.projectSource:hover {
+  color: var(--accent);
+  border-bottom-color: rgba(100, 136, 255, 0.4);
 }
 
-.projectGitLink svg {
-  width: 14px;
-  height: 14px;
+.projectSourceArrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
 }
 
-.projectToggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1rem;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: rgba(100, 136, 255, 0.5);
-  cursor: pointer;
-  font: inherit;
-  line-height: 1;
-  transition: color 0.2s;
-}
-
-.projectToggle:hover {
-  color: #6488ff;
-}
-
-.projectToggleIcon {
-  display: inline-block;
-  transform-origin: center;
-  transition: transform 0.14s ease;
-}
-
-.projectToggleIconOpen {
-  transform: rotate(90deg);
+.projectSource:hover .projectSourceArrow {
+  transform: translate(2px, -2px);
 }
 
 .projectBody {
   display: grid;
-  gap: 20px;
-  width: 100%;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
 }
 
 .projectDescription {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .projectParagraph {
   font-family: var(--font-jetbrains), monospace;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
-  line-height: 1.8;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  max-width: 68ch;
 }
 
-.projectStackRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  padding-top: 4px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+/* The stack reads as one dense line of parts, not a field of chips. */
+.projectStack {
+  display: grid;
+  gap: 10px;
+  padding-left: clamp(18px, 2.4vw, 34px);
+  border-left: 1px solid var(--hairline);
 }
 
 .projectStackLabel {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
   font-family: var(--font-jetbrains), monospace;
   font-size: 10px;
-  color: rgba(100, 136, 255, 0.4);
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-right: 4px;
+  color: var(--ink-faint);
 }
 
-.projectStackTag {
+.projectStackCount {
+  letter-spacing: 0;
+  color: var(--accent-soft);
+}
+
+.projectStackList {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
-  padding: 3px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 3px;
-  background: #0e0e10;
+  font-size: 12px;
+  line-height: 2;
+  color: var(--ink);
+}
+
+.projectStackItem {
   white-space: nowrap;
+}
+
+.projectStackDot {
+  color: var(--accent-soft);
 }
 
 /* Geometric art */
@@ -355,41 +331,18 @@
   }
 }
 
-@media (max-width: 768px) {
-  .topBar {
-    padding: 24px 24px 0;
-  }
-
-  .navRow {
-    padding: 24px 24px 0;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .content {
-    padding: 40px 24px 48px;
-  }
-
+/* Narrow windows put the stack back under the write-up. */
+@media (max-width: 860px) {
   .projectBody {
-    gap: 16px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .projectStack {
+    padding-left: 0;
+    padding-top: 16px;
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
   }
 }
 
-@media (max-width: 480px) {
-  .topBar {
-    padding: 20px 16px 0;
-  }
-
-  .navRow {
-    padding: 20px 16px 0;
-    gap: 16px;
-  }
-
-  .content {
-    padding: 32px 16px 40px;
-  }
-
-  .title {
-    font-size: 22px;
-  }
-}

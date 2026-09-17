@@ -1,10 +1,11 @@
-import Link from "next/link";
+import { getAboutContent } from "@/lib/about-content";
 import { getPublishedExperiences } from "@/lib/experiences";
 import type { ExperienceRecord } from "@/types/experience";
-import AdminStar from "./admin-star";
-import CopyEmailIcon from "./copy-email-icon";
-import ExperienceStack from "./experience-stack";
 import GitHubActivity from "./github-activity";
+import Reveal from "./reveal";
+import ScrollRail from "./scroll-rail";
+import SiteHeader from "./site-header";
+import SocialRow from "./social-row";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -24,9 +25,14 @@ const MONTHS = [
   "dec",
 ];
 
+function splitRange(dateRange: string) {
+  const [start, end] = dateRange.split(/\s*[–—-]\s*/);
+  return { start: (start ?? "").trim(), end: (end ?? "").trim() };
+}
+
 function parseStartMonth(dateRange: string): number {
-  const first = dateRange.split(/[–—-]/)[0]?.trim().toLowerCase() ?? "";
-  const match = first.match(/([a-z]{3,})\s+(\d{4})/);
+  const { start } = splitRange(dateRange.toLowerCase());
+  const match = start.match(/([a-z]{3,})\s+(\d{4})/);
   if (!match) return 0;
   const monthIndex = MONTHS.findIndex((month) => match[1].startsWith(month));
   const year = parseInt(match[2], 10);
@@ -48,7 +54,11 @@ function groupExperiencesByCompany(
   for (const exp of experiences) {
     let group = byCompany.get(exp.company);
     if (!group) {
-      group = { company: exp.company, displayOrder: exp.display_order, items: [] };
+      group = {
+        company: exp.company,
+        displayOrder: exp.display_order,
+        items: [],
+      };
       byCompany.set(exp.company, group);
       groups.push(group);
     }
@@ -66,140 +76,199 @@ function groupExperiencesByCompany(
   return groups;
 }
 
-function SingleExperienceCard({ exp }: { exp: ExperienceRecord }) {
+/** Newest role's end, oldest role's start: one span for the whole company. */
+function companySpan(items: ExperienceRecord[]) {
+  const newest = splitRange(items[0].date_range);
+  const oldest = splitRange(items[items.length - 1].date_range);
+  const start = oldest.start;
+  const end = newest.end || newest.start;
+
+  if (!start) return end;
+  if (!end || end === start) return start;
+
+  return `${start} — ${end}`;
+}
+
+/** "jun 2024" and "current" -> the two-digit years the section header shows. */
+function coveredYears(experiences: ExperienceRecord[]) {
+  const years = experiences
+    .flatMap((exp) => exp.date_range.match(/\d{4}/g) ?? [])
+    .map((year) => parseInt(year, 10));
+
+  if (years.length === 0) return "";
+
+  const first = String(Math.min(...years)).slice(2);
+  const ongoing = experiences.some((exp) =>
+    /current|present|ongoing/i.test(exp.date_range),
+  );
+  const last = ongoing
+    ? String(new Date().getFullYear()).slice(2)
+    : String(Math.max(...years)).slice(2);
+
+  return first === last ? `${first}'` : `${first}—${last}'`;
+}
+
+function ExperienceRow({
+  group,
+  index,
+}: {
+  group: ExperienceGroup;
+  index: number;
+}) {
+  const link = group.items.find((item) => item.link)?.link ?? null;
+
   const body = (
     <>
-      <div className={styles.experienceCompany}>{exp.company}</div>
-      <div className={styles.experienceDate}>{exp.date_range}</div>
-      <div className={styles.experienceRole}>{exp.role}</div>
-      <div className={styles.experienceDescription}>{exp.description}</div>
+      <span className={styles.expIndex}>{index + 1}</span>
+
+      <div className={styles.expHead}>
+        <h3 className={styles.expCompany}>
+          {group.company}
+          {link ? (
+            <span className={styles.expArrow} aria-hidden="true">
+              ↗
+            </span>
+          ) : null}
+        </h3>
+        <span className={styles.expSpan}>{companySpan(group.items)}</span>
+      </div>
+
+      <div className={styles.expRoles}>
+        {group.items.map((item) => (
+          <div key={item.id} className={styles.expRole}>
+            <div className={styles.expRoleHead}>
+              <span className={styles.expRoleTitle}>{item.role}</span>
+              <span className={styles.expRoleDate}>{item.date_range}</span>
+            </div>
+            <p className={styles.expDescription}>{item.description}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 
-  if (!exp.link) {
-    return <div className={styles.experienceCard}>{body}</div>;
-  }
-
   return (
-    <a
-      href={exp.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`${styles.experienceCard} ${styles.experienceCardLinked}`}
-    >
-      {body}
-    </a>
+    <li className={styles.expRow}>
+      <Reveal delay={Math.min(index, 4) * 60}>
+        {link ? (
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.expInner} ${styles.expInnerLinked}`}
+          >
+            {body}
+          </a>
+        ) : (
+          <div className={styles.expInner}>{body}</div>
+        )}
+      </Reveal>
+    </li>
   );
 }
 
 export default async function Home() {
-  const experiences = await getPublishedExperiences();
+  const [experiences, about] = await Promise.all([
+    getPublishedExperiences(),
+    getAboutContent(),
+  ]);
   const experienceGroups = groupExperiencesByCompany(experiences);
+  const years = coveredYears(experiences);
+  const aboutParagraphs = about.content
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
   return (
     <main className={styles.page}>
       <div className={styles.gridOverlay} aria-hidden="true" />
-
-      {/* Top bar */}
-      <header className={styles.topBar}>
-        <div className={styles.topBarLeft}>
-          <AdminStar />
-          <span className={styles.siteName}>jinsoo.space</span>
-        </div>
-        <div className={styles.socialIcons}>
-          <a
-            href="https://github.com/tjsook"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.socialLink}
-            aria-label="GitHub"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-          </a>
-          <a
-            href="https://x.com/tjkxyz"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.socialLink}
-            aria-label="X"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/tyjkim"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.socialLink}
-            aria-label="LinkedIn"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-          </a>
-          <CopyEmailIcon />
-        </div>
-      </header>
-
-      {/* Navigation */}
-      <nav className={styles.navRow}>
-        <Link href="/me" className={styles.navLink}>
-          who i am
-        </Link>
-        <Link href="/writings" className={styles.navLink}>
-          writings
-        </Link>
-        <Link href="/projects" className={styles.navLink}>
-          projects
-        </Link>
-      </nav>
+      <ScrollRail />
+      <SiteHeader />
 
       {/* Hero */}
       <section className={styles.hero}>
-        <h1 className={styles.heroName}>
-          tyler <span className={styles.heroAccent}>jinsoo</span> kim
-        </h1>
-        <p className={styles.heroBio}>
-          sophomore (junior standing) · CS @ Cal Poly SLO
-          <br />
-          building Hangars, prev. SWE Intern @ Hemut, TL @ H4I
-          <br />
-          <span className={styles.heroBioAccent}>
-            building things that serve purpose
-          </span>
-        </p>
+        <div className={styles.heroTop}>
+          <h1 className={styles.heroName}>
+            <span className={styles.heroLine}>tyler</span>
+            <span className={`${styles.heroLine} ${styles.heroAccent}`}>
+              jinsoo
+            </span>
+            <span className={styles.heroLine}>
+              kim
+              <span className={styles.heroCaret} aria-hidden="true" />
+            </span>
+          </h1>
+
+          <div className={styles.heroAside}>
+            <span className={styles.label}>(currently)</span>
+            <p className={styles.heroBio}>
+              sophomore (junior standing) · CS @ Cal Poly SLO
+            </p>
+            <p className={styles.heroBio}>
+              building Hangars, prev. SWE Intern @ Hemut, TL @ H4I
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.heroFoot}>
+          <SocialRow />
+          <span className={styles.scrollCue}>(scroll)</span>
+        </div>
       </section>
 
       {/* Experience */}
-      {experiences.length > 0 ? (
-        <section className={styles.experienceSection}>
-          <div className={styles.experienceHeader}>
-            <span className={styles.sectionTitle}>experience</span>
-            <span className={styles.scrollHint}>scroll →</span>
-          </div>
-          <div className={styles.experienceScroller}>
-            <div className={styles.experienceCards}>
-              {experienceGroups.map((group) =>
-                group.items.length === 1 ? (
-                  <SingleExperienceCard
-                    key={group.items[0].id}
-                    exp={group.items[0]}
-                  />
-                ) : (
-                  <ExperienceStack key={group.company} items={group.items} />
-                ),
-              )}
+      {experienceGroups.length > 0 ? (
+        <section id="experience" className={styles.section}>
+          <Reveal>
+            <div className={styles.sectionHead}>
+              <span className={styles.label}>(1) experience</span>
+              <h2 className={styles.sectionTitleBig}>
+                where
+                <br />
+                i&apos;ve built
+              </h2>
+              <span className={styles.sectionYears}>{years}</span>
             </div>
-          </div>
+          </Reveal>
+
+          <ol className={styles.expList}>
+            {experienceGroups.map((group, index) => (
+              <ExperienceRow key={group.company} group={group} index={index} />
+            ))}
+          </ol>
         </section>
       ) : null}
 
-      {/* Activity */}
-      <section className={styles.activitySection}>
-        <GitHubActivity />
+      {/* Who i am */}
+      <section id="who" className={styles.who}>
+        <Reveal>
+          <span className={styles.label}>(2) who i am</span>
+          <div className={styles.whoGrid}>
+            <div className={styles.whoBio}>
+              {aboutParagraphs.map((paragraph, index) => (
+                <p key={`about-${index}`} className={styles.whoParagraph}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <p className={styles.statement}>
+              building things
+              <br />
+              that serve
+              <br />
+              purpose.
+            </p>
+          </div>
+        </Reveal>
       </section>
+
+      {/* Activity */}
+      <section id="activity" className={styles.section}>
+        <Reveal>
+          <GitHubActivity />
+        </Reveal>
+      </section>
+
     </main>
   );
 }

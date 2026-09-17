@@ -16,8 +16,33 @@ export default function AdminStar() {
   // page container or clipped by it. The portal waits for the client, because
   // document does not exist while the server renders.
   const [isMounted, setIsMounted] = useState(false);
+  // Away from the top of the page the star is a way back up; only at the very
+  // top does it open the login.
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => setIsMounted(true), []);
+
+  useEffect(() => {
+    let frame = 0;
+
+    function measure() {
+      setIsScrolled(window.scrollY > 24);
+      frame = 0;
+    }
+
+    function handleScroll() {
+      if (frame) return;
+      frame = window.requestAnimationFrame(measure);
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -67,8 +92,12 @@ export default function AdminStar() {
       <button
         type="button"
         className={styles.starButton}
-        aria-label="Open admin login"
+        aria-label={isScrolled ? "Back to top" : "Open admin login"}
         onClick={() => {
+          if (isScrolled) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
           setErrorMessage("");
           setIsOpen(true);
         }}

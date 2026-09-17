@@ -85,11 +85,13 @@ export default async function WritingDetailPage({
   }
 
   return (
-    <PageShell aside={<GeometricArt seed={slug} />}>
-      <h1 className={styles.title}>{post.name}</h1>
-      <p className={styles.body}>
-        {post.label} / {formatDisplayDate(post.created_at)}
-      </p>
+    <PageShell
+      aside={<GeometricArt seed={slug} />}
+      back={{ href: "/writings", label: "writings" }}
+      eyebrow={`${post.label} / ${formatDisplayDate(post.created_at)}`}
+      title={post.name}
+      compactTitle
+    >
       <p
         className={`${styles.body} ${styles.compactBody} ${styles.preserveBreaks}`}
       >

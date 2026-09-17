@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #0a0a0c;
+  background: var(--background);
   overflow: clip;
 }
 
@@ -21,7 +21,9 @@
   z-index: 0;
 }
 
-/* Top bar. Sticky so the admin star stays reachable at any scroll position. */
+/* ---------------------------------------------------------------- chrome */
+
+/* Sticky so the admin star and the nav stay reachable at any scroll depth. */
 .topBar {
   position: sticky;
   top: 0;
@@ -29,13 +31,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28px 64px 20px;
-  background: rgba(10, 10, 12, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  gap: 24px;
+  padding: 20px var(--gutter);
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
 }
 
-.topBarLeft {
+.topBarLeft,
+.homeMark {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -43,7 +48,7 @@
 
 .starButton {
   font-size: 16px;
-  color: #6488ff;
+  color: var(--accent);
   background: transparent;
   border: 0;
   padding: 0;
@@ -56,384 +61,696 @@
 
 .siteName {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.5px;
+  font-size: 12px;
+  color: var(--ink-dim);
+  letter-spacing: 0.04em;
 }
 
-.socialIcons {
+.topNav {
   display: flex;
-  gap: 24px;
-  align-items: center;
-}
-
-.socialLink {
-  display: flex;
-  color: rgba(255, 255, 255, 0.25);
-  transition: color 0.2s;
-}
-
-.socialLink svg {
-  width: 20px;
-  height: 20px;
-}
-
-.socialLink:hover {
-  color: #6488ff;
-}
-
-.socialButton {
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
-}
-
-.emailWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.copiedBadge {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: #6488ff;
-  white-space: nowrap;
-  pointer-events: none;
-  animation: fadeInUp 0.15s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-/* Navigation */
-.navRow {
-  position: relative;
-  z-index: 1;
-  padding: 32px 64px 0;
-  display: flex;
-  gap: 32px;
+  gap: clamp(14px, 2.4vw, 34px);
   white-space: nowrap;
 }
 
 .navLink {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.55);
-  transition: color 0.2s;
+  font-size: 12px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
 }
 
-.navLink:hover {
-  color: #6488ff;
+.navLink:hover,
+.navLinkActive {
+  color: var(--accent);
 }
 
-/* Hero */
+/* Read progress, hairline thin, across the very top of the window. */
+.progressTrack {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+
+.progressBar {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+/* The index has two states. Both are always mounted and cross-fade, because
+   nothing can animate between a left and a right offset. */
+.rail,
+.railHero {
+  position: fixed;
+  top: 50%;
+  z-index: 25;
+  display: grid;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 0.8, 0.25, 1);
+}
+
+.railStateShown {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Hero state: words, right side, large. */
+.railHero {
+  right: var(--gutter);
+  gap: clamp(10px, 1.4vh, 18px);
+  justify-items: end;
+  text-align: right;
+  transform: translate(14px, -50%);
+}
+
+.railHero.railStateShown {
+  transform: translate(0, -50%);
+}
+
+.railHeroItem {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(15px, 1.5vw, 21px);
+  letter-spacing: -0.01em;
+  color: var(--ink-dim);
+  transition: color 0.25s ease;
+}
+
+.railHeroItem:hover {
+  color: var(--accent);
+}
+
+.railHeroIndex {
+  font-size: 0.6em;
+  color: var(--accent-soft);
+}
+
+/* Scrolled state: ticks, left gutter, small. */
+.rail {
+  right: 20px;
+  gap: 14px;
+  justify-items: end;
+  transform: translate(10px, -50%);
+}
+
+.rail.railStateShown {
+  transform: translate(0, -50%);
+}
+
+.railItem {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  transition: color 0.25s ease;
+}
+
+.railItem::before {
+  content: "";
+  width: 12px;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+
+.railItem:hover {
+  color: var(--ink);
+}
+
+.railItemActive {
+  color: var(--accent);
+}
+
+.railItemActive::before {
+  width: 26px;
+}
+
+.railIndex {
+  opacity: 0.7;
+}
+
+.railLabel {
+  opacity: 0;
+  transform: translateX(4px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.railItem:hover .railLabel {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 1180px) {
+  .rail,
+  .railHero {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail,
+  .railHero {
+    transition: opacity 0.2s ease;
+  }
+}
+
+/* ------------------------------------------------------------- primitives */
+
+.label {
+  display: block;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 0.8, 0.25, 1),
+    transform 0.75s cubic-bezier(0.22, 0.8, 0.25, 1);
+}
+
+.revealShown {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.outLinkRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(14px, 2.4vw, 30px);
+}
+
+.outLink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  color: var(--ink);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.outLinkButton {
+  background: transparent;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+
+.outLink:hover {
+  color: var(--accent);
+  border-bottom-color: rgba(100, 136, 255, 0.4);
+}
+
+.outArrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
+}
+
+.outLink:hover .outArrow {
+  transform: translate(2px, -2px);
+}
+
+/* ------------------------------------------------------------------ hero */
+
 .hero {
   position: relative;
   z-index: 1;
-  padding: 72px 64px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(48px, 10vh, 120px);
+  min-height: calc(100svh - 60px);
+  padding: clamp(40px, 9vh, 104px) var(--gutter) clamp(24px, 5vh, 52px);
+}
+
+.heroTop {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(24px, 5vw, 72px);
 }
 
 .heroName {
+  flex: 0 0 auto;
   font-family: var(--font-jetbrains), monospace;
-  font-size: 52px;
+  font-size: var(--step-hero);
   font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.05em;
   color: #fff;
-  line-height: 1;
-  letter-spacing: -2px;
-  white-space: nowrap;
+}
+
+.heroLine {
+  display: block;
 }
 
 .heroAccent {
-  color: #6488ff;
+  color: var(--accent);
+}
+
+.heroCaret {
+  display: inline-block;
+  width: 0.085em;
+  height: 0.7em;
+  margin-left: 0.16em;
+  background: var(--accent);
+  vertical-align: baseline;
+  animation: blink 1.15s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCaret {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* Wraps under the name rather than squeezing it when the window is narrow. */
+.heroAside .label {
+  font-size: 11px;
+}
+
+.heroAside {
+  flex: 1 1 400px;
+  max-width: 600px;
+  display: grid;
+  gap: clamp(14px, 1.8vh, 20px);
+  padding-top: clamp(8px, 1.6vw, 20px);
 }
 
 .heroBio {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.9;
-  margin-top: 32px;
-  /* Wide enough to hold the longest bio line unbroken; narrow screens still
-     wrap it. */
-  max-width: 560px;
+  font-size: clamp(13px, 1.25vw, 18px);
+  line-height: 1.7;
+  color: var(--ink-strong);
+  text-wrap: balance;
 }
 
-.heroBioAccent {
-  color: rgba(100, 136, 255, 0.6);
+.heroFoot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
 }
 
-/* Section title (shared) */
-.sectionTitle {
+.scrollCue {
   font-family: var(--font-jetbrains), monospace;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.35);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  color: var(--ink-faint);
+  animation: breathe 3.2s ease-in-out infinite;
 }
 
-/* Experience */
-.experienceSection {
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollCue {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------- sections */
+
+.section {
   position: relative;
   z-index: 1;
-  padding-top: 56px;
+  border-top: 1px solid var(--hairline);
+  padding: clamp(64px, 12vh, 150px) var(--gutter);
+  scroll-margin-top: 0;
 }
 
-.experienceHeader {
-  padding: 0 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 20px;
-}
-
-.scrollHint {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.1);
-}
-
-.experienceScroller {
-  overflow-x: auto;
-  padding: 0 64px 16px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.experienceScroller::-webkit-scrollbar {
-  display: none;
-}
-
-.experienceCards {
-  display: flex;
-  gap: 12px;
-  min-width: max-content;
-  padding-right: 16px;
-}
-
-.experienceCard {
-  width: 320px;
-  flex: none;
-  padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  transition: border-color 0.2s;
-  background: #0f0f11;
-}
-
-.experienceCard:hover {
-  border-color: rgba(100, 136, 255, 0.2);
-}
-
-/* A card that carries an admin-set link is an anchor, not a div. */
-.experienceCardLinked {
-  display: block;
-  cursor: pointer;
-  color: inherit;
-  text-decoration: none;
-}
-
-.experienceCardLinked:hover {
-  border-color: rgba(100, 136, 255, 0.35);
-}
-
-.experienceCompany {
-  font-family: var(--font-space-grotesk), sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 4px;
-}
-
-.experienceDate {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.25);
-  margin-bottom: 4px;
-}
-
-.experienceRole {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 6px;
-}
-
-.experienceDescription {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.25);
-  line-height: 1.6;
-}
-
-/* Experience stack (same-company grouping) */
-.experienceStack {
-  position: relative;
-  width: 320px;
-  flex: none;
-}
-
-/* Invisible copy of every card in the group, all stacked into one grid cell so
-   the row reserves the tallest one. Keeps the stack a constant size no matter
-   which card is shuffled to the front. */
-.experienceStackSizer {
+.sectionHead {
   display: grid;
-  visibility: hidden;
-  pointer-events: none;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(16px, 3vw, 40px);
+  margin-bottom: clamp(48px, 9vh, 110px);
 }
 
-.experienceStackSizer > * {
-  grid-area: 1 / 1;
+.sectionHead .label {
+  grid-column: 1 / -1;
+  margin-bottom: clamp(12px, 2vh, 28px);
 }
 
-.experienceStackSizerCard {
-  padding: 24px;
-  border: 1px solid transparent;
+.sectionTitleBig {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: var(--step-display);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  color: #fff;
 }
 
-.experienceStackCard {
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 4px;
-  background: #0f0f11;
+.sectionYears {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(12px, 1.4vw, 18px);
+  color: var(--accent-soft);
+  letter-spacing: 0.04em;
+  padding-bottom: 0.3em;
 }
 
-/* Only animate once measured, so nothing shuffles into place on first paint.
-   Duration and easing are set per deal phase from the component. */
-.experienceStackCardReady {
-  transition-property: transform, height, width, background-color, box-shadow;
-  transition-duration: 0.4s;
-  transition-timing-function: cubic-bezier(0.2, 0.8, 0.25, 1);
+/* ------------------------------------------------------------ experience */
+
+.expList {
+  list-style: none;
+  border-top: 1px solid var(--hairline);
 }
 
-/* Off the deck and in the air, on its way to the top of the stack. */
-.experienceStackCardLifted {
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.6);
+.expRow {
+  border-bottom: 1px solid var(--hairline);
 }
 
-.experienceStackCardFront {
-  cursor: default;
+.expInner {
+  display: grid;
+  grid-template-columns: clamp(52px, 5vw, 90px) minmax(0, 0.95fr) minmax(0, 1.3fr);
+  gap: clamp(16px, 3vw, 48px);
+  padding: clamp(28px, 4.5vh, 52px) 0;
+  transition: background-color 0.35s ease;
 }
 
-/* Only the card on top opens a link; the tabs below just deal to the top. */
-.experienceStackCardLinked:hover {
-  border-color: rgba(100, 136, 255, 0.35);
-}
-
-.experienceStackCardTab {
-  cursor: pointer;
-  background: #0a0a0c;
-}
-
-.experienceStackCardTab:hover {
-  border-color: rgba(100, 136, 255, 0.25);
-}
-
-.experienceStackFace {
-  padding: 24px;
-  transition: opacity 0.26s ease;
-}
-
-/* Fills the card so the padding and the empty space below the text open the
-   link too, not just the text itself. */
-.experienceStackFaceLink {
-  display: block;
-  height: 100%;
+.expInnerLinked {
   cursor: pointer;
   color: inherit;
-  text-decoration: none;
 }
 
-.experienceStackTabFace {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 0 16px;
-  background: #0a0a0c;
-  transition: opacity 0.26s ease;
+.expInnerLinked:hover {
+  background-color: rgba(100, 136, 255, 0.04);
 }
 
-.experienceStackPeekRole {
+.expIndex {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 12px;
+  font-size: clamp(20px, 2.2vw, 32px);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1;
+  color: var(--accent-soft);
+  letter-spacing: -0.02em;
 }
 
-.experienceStackPeekDate {
+.expHead {
+  display: grid;
+  gap: clamp(10px, 1.4vh, 18px);
+  align-content: start;
+}
+
+/* The company's whole span, sitting under its name. */
+.expSpan {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.28);
-  white-space: nowrap;
+  font-size: clamp(12px, 1.15vw, 16px);
+  color: var(--ink-dim);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+.expCompany {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: var(--step-company);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink-strong);
+  text-wrap: balance;
+  transition: color 0.3s ease;
+}
+
+.expInnerLinked:hover .expCompany {
+  color: var(--accent);
+}
+
+.expArrow {
+  display: inline-block;
+  margin-left: 0.25em;
+  font-size: 0.42em;
+  vertical-align: super;
+  color: var(--accent);
+  opacity: 0.55;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.expInnerLinked:hover .expArrow {
+  opacity: 1;
+  transform: translate(3px, -3px);
+}
+
+.expRoles {
+  display: grid;
+  gap: clamp(18px, 2.4vh, 28px);
+  align-content: start;
+  max-width: 660px;
+}
+
+.expRole {
+  display: grid;
+  gap: 8px;
+}
+
+.expRoleHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.expRoleTitle {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.expRoleDate {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  color: var(--ink-faint);
   flex: none;
 }
 
-.experienceStackCount {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 60;
-  pointer-events: none;
+.expDescription {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 10px;
-  color: rgba(100, 136, 255, 0.8);
-  background: #0f0f11;
-  border: 1px solid rgba(100, 136, 255, 0.3);
-  border-radius: 20px;
-  padding: 2px 7px;
+  font-size: 12px;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  white-space: pre-wrap;
+  max-width: 62ch;
 }
 
-/* Activity */
-.activitySection {
+@media (max-width: 900px) {
+  .expInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .expIndex {
+    font-size: 20px;
+  }
+}
+
+/* ---------------------------------------------------------------- who i am */
+
+.who {
   position: relative;
   z-index: 1;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 40px 64px 48px;
+  border-top: 1px solid var(--hairline);
+  padding: clamp(72px, 16vh, 180px) var(--gutter);
+  scroll-margin-top: 0;
 }
+
+.whoGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(32px, 6vw, 88px);
+  align-items: start;
+  margin-top: clamp(24px, 5vh, 56px);
+}
+
+.whoBio {
+  display: grid;
+  gap: 18px;
+  max-width: 58ch;
+}
+
+.whoParagraph {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.85;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
+/* The line the whole site is built around. */
+.statement {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: var(--step-why);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .whoGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+/* --------------------------------------------------------------- activity */
 
 .activityHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 16px;
+  display: grid;
+  gap: clamp(18px, 4vh, 40px);
+  margin-bottom: clamp(32px, 6vh, 64px);
 }
 
-.activityCount {
+.activityTotal {
+  display: grid;
+  gap: 10px;
+}
+
+.activityNumber {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: var(--step-display);
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  color: #fff;
+}
+
+.activityUnit {
   font-family: var(--font-jetbrains), monospace;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
 }
 
 .activityError {
   font-family: var(--font-jetbrains), monospace;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--ink-faint);
+}
+
+/* Graph on the left, the numbers that explain it on the right. */
+.activityBody {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(220px, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+.activityStats {
+  display: grid;
+  gap: clamp(18px, 2.6vh, 26px);
+  padding-left: clamp(18px, 2.4vw, 34px);
+  border-left: 1px solid var(--hairline);
+}
+
+.activityStat {
+  display: grid;
+  gap: 6px;
+}
+
+.activityStatLabel {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.activityStatValue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(15px, 1.4vw, 20px);
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.activityStatDetail {
+  font-size: 11px;
+  color: var(--ink-dim);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 1100px) {
+  .activityBody {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .activityStats {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    padding-left: 0;
+    padding-top: 20px;
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
+  }
 }
 
 /* Contribution graph */
@@ -455,7 +772,7 @@
   margin-left: 32px;
   margin-bottom: 6px;
   font-family: var(--font-jetbrains), monospace;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--ink-faint);
   font-size: 10px;
 }
 
@@ -513,8 +830,8 @@
   padding: 4px 6px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 3px;
-  background: #0a0a0c;
-  color: rgba(255, 255, 255, 0.5);
+  background: var(--background);
+  color: var(--ink);
   content: attr(data-tooltip);
   font-family: var(--font-jetbrains), monospace;
   font-size: 10px;
@@ -535,7 +852,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
-  margin-top: 10px;
+  margin-top: 14px;
   font-family: var(--font-jetbrains), monospace;
   color: rgba(255, 255, 255, 0.15);
   font-size: 9px;
@@ -570,7 +887,8 @@
   background: rgba(120, 160, 255, 0.85);
 }
 
-/* Admin modal */
+/* ------------------------------------------------------------ admin modal */
+
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -602,8 +920,8 @@
   width: 100%;
   border: 1px solid rgba(100, 136, 255, 0.3);
   border-radius: 4px;
-  background: #0a0a0c;
-  color: rgba(255, 255, 255, 0.7);
+  background: var(--surface);
+  color: var(--ink);
   padding: 0.75rem 0.9rem;
   font-family: var(--font-jetbrains), monospace;
   font-size: 13px;
@@ -616,13 +934,13 @@
 }
 
 .passwordInput:focus {
-  border-color: #6488ff;
+  border-color: var(--accent);
 }
 
 .errorMessage {
   font-family: var(--font-jetbrains), monospace;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--ink);
   text-align: center;
 }
 
@@ -638,81 +956,271 @@
   border: 0;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .topBar {
-    padding: 20px 24px 16px;
+/* ------------------------------------------- icon links (header leftovers) */
+
+.socialIcons {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.socialLink {
+  display: flex;
+  color: rgba(255, 255, 255, 0.25);
+  transition: color 0.2s;
+}
+
+.socialLink svg {
+  width: 20px;
+  height: 20px;
+}
+
+.socialLink:hover {
+  color: var(--accent);
+}
+
+.socialButton {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.emailWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.copiedBadge {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  color: var(--accent);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------ card stack */
+/* Kept for the ExperienceStack component, which the editorial homepage no
+   longer mounts: every role now shows in full inside its company row. */
+
+.experienceCard {
+  width: 320px;
+  flex: none;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  transition: border-color 0.2s;
+  background: var(--surface);
+}
+
+.experienceCardLinked {
+  display: block;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.experienceCompany {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+}
+
+.experienceDate {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  margin-bottom: 4px;
+}
+
+.experienceRole {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 6px;
+}
+
+.experienceDescription {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  line-height: 1.6;
+}
+
+.experienceStack {
+  position: relative;
+  width: 320px;
+  flex: none;
+}
+
+.experienceStackSizer {
+  display: grid;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.experienceStackSizer > * {
+  grid-area: 1 / 1;
+}
+
+.experienceStackSizerCard {
+  padding: 24px;
+  border: 1px solid transparent;
+}
+
+.experienceStackCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.experienceStackCardReady {
+  transition-property: transform, height, width, background-color, box-shadow;
+  transition-duration: 0.4s;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+.experienceStackCardLifted {
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.6);
+}
+
+.experienceStackCardFront {
+  cursor: default;
+}
+
+.experienceStackCardLinked:hover {
+  border-color: rgba(100, 136, 255, 0.35);
+}
+
+.experienceStackCardTab {
+  cursor: pointer;
+  background: var(--background);
+}
+
+.experienceStackCardTab:hover {
+  border-color: rgba(100, 136, 255, 0.25);
+}
+
+.experienceStackFace {
+  padding: 24px;
+  transition: opacity 0.26s ease;
+}
+
+.experienceStackFaceLink {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.experienceStackTabFace {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 16px;
+  background: var(--background);
+  transition: opacity 0.26s ease;
+}
+
+.experienceStackPeekRole {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.experienceStackPeekDate {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.28);
+  white-space: nowrap;
+  flex: none;
+}
+
+.experienceStackCount {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 60;
+  pointer-events: none;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  color: rgba(100, 136, 255, 0.8);
+  background: var(--surface);
+  border: 1px solid rgba(100, 136, 255, 0.3);
+  border-radius: 20px;
+  padding: 2px 7px;
+}
+
+/* --------------------------------------------------------------- responsive */
+
+/* The header is the one row that cannot wrap, so it tightens first. */
+@media (max-width: 520px) {
+  .topNav {
+    gap: 12px;
   }
 
-  .navRow {
-    padding: 24px 24px 0;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .hero {
-    padding: 48px 24px 0;
-  }
-
-  .heroName {
-    font-size: 32px;
-    letter-spacing: -1px;
-    white-space: normal;
-  }
-
-  .heroBio {
-    margin-top: 24px;
-    font-size: 13px;
-  }
-
-  .experienceHeader {
-    padding: 0 24px;
-  }
-
-  .experienceScroller {
-    padding: 0 24px 16px;
-  }
-
-  .activitySection {
-    padding: 32px 24px 40px;
+  .navLink,
+  .siteName {
+    font-size: 11px;
   }
 }
 
-@media (max-width: 480px) {
-  .topBar {
-    padding: 16px 16px 14px;
+@media (max-width: 380px) {
+  .siteName {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .heroTop {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
   }
 
-  .navRow {
-    padding: 20px 16px 0;
-    gap: 16px;
+  .heroFoot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
   }
 
-  .hero {
-    padding: 36px 16px 0;
+  .sectionHead {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .heroName {
-    font-size: 26px;
+  .sectionYears {
+    padding-bottom: 0;
   }
 
-  .experienceHeader {
-    padding: 0 16px;
-  }
+}
 
-  .experienceScroller {
-    padding: 0 16px 16px;
-  }
-
-  .experienceCard {
-    width: 260px;
-  }
-
-  .experienceStack {
-    width: 260px;
-  }
-
-  .activitySection {
-    padding: 28px 16px 36px;
+/* Where the rail exists, the content moves out of its lane instead of
+   letting oversized type run underneath it. */
+@media (min-width: 1181px) {
+  .hero,
+  .section,
+  .who {
+    padding-right: calc(var(--gutter) + 56px);
   }
 }
