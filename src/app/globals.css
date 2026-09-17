@@ -26,6 +26,14 @@
 html {
   height: 100%;
   color-scheme: dark;
+  /* Section links slide instead of teleporting. */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* clip, not hidden: overflow-x: hidden turns the body into a scroll container,

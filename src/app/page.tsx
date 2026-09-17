@@ -119,19 +119,19 @@ function ExperienceRow({
 
   const body = (
     <>
-      <div className={styles.expMeta}>
-        <span className={styles.expIndex}>{index + 1}</span>
+      <span className={styles.expIndex}>{index + 1}</span>
+
+      <div className={styles.expHead}>
+        <h3 className={styles.expCompany}>
+          {group.company}
+          {link ? (
+            <span className={styles.expArrow} aria-hidden="true">
+              ↗
+            </span>
+          ) : null}
+        </h3>
         <span className={styles.expSpan}>{companySpan(group.items)}</span>
       </div>
-
-      <h3 className={styles.expCompany}>
-        {group.company}
-        {link ? (
-          <span className={styles.expArrow} aria-hidden="true">
-            ↗
-          </span>
-        ) : null}
-      </h3>
 
       <div className={styles.expRoles}>
         {group.items.map((item) => (

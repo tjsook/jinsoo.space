@@ -105,15 +105,68 @@
   will-change: transform;
 }
 
-/* Fixed index of the page, living in the left gutter. */
-.rail {
+/* The index has two states. Both are always mounted and cross-fade, because
+   nothing can animate between a left and a right offset. */
+.rail,
+.railHero {
   position: fixed;
-  left: 20px;
   top: 50%;
   z-index: 25;
-  transform: translateY(-50%);
   display: grid;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 0.8, 0.25, 1);
+}
+
+.railStateShown {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Hero state: words, right side, large. */
+.railHero {
+  right: var(--gutter);
+  gap: clamp(10px, 1.4vh, 18px);
+  justify-items: end;
+  text-align: right;
+  transform: translate(14px, -50%);
+}
+
+.railHero.railStateShown {
+  transform: translate(0, -50%);
+}
+
+.railHeroItem {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(15px, 1.5vw, 21px);
+  letter-spacing: -0.01em;
+  color: var(--ink-dim);
+  transition: color 0.25s ease;
+}
+
+.railHeroItem:hover {
+  color: var(--accent);
+}
+
+.railHeroIndex {
+  font-size: 0.6em;
+  color: var(--accent-soft);
+}
+
+/* Scrolled state: ticks, left gutter, small. */
+.rail {
+  left: 20px;
   gap: 14px;
+  transform: translate(-10px, -50%);
+}
+
+.rail.railStateShown {
+  transform: translate(0, -50%);
 }
 
 .railItem {
@@ -121,7 +174,7 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-jetbrains), monospace;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-faint);
@@ -166,8 +219,16 @@
 }
 
 @media (max-width: 1180px) {
-  .rail {
+  .rail,
+  .railHero {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail,
+  .railHero {
+    transition: opacity 0.2s ease;
   }
 }
 
@@ -411,7 +472,7 @@
 
 .expInner {
   display: grid;
-  grid-template-columns: 96px minmax(0, 0.9fr) minmax(0, 1.35fr);
+  grid-template-columns: clamp(52px, 5vw, 90px) minmax(0, 0.95fr) minmax(0, 1.3fr);
   gap: clamp(16px, 3vw, 48px);
   padding: clamp(28px, 4.5vh, 52px) 0;
   transition: background-color 0.35s ease;
@@ -426,24 +487,28 @@
   background-color: rgba(100, 136, 255, 0.04);
 }
 
-.expMeta {
+.expIndex {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(20px, 2.2vw, 32px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent-soft);
+  letter-spacing: -0.02em;
+}
+
+.expHead {
   display: grid;
-  gap: 8px;
+  gap: clamp(10px, 1.4vh, 18px);
   align-content: start;
 }
 
-.expIndex {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: 11px;
-  color: var(--accent-soft);
-  letter-spacing: 0.1em;
-}
-
+/* The company's whole span, sitting under its name. */
 .expSpan {
   font-family: var(--font-jetbrains), monospace;
-  font-size: 11px;
-  color: var(--ink-faint);
+  font-size: clamp(12px, 1.15vw, 16px);
+  color: var(--ink-dim);
   line-height: 1.5;
+  letter-spacing: 0.01em;
 }
 
 .expCompany {
@@ -529,11 +594,8 @@
     gap: 18px;
   }
 
-  .expMeta {
-    grid-auto-flow: column;
-    justify-content: start;
-    gap: 14px;
-    align-items: baseline;
+  .expIndex {
+    font-size: 20px;
   }
 }
 

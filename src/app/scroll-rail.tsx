@@ -10,12 +10,14 @@ const SECTIONS = [
 ];
 
 /**
- * A hairline of read progress across the top of the window, plus a fixed index
- * of the page's sections down the left edge. The index hides itself on narrow
- * screens, where the gutter it lives in does not exist.
+ * The page index, in two states that cross-fade into each other: a large
+ * word list on the right while the hero fills the window, and a compact tick
+ * rail on the left once the reader is into the page. Above them both, a
+ * hairline of read progress.
  */
 export default function ScrollRail() {
   const [progress, setProgress] = useState(0);
+  const [isHero, setIsHero] = useState(true);
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export default function ScrollRail() {
       const scrollable =
         document.documentElement.scrollHeight - window.innerHeight;
       setProgress(scrollable > 0 ? window.scrollY / scrollable : 0);
+      setIsHero(window.scrollY < window.innerHeight * 0.5);
       frame = 0;
     }
 
@@ -76,11 +79,39 @@ export default function ScrollRail() {
         />
       </div>
 
-      <nav className={styles.rail} aria-label="Sections">
+      {/* Hero state: the sections spelled out, large, on the right. */}
+      <nav
+        className={[styles.railHero, isHero ? styles.railStateShown : ""]
+          .filter(Boolean)
+          .join(" ")}
+        aria-label="Sections"
+        aria-hidden={!isHero}
+      >
         {SECTIONS.map((section, index) => (
           <a
             key={section.id}
             href={`#${section.id}`}
+            className={styles.railHeroItem}
+            tabIndex={isHero ? undefined : -1}
+          >
+            <span className={styles.railHeroIndex}>{index + 1}</span>
+            <span>{section.label}</span>
+          </a>
+        ))}
+      </nav>
+
+      {/* Scrolled state: the compact tick rail on the left. */}
+      <nav
+        className={[styles.rail, isHero ? "" : styles.railStateShown]
+          .filter(Boolean)
+          .join(" ")}
+        aria-hidden="true"
+      >
+        {SECTIONS.map((section, index) => (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            tabIndex={-1}
             className={[
               styles.railItem,
               activeId === section.id ? styles.railItemActive : "",
