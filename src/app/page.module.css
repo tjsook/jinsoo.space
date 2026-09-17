@@ -694,6 +694,65 @@
   color: var(--ink-faint);
 }
 
+/* Graph on the left, the numbers that explain it on the right. */
+.activityBody {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(220px, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+.activityStats {
+  display: grid;
+  gap: clamp(18px, 2.6vh, 26px);
+  padding-left: clamp(18px, 2.4vw, 34px);
+  border-left: 1px solid var(--hairline);
+}
+
+.activityStat {
+  display: grid;
+  gap: 6px;
+}
+
+.activityStatLabel {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.activityStatValue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(15px, 1.4vw, 20px);
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.activityStatDetail {
+  font-size: 11px;
+  color: var(--ink-dim);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 1100px) {
+  .activityBody {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .activityStats {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    padding-left: 0;
+    padding-top: 20px;
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
+  }
+}
+
 /* Contribution graph */
 .activityScroller {
   overflow-x: auto;

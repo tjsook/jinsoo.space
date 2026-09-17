@@ -1,9 +1,14 @@
 import {
+  describePushTarget,
+  formatRelativeTime,
   getGitHubContributionCalendar,
+  getGitHubLatestPush,
   getGitHubUsername,
   hasGitHubActivityConfig,
+  summarizeContributions,
   type GitHubContributionCalendar,
   type GitHubContributionWeek,
+  type GitHubLatestPush,
 } from "@/lib/github-activity";
 import styles from "./page.module.css";
 
@@ -155,10 +160,15 @@ export default async function GitHubActivity() {
   }
 
   let calendar: GitHubContributionCalendar | null = null;
+  let latestPush: GitHubLatestPush | null = null;
   let errorMessage = "";
 
   try {
-    calendar = await getGitHubContributionCalendar(year);
+    [calendar, latestPush] = await Promise.all([
+      getGitHubContributionCalendar(year),
+      // Recency is a nice-to-have; the graph must not fail because of it.
+      getGitHubLatestPush().catch(() => null),
+    ]);
   } catch (error) {
     errorMessage =
       error instanceof Error
@@ -187,7 +197,61 @@ export default async function GitHubActivity() {
           </span>
         </div>
       </div>
-      <ContributionGrid weeks={calendar.weeks} />
+      <div className={styles.activityBody}>
+        <ContributionGrid weeks={calendar.weeks} />
+        <ActivityStats weeks={calendar.weeks} latestPush={latestPush} />
+      </div>
     </div>
+  );
+}
+
+function ActivityStats({
+  weeks,
+  latestPush,
+}: {
+  weeks: GitHubContributionWeek[];
+  latestPush: GitHubLatestPush | null;
+}) {
+  const summary = summarizeContributions(weeks);
+
+  const stats = [
+    latestPush
+      ? {
+          label: "last push",
+          value: describePushTarget(latestPush),
+          detail: formatRelativeTime(latestPush.pushedAt),
+        }
+      : null,
+    {
+      label: "busiest weekday",
+      value: `${summary.busiestWeekday}s`,
+      detail: `${summary.busiestWeekdayTotal.toLocaleString()} contributions`,
+    },
+    {
+      label: "current streak",
+      value: `${summary.currentStreak} ${summary.currentStreak === 1 ? "day" : "days"}`,
+      detail: null,
+    },
+    {
+      label: "active days",
+      value: `${summary.activeDays} / ${summary.elapsedDays}`,
+      detail: `${Math.round((summary.activeDays / Math.max(summary.elapsedDays, 1)) * 100)}% of the year so far`,
+    },
+  ].filter((stat) => stat !== null);
+
+  return (
+    <dl className={styles.activityStats}>
+      {stats.map((stat) => (
+        <div key={stat.label} className={styles.activityStat}>
+          <dt className={styles.activityStatLabel}>{stat.label}</dt>
+          <dd className={styles.activityStatValue}>
+            {stat.value}
+            {stat.detail ? (
+              <span className={styles.activityStatDetail}>{stat.detail}</span>
+            ) : null}
+          </dd>
+        </div>
+      ))}
+    </dl>
   );
 }
