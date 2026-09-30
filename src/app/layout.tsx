@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 import HomeLink from "./home-link";
 import VercelAnalytics from "./vercel-analytics";
 import styles from "./layout.module.css";
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -35,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} ${styles.body}`}
+        className={`${inter.variable} ${styles.body}`}
       >
         <HomeLink />
         {children}

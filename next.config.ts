@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/booking",
+        destination: "https://calendar.app.google/irByoyvrKeWsukSC6",
+        permanent: false,
+      },
+      {
         source: "/let's-talk",
         destination: "/lets-talk",
         permanent: true,

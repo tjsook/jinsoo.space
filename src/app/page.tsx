@@ -76,17 +76,30 @@ function groupExperiencesByCompany(
   return groups;
 }
 
-/** Newest role's end, oldest role's start: one span for the whole company. */
-function companySpan(items: ExperienceRecord[]) {
-  const newest = splitRange(items[0].date_range);
-  const oldest = splitRange(items[items.length - 1].date_range);
-  const start = oldest.start;
-  const end = newest.end || newest.start;
+/** "2025 — now", "2026": the year column at the end of each row. */
+function companyYears(items: ExperienceRecord[]) {
+  const years = items
+    .flatMap((item) => item.date_range.match(/\d{4}/g) ?? [])
+    .map((year) => parseInt(year, 10));
+  const ongoing = items.some((item) =>
+    /current|present|ongoing/i.test(item.date_range),
+  );
 
-  if (!start) return end;
-  if (!end || end === start) return start;
+  if (years.length === 0) return ongoing ? "now" : "";
 
-  return `${start} — ${end}`;
+  const first = Math.min(...years);
+  const last = ongoing ? "now" : String(Math.max(...years));
+
+  return last === String(first) ? last : `${first} — ${last}`;
+}
+
+/** "https://www.hangars.dev/x" -> "hangars.dev", the visible link label. */
+function linkLabel(link: string) {
+  try {
+    return new URL(link).hostname.replace(/^www\./, "");
+  } catch {
+    return "visit";
+  }
 }
 
 /** "jun 2024" and "current" -> the two-digit years the section header shows. */
@@ -119,31 +132,29 @@ function ExperienceRow({
 
   const body = (
     <>
-      <span className={styles.expIndex}>{index + 1}</span>
-
       <div className={styles.expHead}>
-        <h3 className={styles.expCompany}>
-          {group.company}
-          {link ? (
-            <span className={styles.expArrow} aria-hidden="true">
-              ↗
-            </span>
-          ) : null}
-        </h3>
-        <span className={styles.expSpan}>{companySpan(group.items)}</span>
+        <h3 className={styles.expCompany}>{group.company}</h3>
+        {link ? (
+          <span className={styles.expLink}>
+            {linkLabel(link)}
+            <span aria-hidden="true"> +</span>
+          </span>
+        ) : null}
       </div>
 
       <div className={styles.expRoles}>
         {group.items.map((item) => (
           <div key={item.id} className={styles.expRole}>
-            <div className={styles.expRoleHead}>
-              <span className={styles.expRoleTitle}>{item.role}</span>
-              <span className={styles.expRoleDate}>{item.date_range}</span>
-            </div>
-            <p className={styles.expDescription}>{item.description}</p>
+            <span className={styles.expRoleTitle}>{item.role}</span>
+            <span className={styles.expRoleDate}>{item.date_range}</span>
+            {item.description ? (
+              <p className={styles.expDescription}>{item.description}</p>
+            ) : null}
           </div>
         ))}
       </div>
+
+      <span className={styles.expYears}>{companyYears(group.items)}</span>
     </>
   );
 
@@ -199,7 +210,6 @@ export default async function Home() {
           </h1>
 
           <div className={styles.heroAside}>
-            <span className={styles.label}>(currently)</span>
             <p className={styles.heroBio}>
               sophomore (junior standing) · CS @ Cal Poly SLO
             </p>
@@ -219,14 +229,15 @@ export default async function Home() {
       {experienceGroups.length > 0 ? (
         <section id="experience" className={styles.section}>
           <Reveal>
-            <div className={styles.sectionHead}>
-              <span className={styles.label}>(1) experience</span>
-              <h2 className={styles.sectionTitleBig}>
-                where
-                <br />
-                i&apos;ve built
+            <div className={styles.expHeader}>
+              <span className={styles.label}>* experience</span>
+              <h2 className={styles.expTitle}>
+                <span className={styles.expTitleLead}>where</span>
+                <span className={styles.expTitleTail}>i&apos;ve built</span>
               </h2>
-              <span className={styles.sectionYears}>{years}</span>
+              <div className={styles.expHeaderFoot}>
+                <span className={styles.expTitleYears}>{years}</span>
+              </div>
             </div>
           </Reveal>
 
@@ -241,7 +252,7 @@ export default async function Home() {
       {/* Who i am */}
       <section id="who" className={styles.who}>
         <Reveal>
-          <span className={styles.label}>(2) who i am</span>
+          <span className={styles.label}>* who i am</span>
           <div className={styles.whoGrid}>
             <div className={styles.whoBio}>
               {aboutParagraphs.map((paragraph, index) => (

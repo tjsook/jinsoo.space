@@ -87,14 +87,14 @@ export default function ScrollRail() {
         aria-label="Sections"
         aria-hidden={!isHero}
       >
-        {SECTIONS.map((section, index) => (
+        {SECTIONS.map((section) => (
           <a
             key={section.id}
             href={`#${section.id}`}
             className={styles.railHeroItem}
             tabIndex={isHero ? undefined : -1}
           >
-            <span className={styles.railHeroIndex}>{index + 1}</span>
+            <span className={styles.railHeroIndex}>*</span>
             <span>{section.label}</span>
           </a>
         ))}
@@ -107,7 +107,7 @@ export default function ScrollRail() {
           .join(" ")}
         aria-hidden="true"
       >
-        {SECTIONS.map((section, index) => (
+        {SECTIONS.map((section) => (
           <a
             key={section.id}
             href={`#${section.id}`}
@@ -119,7 +119,7 @@ export default function ScrollRail() {
               .filter(Boolean)
               .join(" ")}
           >
-            <span className={styles.railIndex}>{index + 1}</span>
+            <span className={styles.railIndex}>*</span>
             <span className={styles.railLabel}>{section.label}</span>
           </a>
         ))}

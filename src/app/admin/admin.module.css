@@ -5,9 +5,7 @@
   padding: 2rem;
   background: #fafafa;
   color: #000;
-  font-family:
-    "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua",
-    Georgia, serif;
+  font-family: var(--font-inter), sans-serif;
 }
 
 .content {

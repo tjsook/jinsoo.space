@@ -30,7 +30,7 @@ export default function ProjectEntry({ project }: ProjectEntryProps) {
           >
             source
             <span className={styles.projectSourceArrow} aria-hidden="true">
-              ↗
+              +
             </span>
           </a>
         ) : null}
