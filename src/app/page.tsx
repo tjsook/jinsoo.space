@@ -199,7 +199,6 @@ export default async function Home() {
           </h1>
 
           <div className={styles.heroAside}>
-            <span className={styles.label}>(currently)</span>
             <p className={styles.heroBio}>
               sophomore (junior standing) · CS @ Cal Poly SLO
             </p>
