@@ -431,40 +431,62 @@
   scroll-margin-top: 0;
 }
 
-.sectionHead {
+/* ------------------------------------------------------------ experience */
+
+/* Oversized, staggered title: lead line left, tail line pushed right. */
+.expHeader {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: clamp(16px, 3vw, 40px);
-  margin-bottom: clamp(48px, 9vh, 110px);
+  gap: clamp(12px, 2vh, 28px);
+  margin-bottom: clamp(40px, 8vh, 96px);
 }
 
-.sectionHead .label {
-  grid-column: 1 / -1;
-  margin-bottom: clamp(12px, 2vh, 28px);
-}
-
-.sectionTitleBig {
+.expTitle {
+  display: grid;
   font-family: var(--font-inter), sans-serif;
-  font-size: var(--step-display);
-  font-weight: 700;
-  line-height: 0.88;
-  letter-spacing: -0.05em;
+  font-size: clamp(56px, 13.5vw, 220px);
+  font-weight: 600;
+  line-height: 0.84;
+  letter-spacing: -0.065em;
   color: #fff;
 }
 
-.sectionYears {
-  font-family: var(--font-inter), sans-serif;
-  font-size: clamp(12px, 1.4vw, 18px);
-  color: var(--accent-soft);
-  letter-spacing: 0.04em;
-  padding-bottom: 0.3em;
+.expTitleLead {
+  justify-self: start;
 }
 
-/* ------------------------------------------------------------ experience */
+.expTitleTail {
+  justify-self: end;
+  padding-right: 0.04em;
+}
 
+.expHeaderFoot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.expTitleYears {
+  margin-left: 14%;
+  font-family: var(--font-inter), sans-serif;
+  font-size: clamp(40px, 8vw, 132px);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: var(--accent);
+}
+
+.expCount {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 13px;
+  color: var(--ink-strong);
+  padding-bottom: 0.4em;
+}
+
+/* Rows run edge to edge, like an index, while their content keeps the gutter. */
 .expList {
   list-style: none;
+  margin-inline: calc(var(--gutter) * -1);
   border-top: 1px solid var(--hairline);
 }
 
@@ -474,10 +496,13 @@
 
 .expInner {
   display: grid;
-  grid-template-columns: clamp(52px, 5vw, 90px) minmax(0, 0.95fr) minmax(0, 1.3fr);
+  grid-template-columns:
+    clamp(36px, 4vw, 64px) minmax(0, 1.25fr) minmax(0, 1fr)
+    clamp(96px, 9vw, 140px);
   gap: clamp(16px, 3vw, 48px);
-  padding: clamp(28px, 4.5vh, 52px) 0;
-  transition: background-color 0.35s ease;
+  align-items: start;
+  padding: clamp(28px, 5vh, 56px) var(--gutter);
+  transition: background-color 0.3s ease;
 }
 
 .expInnerLinked {
@@ -491,35 +516,26 @@
 
 .expIndex {
   font-family: var(--font-inter), sans-serif;
-  font-size: clamp(20px, 2.2vw, 32px);
-  font-weight: 500;
+  font-size: 13px;
   line-height: 1;
-  color: var(--accent-soft);
-  letter-spacing: -0.02em;
+  color: var(--ink-strong);
+  padding-top: 0.9em;
 }
 
 .expHead {
   display: grid;
-  gap: clamp(10px, 1.4vh, 18px);
+  gap: 14px;
   align-content: start;
-}
-
-/* The company's whole span, sitting under its name. */
-.expSpan {
-  font-family: var(--font-inter), sans-serif;
-  font-size: clamp(12px, 1.15vw, 16px);
-  color: var(--ink-dim);
-  line-height: 1.5;
-  letter-spacing: 0.01em;
+  justify-items: start;
 }
 
 .expCompany {
   font-family: var(--font-inter), sans-serif;
-  font-size: var(--step-company);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--ink-strong);
+  font-size: clamp(30px, 4.2vw, 60px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: #fff;
   text-wrap: balance;
   transition: color 0.3s ease;
 }
@@ -528,76 +544,98 @@
   color: var(--accent);
 }
 
-.expArrow {
-  display: inline-block;
-  margin-left: 0.25em;
-  font-size: 0.42em;
-  vertical-align: super;
-  color: var(--accent);
-  opacity: 0.55;
+.expLink {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 12px;
+  color: var(--ink-strong);
+  border-bottom: 1px solid var(--ink-dim);
+  padding-bottom: 2px;
   transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
+    color 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.expInnerLinked:hover .expArrow {
-  opacity: 1;
-  transform: translate(3px, -3px);
+.expInnerLinked:hover .expLink {
+  color: var(--accent);
+  border-color: var(--accent-soft);
 }
 
 .expRoles {
   display: grid;
-  gap: clamp(18px, 2.4vh, 28px);
+  gap: clamp(20px, 3vh, 32px);
   align-content: start;
-  max-width: 660px;
+  padding-top: 0.7em;
 }
 
 .expRole {
   display: grid;
-  gap: 8px;
-}
-
-.expRoleHead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--hairline);
+  gap: 4px;
 }
 
 .expRoleTitle {
   font-family: var(--font-inter), sans-serif;
-  font-size: 13px;
-  color: #fff;
-  letter-spacing: 0.01em;
+  font-size: 14px;
+  color: var(--ink-strong);
 }
 
 .expRoleDate {
   font-family: var(--font-inter), sans-serif;
-  font-size: 11px;
-  color: var(--ink-faint);
-  flex: none;
+  font-size: 12px;
+  color: var(--ink-dim);
 }
 
 .expDescription {
+  margin-top: 8px;
   font-family: var(--font-inter), sans-serif;
-  font-size: 12px;
-  line-height: 1.85;
+  font-size: 13px;
+  line-height: 1.7;
   color: var(--ink-mid);
   white-space: pre-wrap;
-  max-width: 62ch;
+  max-width: 52ch;
+}
+
+.expYears {
+  justify-self: end;
+  text-align: right;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 13px;
+  color: var(--ink-strong);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.9em;
 }
 
 @media (max-width: 900px) {
   .expInner {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 16px 20px;
   }
 
-  .expIndex {
-    font-size: 20px;
+  .expIndex,
+  .expYears {
+    padding-top: 0;
+  }
+
+  .expHead,
+  .expRoles {
+    grid-column: 1 / -1;
+  }
+
+  .expHead {
+    grid-row: 2;
+  }
+
+  .expRoles {
+    grid-row: 3;
+    padding-top: 0;
+  }
+
+  .expYears {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .expTitleYears {
+    margin-left: 0;
   }
 }
 
@@ -1195,15 +1233,6 @@
     align-items: flex-start;
     gap: 18px;
   }
-
-  .sectionHead {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .sectionYears {
-    padding-bottom: 0;
-  }
-
 }
 
 /* Where the rail exists, the content moves out of its lane instead of
@@ -1212,6 +1241,14 @@
   .hero,
   .section,
   .who {
+    padding-right: calc(var(--gutter) + 56px);
+  }
+
+  .expList {
+    margin-right: calc((var(--gutter) + 56px) * -1);
+  }
+
+  .expInner {
     padding-right: calc(var(--gutter) + 56px);
   }
 }
