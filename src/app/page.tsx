@@ -230,7 +230,7 @@ export default async function Home() {
         <section id="experience" className={styles.section}>
           <Reveal>
             <div className={styles.expHeader}>
-              <span className={styles.label}>(1) experience</span>
+              <span className={styles.label}>(*) experience</span>
               <h2 className={styles.expTitle}>
                 <span className={styles.expTitleLead}>where</span>
                 <span className={styles.expTitleTail}>i&apos;ve built</span>
@@ -252,7 +252,7 @@ export default async function Home() {
       {/* Who i am */}
       <section id="who" className={styles.who}>
         <Reveal>
-          <span className={styles.label}>(2) who i am</span>
+          <span className={styles.label}>(*) who i am</span>
           <div className={styles.whoGrid}>
             <div className={styles.whoBio}>
               {aboutParagraphs.map((paragraph, index) => (
