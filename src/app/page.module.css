@@ -46,7 +46,7 @@
 }
 
 .siteName {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   color: var(--ink-dim);
   letter-spacing: 0.04em;
@@ -59,7 +59,7 @@
 }
 
 .navLink {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   color: var(--ink);
   letter-spacing: 0.02em;
@@ -128,7 +128,7 @@
   display: flex;
   align-items: baseline;
   gap: 12px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: clamp(15px, 1.5vw, 21px);
   letter-spacing: -0.01em;
   color: var(--ink-dim);
@@ -161,7 +161,7 @@
   flex-direction: row-reverse;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -224,7 +224,7 @@
 
 .label {
   display: block;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -262,7 +262,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 4px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   color: var(--ink);
   border-bottom: 1px solid transparent;
@@ -326,7 +326,7 @@
 
 .heroName {
   flex: 0 0 auto;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: var(--step-hero);
   font-weight: 700;
   line-height: 0.86;
@@ -384,7 +384,7 @@
 }
 
 .heroBio {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: clamp(13px, 1.25vw, 18px);
   line-height: 1.7;
   color: var(--ink-strong);
@@ -399,7 +399,7 @@
 }
 
 .scrollCue {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 11px;
   color: var(--ink-faint);
   animation: breathe 3.2s ease-in-out infinite;
@@ -445,7 +445,7 @@
 }
 
 .sectionTitleBig {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: var(--step-display);
   font-weight: 700;
   line-height: 0.88;
@@ -454,7 +454,7 @@
 }
 
 .sectionYears {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: clamp(12px, 1.4vw, 18px);
   color: var(--accent-soft);
   letter-spacing: 0.04em;
@@ -490,7 +490,7 @@
 }
 
 .expIndex {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: clamp(20px, 2.2vw, 32px);
   font-weight: 500;
   line-height: 1;
@@ -506,7 +506,7 @@
 
 /* The company's whole span, sitting under its name. */
 .expSpan {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: clamp(12px, 1.15vw, 16px);
   color: var(--ink-dim);
   line-height: 1.5;
@@ -514,7 +514,7 @@
 }
 
 .expCompany {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: var(--step-company);
   font-weight: 600;
   line-height: 1;
@@ -568,21 +568,21 @@
 }
 
 .expRoleTitle {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 13px;
   color: #fff;
   letter-spacing: 0.01em;
 }
 
 .expRoleDate {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 11px;
   color: var(--ink-faint);
   flex: none;
 }
 
 .expDescription {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   line-height: 1.85;
   color: var(--ink-mid);
@@ -626,7 +626,7 @@
 }
 
 .whoParagraph {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: clamp(13px, 1.05vw, 15px);
   line-height: 1.85;
   color: var(--ink);
@@ -635,7 +635,7 @@
 
 /* The line the whole site is built around. */
 .statement {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: var(--step-why);
   font-weight: 500;
   line-height: 1.04;
@@ -664,7 +664,7 @@
 }
 
 .activityNumber {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: var(--step-display);
   font-weight: 700;
   line-height: 0.86;
@@ -673,14 +673,14 @@
 }
 
 .activityUnit {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   color: var(--ink-faint);
   letter-spacing: 0.04em;
 }
 
 .activityError {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   color: var(--ink-faint);
 }
@@ -706,7 +706,7 @@
 }
 
 .activityStatLabel {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -718,7 +718,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 4px 12px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: clamp(15px, 1.4vw, 20px);
   color: #fff;
   letter-spacing: -0.01em;
@@ -762,7 +762,7 @@
   width: max-content;
   margin-left: 32px;
   margin-bottom: 6px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   color: var(--ink-faint);
   font-size: 10px;
 }
@@ -778,7 +778,7 @@
   display: grid;
   grid-template-rows: repeat(7, 11px);
   gap: 3px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   color: rgba(255, 255, 255, 0.15);
   font-size: 9px;
   line-height: 11px;
@@ -824,7 +824,7 @@
   background: var(--background);
   color: var(--ink);
   content: attr(data-tooltip);
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 10px;
   line-height: 1.2;
   opacity: 0;
@@ -844,7 +844,7 @@
   justify-content: flex-end;
   gap: 4px;
   margin-top: 14px;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   color: rgba(255, 255, 255, 0.15);
   font-size: 9px;
   line-height: 1;
@@ -914,7 +914,7 @@
   background: var(--surface);
   color: var(--ink);
   padding: 0.75rem 0.9rem;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 13px;
   text-align: center;
   outline: none;
@@ -929,7 +929,7 @@
 }
 
 .errorMessage {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   color: var(--ink);
   text-align: center;
@@ -989,7 +989,7 @@
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 10px;
   color: var(--accent);
   white-space: nowrap;
@@ -1018,7 +1018,7 @@
 }
 
 .experienceCompany {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: 17px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.8);
@@ -1026,21 +1026,21 @@
 }
 
 .experienceDate {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.25);
   margin-bottom: 4px;
 }
 
 .experienceRole {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.4);
   margin-bottom: 6px;
 }
 
 .experienceDescription {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.25);
   line-height: 1.6;
@@ -1132,7 +1132,7 @@
 }
 
 .experienceStackPeekRole {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 12px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.5);
@@ -1142,7 +1142,7 @@
 }
 
 .experienceStackPeekDate {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 10px;
   color: rgba(255, 255, 255, 0.28);
   white-space: nowrap;
@@ -1155,7 +1155,7 @@
   right: 8px;
   z-index: 60;
   pointer-events: none;
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-inter), sans-serif;
   font-size: 10px;
   color: rgba(100, 136, 255, 0.8);
   background: var(--surface);

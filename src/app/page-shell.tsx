@@ -6,7 +6,7 @@ import styles from "./section.module.css";
 type PageShellProps = {
   /** Oversized page title, set in the same display face as the homepage. */
   title?: string;
-  /** Small monospace tag above the title. */
+  /** Small tag above the title. */
   eyebrow?: string;
   /** Way back to the list a page came from. */
   back?: { href: string; label: string };
