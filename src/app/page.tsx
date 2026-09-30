@@ -102,10 +102,6 @@ function linkLabel(link: string) {
   }
 }
 
-function pad(value: number) {
-  return String(value).padStart(2, "0");
-}
-
 /** "jun 2024" and "current" -> the two-digit years the section header shows. */
 function coveredYears(experiences: ExperienceRecord[]) {
   const years = experiences
@@ -136,14 +132,12 @@ function ExperienceRow({
 
   const body = (
     <>
-      <span className={styles.expIndex}>{pad(index + 1)}</span>
-
       <div className={styles.expHead}>
         <h3 className={styles.expCompany}>{group.company}</h3>
         {link ? (
           <span className={styles.expLink}>
             {linkLabel(link)}
-            <span aria-hidden="true"> ↗</span>
+            <span aria-hidden="true"> +</span>
           </span>
         ) : null}
       </div>
@@ -243,9 +237,6 @@ export default async function Home() {
               </h2>
               <div className={styles.expHeaderFoot}>
                 <span className={styles.expTitleYears}>{years}</span>
-                <span className={styles.expCount}>
-                  (01–{pad(experienceGroups.length)})
-                </span>
               </div>
             </div>
           </Reveal>

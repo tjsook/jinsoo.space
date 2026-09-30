@@ -23,7 +23,7 @@ export default function SocialRow({ className = "" }: { className?: string }) {
         >
           {link.label}
           <span className={styles.outArrow} aria-hidden="true">
-            ↗
+            +
           </span>
         </a>
       ))}

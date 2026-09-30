@@ -171,7 +171,7 @@
 .writingMeta {
   font-family: var(--font-inter), sans-serif;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--ink-faint);
 }
 
 /* Projects: a spec sheet per build, nothing folded away. */
@@ -226,12 +226,7 @@
 }
 
 .projectSourceArrow {
-  font-size: 10px;
-  transition: transform 0.2s ease;
-}
-
-.projectSource:hover .projectSourceArrow {
-  transform: translate(2px, -2px);
+  font-size: 11px;
 }
 
 .projectBody {
