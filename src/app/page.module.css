@@ -284,11 +284,6 @@
   font-size: 12px;
 }
 
-.outLinkIcon {
-  align-items: center;
-  align-self: center;
-}
-
 .outLink:hover {
   color: var(--accent);
   border-bottom-color: rgba(100, 136, 255, 0.4);

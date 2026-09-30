@@ -32,24 +32,12 @@ export default function SocialRow({ className = "" }: { className?: string }) {
         href={BOOKING_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${styles.outLink} ${styles.outLinkIcon}`}
-        aria-label="Book a call"
-        title="Book a call"
+        className={styles.outLink}
       >
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <rect x="2" y="6" width="14" height="12" rx="2" />
-          <path d="M16 10.5l6-3.5v10l-6-3.5" />
-        </svg>
+        let&apos;s meet
+        <span className={styles.outArrow} aria-hidden="true">
+          +
+        </span>
       </a>
     </div>
   );
