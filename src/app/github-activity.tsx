@@ -187,7 +187,7 @@ export default async function GitHubActivity() {
   return (
     <div aria-label="github activity">
       <div className={styles.activityHeader}>
-        <span className={styles.label}>(*) activity</span>
+        <span className={styles.label}>* activity</span>
         <div className={styles.activityTotal}>
           <span className={styles.activityNumber}>
             {calendar.totalContributions.toLocaleString()}
