@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getPublishedPostBySlug } from "@/lib/posts";
+import { stripRichText } from "@/lib/rich-text";
 
 export const runtime = "nodejs";
 export const size = {
@@ -9,7 +10,7 @@ export const size = {
 export const contentType = "image/png";
 
 function getExcerpt(content: string) {
-  const normalized = content.replace(/\s+/g, " ").trim();
+  const normalized = stripRichText(content).replace(/\s+/g, " ").trim();
 
   if (normalized.length <= 180) {
     return normalized;
