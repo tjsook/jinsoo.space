@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { formatDisplayDate } from "@/lib/format-date";
 import { getPublishedPostBySlug } from "@/lib/posts";
+import { stripRichText } from "@/lib/rich-text";
 import GeometricArt from "../../geometric-art";
 import PageShell from "../../page-shell";
+import RichText from "../../rich-text";
 import styles from "../../section.module.css";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +13,7 @@ export const dynamic = "force-dynamic";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jinsoo.space";
 
 function getExcerpt(content: string) {
-  const normalized = content.replace(/\s+/g, " ").trim();
+  const normalized = stripRichText(content).replace(/\s+/g, " ").trim();
 
   if (normalized.length <= 180) {
     return normalized;
@@ -95,7 +97,7 @@ export default async function WritingDetailPage({
       <p
         className={`${styles.body} ${styles.compactBody} ${styles.preserveBreaks}`}
       >
-        {post.content}
+        <RichText content={post.content} />
       </p>
     </PageShell>
   );

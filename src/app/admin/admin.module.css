@@ -1,115 +1,207 @@
+/* The console borrows the site's editorial shell: dark ground, oversized
+   titles, hairline rules, grey ink, blue only on interaction. */
+
 .page {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  background: #fafafa;
-  color: #000;
+  padding: clamp(56px, 12vh, 120px) var(--gutter) clamp(64px, 12vh, 140px);
+  background: var(--background);
+  color: var(--ink-strong);
   font-family: var(--font-inter), sans-serif;
 }
 
 .content {
   display: grid;
-  gap: 1rem;
-  width: min(100%, 32rem);
-  text-align: center;
+  gap: clamp(24px, 4vh, 40px);
+  width: min(100%, 44rem);
 }
 
 .title {
-  font-size: 1.25rem;
+  font-size: var(--step-display);
   font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: #fff;
+  padding-bottom: clamp(8px, 2vh, 20px);
 }
 
 .body {
-  font-size: 1rem;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-strong);
 }
+
+/* ------------------------------------------------------------------ forms */
 
 .form {
   display: grid;
-  gap: 0.5rem;
+  gap: 12px;
 }
 
 .input,
-.textarea,
-.submitButton {
+.textarea {
   width: 100%;
-  border: 1px solid rgb(255 255 255 / 0.18);
-  background: transparent;
-  color: inherit;
-  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--hairline);
+  border-radius: 0;
+  background: var(--surface);
+  color: #fff;
+  padding: 12px 14px;
   font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--ink-dim);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--accent-soft);
+}
+
+select.input {
+  cursor: pointer;
 }
 
 .textarea {
   resize: vertical;
   min-height: 10rem;
+  line-height: 1.7;
+}
+
+/* The post body editor: a textarea that shows bold and italics. */
+.richEditor {
+  display: grid;
+  gap: 8px;
+}
+
+.richToolbar {
+  display: flex;
+  gap: 6px;
+}
+
+.richToolButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.richToolButtonActive {
+  color: var(--accent);
+  border-color: var(--accent-soft);
+}
+
+.textarea.richInput {
+  min-height: 16rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+
+.richInput:empty::before {
+  content: attr(data-placeholder);
+  color: var(--ink-dim);
+  pointer-events: none;
+}
+
+.richInput b,
+.richInput strong {
+  font-weight: 700;
 }
 
 .submitButton {
+  justify-self: start;
+  margin-top: 8px;
+  border: 1px solid var(--ink-dim);
+  background: transparent;
+  color: #fff;
+  padding: 11px 22px;
+  font: inherit;
+  font-size: 13px;
   cursor: pointer;
-  transition: opacity 0.18s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .submitButton:disabled {
   cursor: default;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .formError {
   width: fit-content;
   max-width: 100%;
-  margin: -0.1rem auto 0;
-  padding: 0.3rem 0.5rem;
+  padding: 6px 10px;
   border: 1px solid rgb(185 28 28 / 0.7);
   background: rgb(127 29 29 / 0.2);
   color: #fca5a5;
-  font-size: 0.78rem;
-  line-height: 1.35;
+  font-size: 12px;
+  line-height: 1.4;
 }
+
+/* ------------------------------------------------------- dashboard links */
 
 .actions {
   display: grid;
-  gap: 0.35rem;
-  margin-top: 0.5rem;
+  border-top: 1px solid var(--hairline);
 }
 
-.action {
-  font-size: 1rem;
-  opacity: 0.7;
-}
-
+.action,
 .actionLink {
-  font-size: 1rem;
-  opacity: 0.7;
-  transition: opacity 0.18s ease;
+  font-size: clamp(18px, 2vw, 24px);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  transition: color 0.2s ease;
 }
+
+.actions .actionLink {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* ------------------------------------------------------------------ lists */
 
 .postList {
   display: grid;
-  gap: 0.9rem;
+  border-top: 1px solid var(--hairline);
 }
 
 .postRow {
-  display: grid;
-  gap: 0.4rem;
-  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--hairline);
 }
 
 .postMeta {
   display: grid;
-  gap: 0.1rem;
+  gap: 4px;
 }
 
 .postDetails {
-  font-size: 0.95rem;
-  opacity: 0.7;
+  font-size: 12px;
+  color: var(--ink-dim);
 }
 
 .postActions {
   display: flex;
-  gap: 1rem;
+  gap: 20px;
   align-items: center;
-  justify-content: center;
 }
 
 .inlineAction {
@@ -117,11 +209,13 @@
   background: transparent;
   padding: 0;
   font: inherit;
-  color: inherit;
+  font-size: 13px;
+  color: var(--ink);
   cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.18s ease;
+  transition: color 0.2s ease;
 }
+
+/* ---------------------------------------------------------- delete modal */
 
 .modalOverlay {
   position: fixed;
@@ -130,13 +224,13 @@
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: rgb(0 0 0 / 0.28);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  background: rgb(10 10 12 / 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
 
 .confirmModal {
-  width: min(100%, 14rem);
+  width: min(100%, 16rem);
 }
 
 .confirmForm {
@@ -145,111 +239,140 @@
 
 .confirmButton {
   width: 100%;
-  border: 1px solid rgb(255 255 255 / 0.18);
-  background: #000;
-  color: #ededed;
-  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--ink-dim);
+  background: var(--surface);
+  color: #fff;
+  padding: 14px 18px;
   font: inherit;
+  font-size: 14px;
   cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-/* Date picker row */
+/* -------------------------------------------------------- date picker row */
+
 .dateRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  align-items: start;
+  gap: 12px;
 }
 
 .dateGroup {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.35rem;
+  gap: 8px;
   align-items: center;
+  align-content: start;
 }
 
 .dateLabel {
   grid-column: 1 / -1;
-  font-size: 0.85rem;
-  opacity: 0.5;
-  text-transform: lowercase;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
 }
 
 .dateCurrent {
   grid-column: 1 / -1;
-  font-size: 0.9rem;
-  opacity: 0.6;
-  font-style: italic;
-  padding: 0.7rem 0;
+  font-size: 14px;
+  color: var(--ink);
+  padding: 12px 0;
 }
 
 .ongoingLabel {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  opacity: 0.7;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink);
   cursor: pointer;
-  margin-top: 0.15rem;
+  margin-top: 2px;
 }
 
-/* Drag-and-drop reorder */
+.ongoingLabel input {
+  accent-color: var(--accent);
+}
+
+/* ---------------------------------------------------- drag-and-drop list */
+
 .dragRow {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 0.6rem;
+  gap: 16px;
   align-items: center;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid rgb(255 255 255 / 0.08);
-  border-radius: 4px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--hairline);
   cursor: grab;
-  transition: border-color 0.15s ease;
   user-select: none;
+  transition: background-color 0.2s ease;
 }
 
 .dragRow:active {
   cursor: grabbing;
 }
 
-.dragRow:hover {
-  border-color: rgb(255 255 255 / 0.2);
-}
-
 .dragHandle {
-  font-size: 1.1rem;
-  opacity: 0.3;
+  font-size: 16px;
   line-height: 1;
+  color: var(--ink-faint);
+  transition: color 0.2s ease;
 }
 
 .dragContent {
-  display: grid;
-  gap: 0.25rem;
-  justify-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
 }
 
 .logoutButton {
+  justify-self: start;
   border: 0;
   background: transparent;
   padding: 0;
   font: inherit;
-  color: inherit;
+  font-size: 13px;
+  color: var(--ink-dim);
   cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.18s ease;
+  transition: color 0.2s ease;
+}
+
+.logoutButton:disabled {
+  cursor: default;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .action:hover,
   .actionLink:hover,
   .inlineAction:hover,
-  .submitButton:hover,
   .logoutButton:hover {
-    opacity: 1;
+    color: var(--accent);
+  }
+
+  .richToolButton:hover,
+  .submitButton:not(:disabled):hover,
+  .confirmButton:hover {
+    color: var(--accent);
+    border-color: var(--accent-soft);
+  }
+
+  .dragRow:hover {
+    background-color: rgba(100, 136, 255, 0.04);
+  }
+
+  .dragRow:hover .dragHandle {
+    color: var(--ink);
   }
 }
-@media (prefers-color-scheme: dark) {
-  .page {
-    background: #000;
-    color: #ededed;
+
+@media (max-width: 560px) {
+  .dateRow {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

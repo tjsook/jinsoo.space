@@ -1,5 +1,6 @@
 import { getPostById } from "@/lib/posts";
 import { updatePostAction } from "../../../actions";
+import RichTextEditor from "../../rich-text-editor";
 import styles from "../../../admin.module.css";
 
 export const dynamic = "force-dynamic";
@@ -40,12 +41,10 @@ export default async function EditPostPage({
             <option value="draft">draft</option>
             <option value="published">published</option>
           </select>
-          <textarea
+          <RichTextEditor
             name="content"
             placeholder="content"
-            rows={10}
             defaultValue={post.content}
-            className={styles.textarea}
           />
           <button type="submit" className={styles.submitButton}>
             save changes
