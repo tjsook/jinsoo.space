@@ -83,6 +83,7 @@ export async function createPostAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/posts");
   revalidatePath("/writings");
+  revalidatePath("/writings/[slug]", "page");
 
   redirect("/admin");
 }
@@ -131,6 +132,7 @@ export async function updatePostAction(formData: FormData) {
   revalidatePath("/admin/posts");
   revalidatePath(`/admin/posts/${id}/edit`);
   revalidatePath("/writings");
+  revalidatePath("/writings/[slug]", "page");
 
   redirect("/admin/posts");
 }
@@ -147,6 +149,7 @@ export async function deletePostAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/posts");
   revalidatePath("/writings");
+  revalidatePath("/writings/[slug]", "page");
 }
 
 export async function createProjectAction(formData: FormData) {
@@ -350,7 +353,7 @@ export async function updateAboutContentAction(formData: FormData) {
 
   revalidatePath("/admin");
   revalidatePath("/admin/about");
-  revalidatePath("/me");
+  revalidatePath("/");
 
   redirect("/admin");
 }

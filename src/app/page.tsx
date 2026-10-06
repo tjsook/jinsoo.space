@@ -8,7 +8,9 @@ import SiteHeader from "./site-header";
 import SocialRow from "./social-row";
 import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+// Served from the cache. The admin actions refresh it on every edit; the
+// timer keeps the GitHub activity and its "x ago" labels current.
+export const revalidate = 900;
 
 const MONTHS = [
   "jan",

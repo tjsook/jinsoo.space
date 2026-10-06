@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { formatDisplayDate } from "@/lib/format-date";
-import { getPublishedPostBySlug } from "@/lib/posts";
+import { getPublishedPostBySlug, getPublishedPosts } from "@/lib/posts";
 import GeometricArt from "../../geometric-art";
 import PageShell from "../../page-shell";
 import styles from "../../section.module.css";
 
-export const dynamic = "force-dynamic";
+// Served from the cache; the admin actions refresh it on every edit.
+export const revalidate = 3600;
+
+// Published posts are built ahead of time. A post published later is rendered
+// on its first visit, then cached like the rest.
+export async function generateStaticParams() {
+  const posts = await getPublishedPosts();
+
+  return posts.map((post) => ({ slug: post.slug }));
+}
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jinsoo.space";
 
