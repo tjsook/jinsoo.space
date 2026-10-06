@@ -4,7 +4,8 @@ import { getPublishedPosts } from "@/lib/posts";
 import PageShell from "../page-shell";
 import styles from "../section.module.css";
 
-export const dynamic = "force-dynamic";
+// Served from the cache; the admin actions refresh it on every edit.
+export const revalidate = 3600;
 
 export default async function WritingsPage() {
   const posts = await getPublishedPosts();
