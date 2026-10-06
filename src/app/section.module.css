@@ -95,6 +95,16 @@
   line-height: 1.8;
 }
 
+/* Emphasis inside a writing: bold lifts out of the grey body ink. */
+.body strong {
+  font-weight: 600;
+  color: var(--ink-strong);
+}
+
+.body em {
+  font-style: italic;
+}
+
 .compactBody {
   max-width: 640px;
 }
