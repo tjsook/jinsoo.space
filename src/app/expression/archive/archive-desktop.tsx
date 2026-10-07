@@ -86,8 +86,8 @@ function createWindow(
   z: number,
 ): OpenWindow {
   const compact = desktop.width < COMPACT_WIDTH;
-  const width = compact ? desktop.width : Math.min(desktop.width - 48, 920);
-  const height = compact ? desktop.height : Math.min(desktop.height - 48, 620);
+  const width = compact ? desktop.width : Math.min(desktop.width - 32, 1120);
+  const height = compact ? desktop.height : Math.min(desktop.height - 32, 760);
   const x = compact
     ? 0
     : clamp((desktop.width - width) / 2 + between(-60, 60), 0, desktop.width - width);
