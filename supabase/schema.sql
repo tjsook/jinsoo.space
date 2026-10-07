@@ -89,3 +89,43 @@ for each row
 execute function public.set_updated_at();
 
 alter table public.experiences enable row level security;
+
+-- Expression archive: folders of images shown as a small desktop.
+create table if not exists public.expression_folders (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists expression_folders_set_updated_at
+on public.expression_folders;
+
+create trigger expression_folders_set_updated_at
+before update on public.expression_folders
+for each row
+execute function public.set_updated_at();
+
+alter table public.expression_folders enable row level security;
+
+create table if not exists public.expression_images (
+  id uuid primary key default gen_random_uuid(),
+  folder_id uuid not null
+    references public.expression_folders (id) on delete cascade,
+  url text not null,
+  storage_path text,
+  width int not null,
+  height int not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists expression_images_folder_idx
+on public.expression_images (folder_id, created_at asc);
+
+alter table public.expression_images enable row level security;
+
+-- Public bucket the archive images are served from. Uploads go through
+-- short-lived signed URLs issued by the admin console.
+insert into storage.buckets (id, name, public)
+values ('expression', 'expression', true)
+on conflict (id) do nothing;

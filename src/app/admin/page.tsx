@@ -31,6 +31,9 @@ export default function AdminPage() {
           <Link href="/admin/experiences" className={styles.actionLink}>
             view experiences
           </Link>
+          <Link href="/admin/expression" className={styles.actionLink}>
+            edit expression
+          </Link>
         </div>
         <LogoutButton />
       </div>

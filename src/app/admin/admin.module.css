@@ -151,6 +151,66 @@ select.input {
   line-height: 1.4;
 }
 
+/* A one-field form: the input and its button share a row. */
+.inlineForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.inlineForm .submitButton {
+  margin-top: 0;
+}
+
+/* ------------------------------------------------------ expression images */
+
+.uploader {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.fileButton {
+  margin-top: 0;
+}
+
+.fileButtonBusy {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.thumbGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.thumb {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  align-content: start;
+}
+
+.thumbImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
 /* ------------------------------------------------------- dashboard links */
 
 .actions {
@@ -372,6 +432,14 @@ select.input {
 }
 
 @media (max-width: 560px) {
+  .inlineForm {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .inlineForm .submitButton {
+    justify-self: start;
+  }
+
   .dateRow {
     grid-template-columns: minmax(0, 1fr);
   }

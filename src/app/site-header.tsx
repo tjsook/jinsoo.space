@@ -9,6 +9,7 @@ import styles from "./page.module.css";
 const NAV_LINKS = [
   { href: "/writings", label: "writings" },
   { href: "/projects", label: "projects" },
+  { href: "/expression", label: "expression" },
 ];
 
 /**
