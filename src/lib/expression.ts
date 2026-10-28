@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { SAMPLE_FOLDERS } from "@/lib/expression-samples";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
-import type { ExpressionFolder } from "@/types/expression";
+import type { ExpressionFolder, ExpressionSection } from "@/types/expression";
 
 export const EXPRESSION_BUCKET = "expression";
 
@@ -201,4 +201,83 @@ export async function deleteExpressionImage(id: string) {
   }
 
   await removeStoredFiles([data?.storage_path ?? null]);
+}
+
+const SECTION_COLUMNS = "id, label, note, href, display_order";
+
+/** What /expression showed before its sections lived in the database. */
+const DEFAULT_SECTIONS: ExpressionSection[] = [
+  { id: "default-right-now", label: "right now", note: "tbd", href: null, display_order: 0 },
+  {
+    id: "default-archive",
+    label: "archive",
+    note: "open",
+    href: "/expression/archive",
+    display_order: 1,
+  },
+];
+
+/** Every section, in page order. Throws on a bad query. */
+export async function getExpressionSections() {
+  const supabase = createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("expression_sections")
+    .select(SECTION_COLUMNS)
+    .order("display_order", { ascending: true })
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? []) as ExpressionSection[];
+}
+
+/** The sections the public page shows. A missing table keeps the defaults. */
+export async function getPageSections() {
+  try {
+    return await getExpressionSections();
+  } catch {
+    return DEFAULT_SECTIONS;
+  }
+}
+
+type SectionInput = {
+  label: string;
+  note: string;
+  href: string | null;
+  display_order: number;
+};
+
+export async function createExpressionSection(input: SectionInput) {
+  const supabase = createSupabaseServerClient();
+  const { error } = await supabase.from("expression_sections").insert(input);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function updateExpressionSection(id: string, input: SectionInput) {
+  const supabase = createSupabaseServerClient();
+  const { error } = await supabase
+    .from("expression_sections")
+    .update(input)
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function deleteExpressionSection(id: string) {
+  const supabase = createSupabaseServerClient();
+  const { error } = await supabase
+    .from("expression_sections")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
 }

@@ -7,10 +7,13 @@ import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/admin-auth";
 import {
   addExpressionImage,
   createExpressionFolder,
+  createExpressionSection,
   createExpressionUpload,
   deleteExpressionFolder,
   deleteExpressionImage,
+  deleteExpressionSection,
   renameExpressionFolder,
+  updateExpressionSection,
 } from "@/lib/expression";
 
 const IMAGE_EXTENSIONS: Record<string, string> = {
@@ -141,4 +144,66 @@ export async function deleteExpressionImageAction(formData: FormData) {
 
   await deleteExpressionImage(id);
   refresh(folderId);
+}
+
+// A bare "acme.com" must not become a relative link; a site path stays as is.
+function normalizeHref(value: string) {
+  if (!value) return null;
+  if (/^https?:\/\//i.test(value)) return value;
+  if (/^(mailto:|tel:|\/)/i.test(value)) return value;
+
+  return `https://${value}`;
+}
+
+function readSection(formData: FormData) {
+  const label = getString(formData, "label");
+  const order = Number.parseInt(getString(formData, "display_order"), 10);
+
+  if (!label) {
+    throw new Error("Section name is required.");
+  }
+
+  return {
+    label,
+    note: getString(formData, "note"),
+    href: normalizeHref(getString(formData, "href")),
+    display_order: Number.isFinite(order) ? order : 0,
+  };
+}
+
+function refreshSections() {
+  revalidatePath("/expression");
+  revalidatePath("/admin/expression");
+}
+
+export async function createExpressionSectionAction(formData: FormData) {
+  await requireAdmin();
+  await createExpressionSection(readSection(formData));
+  refreshSections();
+}
+
+export async function updateExpressionSectionAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = getString(formData, "id");
+
+  if (!id) {
+    throw new Error("Missing section id.");
+  }
+
+  await updateExpressionSection(id, readSection(formData));
+  refreshSections();
+}
+
+export async function deleteExpressionSectionAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = getString(formData, "id");
+
+  if (!id) {
+    throw new Error("Missing section id.");
+  }
+
+  await deleteExpressionSection(id);
+  refreshSections();
 }

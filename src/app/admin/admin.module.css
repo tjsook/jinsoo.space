@@ -163,6 +163,56 @@ select.input {
   margin-top: 0;
 }
 
+/* ---------------------------------------------------- expression sections */
+
+.blockHeading {
+  margin-top: 16px;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.sectionBlock {
+  display: grid;
+  gap: 16px;
+}
+
+.sectionRow {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.sectionForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  width: 100%;
+}
+
+.sectionForm .submitButton {
+  margin-top: 0;
+}
+
+.sectionFields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: 8px;
+}
+
+.sectionFields input[name="href"] {
+  grid-column: 1 / 2;
+}
+
+.orderInput {
+  width: 5.5rem;
+}
+
 /* ------------------------------------------------------ expression images */
 
 .uploader {
@@ -432,6 +482,11 @@ select.input {
 }
 
 @media (max-width: 560px) {
+  .sectionForm,
+  .sectionFields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .inlineForm {
     grid-template-columns: minmax(0, 1fr);
   }

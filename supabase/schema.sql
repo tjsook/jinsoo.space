@@ -129,3 +129,37 @@ alter table public.expression_images enable row level security;
 insert into storage.buckets (id, name, public)
 values ('expression', 'expression', true)
 on conflict (id) do nothing;
+
+-- Expression page sections: the rows on /expression ("right now", "archive").
+create table if not exists public.expression_sections (
+  id uuid primary key default gen_random_uuid(),
+  label text not null,
+  note text not null default '',
+  href text,
+  display_order int not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists expression_sections_order_idx
+on public.expression_sections (display_order asc);
+
+drop trigger if exists expression_sections_set_updated_at
+on public.expression_sections;
+
+create trigger expression_sections_set_updated_at
+before update on public.expression_sections
+for each row
+execute function public.set_updated_at();
+
+alter table public.expression_sections enable row level security;
+
+-- The two sections the page started with, added once.
+insert into public.expression_sections (label, note, href, display_order)
+select label, note, href, display_order
+from (
+  values
+    ('right now', 'tbd', null::text, 0),
+    ('archive', 'open', '/expression/archive', 1)
+) as seed (label, note, href, display_order)
+where not exists (select 1 from public.expression_sections);
