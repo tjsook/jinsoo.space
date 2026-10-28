@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getPageSections } from "@/lib/expression";
 import PageShell from "../page-shell";
 import styles from "./expression.module.css";
 
@@ -8,24 +9,16 @@ export const metadata: Metadata = {
   description: "things made, kept, and looked at",
 };
 
-type ExpressionSection = {
-  label: string;
-  /** Where the section opens. A section without one is not built yet. */
-  href?: string;
-  note: string;
-};
+// Served from the cache; the admin actions refresh it on every edit.
+export const revalidate = 3600;
 
-// The page is a list of sections; a new one is a new entry here.
-const SECTIONS: ExpressionSection[] = [
-  { label: "right now", note: "tbd" },
-  { label: "archive", href: "/expression/archive", note: "open" },
-];
+export default async function ExpressionPage() {
+  const sections = await getPageSections();
 
-export default function ExpressionPage() {
   return (
     <PageShell wide title="expression">
       <ul className={styles.sectionList}>
-        {SECTIONS.map((section) => {
+        {sections.map((section) => {
           const body = (
             <>
               <span className={styles.sectionLabel}>{section.label}</span>
@@ -37,7 +30,7 @@ export default function ExpressionPage() {
           );
 
           return (
-            <li key={section.label} className={styles.sectionRow}>
+            <li key={section.id} className={styles.sectionRow}>
               {section.href ? (
                 <Link
                   href={section.href}

@@ -1,41 +1,65 @@
 import Link from "next/link";
-import { getExpressionFolders } from "@/lib/expression";
-import type { ExpressionFolder } from "@/types/expression";
+import { getExpressionFolders, getExpressionSections } from "@/lib/expression";
+import type { ExpressionFolder, ExpressionSection } from "@/types/expression";
 import {
   createExpressionFolderAction,
   deleteExpressionFolderAction,
 } from "./actions";
 import ConfirmButton from "./confirm-button";
+import SectionEditor from "./section-editor";
 import styles from "../admin.module.css";
 
 export const dynamic = "force-dynamic";
 
-export default async function ExpressionFoldersPage() {
-  let folders: ExpressionFolder[] = [];
-  let setupError: string | null = null;
+function SetupNotice({ error }: { error: string }) {
+  return (
+    <>
+      <p className={styles.body}>
+        Part of the expression setup is not in the database yet. Run the
+        expression blocks at the end of supabase/schema.sql in the Supabase SQL
+        editor, then reload this page.
+      </p>
+      <p className={styles.formError}>{error}</p>
+    </>
+  );
+}
 
-  try {
-    folders = await getExpressionFolders();
-  } catch (caught) {
-    setupError = caught instanceof Error ? caught.message : "Unknown error.";
-  }
+export default async function ExpressionFoldersPage() {
+  // Each half loads on its own, so a table that is not set up yet only takes
+  // its own half of the page down.
+  const [folderResult, sectionResult] = await Promise.allSettled([
+    getExpressionFolders(),
+    getExpressionSections(),
+  ]);
+  const folders: ExpressionFolder[] =
+    folderResult.status === "fulfilled" ? folderResult.value : [];
+  const sections: ExpressionSection[] =
+    sectionResult.status === "fulfilled" ? sectionResult.value : [];
+  const setupError = (result: PromiseSettledResult<unknown>) =>
+    result.status === "rejected"
+      ? result.reason instanceof Error
+        ? result.reason.message
+        : "Unknown error."
+      : null;
+  const folderError = setupError(folderResult);
+  const sectionError = setupError(sectionResult);
 
   return (
     <main className={styles.page}>
       <div className={styles.content}>
         <h1 className={styles.title}>expression</h1>
 
-        {setupError ? (
-          <>
-            <p className={styles.body}>
-              The archive tables are not in the database yet. Run the
-              expression section of supabase/schema.sql in the Supabase SQL
-              editor, then reload this page.
-            </p>
-            <p className={styles.formError}>{setupError}</p>
-          </>
+        {sectionError ? (
+          <SetupNotice error={sectionError} />
+        ) : (
+          <SectionEditor sections={sections} />
+        )}
+
+        {folderError ? (
+          <SetupNotice error={folderError} />
         ) : (
           <>
+            <h2 className={styles.blockHeading}>archive folders</h2>
             <form
               action={createExpressionFolderAction}
               className={styles.inlineForm}
