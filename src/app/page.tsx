@@ -215,6 +215,7 @@ export default async function Home() {
             <p className={styles.heroBio}>
               sophomore (junior standing) · CS @ Cal Poly SLO
             </p>
+            <p className={styles.heroBio}>incoming SWE intern @ Teradyne</p>
             <p className={styles.heroBio}>
               building Hangars, prev. SWE Intern @ Hemut, TL @ H4I
             </p>
